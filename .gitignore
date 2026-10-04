@@ -1,0 +1,9 @@
+*.iso
+*.ova
+*.ovf
+*.vmdk
+*.qcow2
+*.img
+
+.DS_Store
+Thumbs.db

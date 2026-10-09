@@ -21,7 +21,7 @@ Lenovo Legion 5 (Ryzen 7 7840H, RAM 16 GB), VMware Workstation, EVE-NG VM (4 vCP
 
 **Phân biệt rõ:** hiện chỉ xác nhận kỹ thuật trên VLAN10; VLAN 20–60, Inter-VLAN, RSTP, OSPF, BGP, Firewall policy, VPN và monitoring triển khai từ các Sprint tiếp theo.
 
-VPCS là máy test, không tính vào danh sách thiết bị hạ tầng. PC-MGMT từng được dùng để test SVI nhưng không đưa vào topology chuẩn.
+VPCS là máy test, không tính vào danh sách thiết bị hạ tầng. Các máy VPCS được thêm hoặc tháo tùy bài thực hành.
 
 ## Tài liệu
 

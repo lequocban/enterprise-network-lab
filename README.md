@@ -1,66 +1,46 @@
-
 # Enterprise Network Design & Implementation
 
-A multi-site enterprise networking lab built with EVE-NG.
+Lab mô phỏng mạng doanh nghiệp trên **EVE-NG Community 6.2** để thực hành switching, routing, high availability, firewall, VPN và vận hành hạ tầng. Công việc chia theo Sprint, mỗi tính năng được ghi lại cấu hình và kết quả kiểm thử.
 
-## Project Overview
+## Phạm vi dự án
 
-This project simulates an enterprise network infrastructure with:
+- **HQ:** 2 Core (CORE1/CORE2), 2 Access (ACCESS1/ACCESS2), mạng IT, HR, Accounting, Server, Guest, Management.
+- **WAN:** 2 Edge router, 2 ISP giả lập, 2 chi nhánh.
+- **Security:** Cisco ASAv, DMZ, ACL/NAT, VPN Site-to-Site.
+- **Service/Operations:** Alpine Linux, DHCP, DNS, NTP, Syslog, monitoring và automation.
 
-- Headquarters (HQ)
-- Two branch offices
-- Redundant core switching
-- Dual ISP connectivity
-- Firewall and DMZ
-- Site-to-Site VPN
-- Infrastructure services
-- Monitoring and automation
+Các hạng mục WAN, DMZ, Branch, bảo mật và vận hành sẽ được bổ sung theo Sprint; chưa phải toàn bộ đều đã chạy.
 
-## Technologies
+## Môi trường
 
-- Cisco IOSv / IOL
-- VLAN, 802.1Q, RSTP
-- EtherChannel, HSRP
-- OSPF, BGP
-- ACL, NAT, IPSec VPN
-- Cisco ASAv
-- Alpine Linux
-- Python and Ansible
+Lenovo Legion 5 (Ryzen 7 7840H, RAM 16 GB), VMware Workstation, EVE-NG VM (4 vCPU, 8 GB RAM, 120 GB disk). IOSv cho router; Cisco IOL L2 cho switching/Core test; ASAv cho firewall; Alpine thay Ubuntu để giảm RAM.
 
-## Project Roadmap
+## Sprint 0 — Kết quả hiện tại
 
-| Sprint | Topic |
-|---|---|
-| 0 | Foundation and Design |
-| 1 | Campus Switching |
-| 2 | High Availability |
-| 3 | OSPF Routing |
-| 4 | BGP and Dual ISP |
-| 5 | Network Security |
-| 6 | Site-to-Site VPN |
-| 7 | Linux Services |
-| 8 | Monitoring |
-| 9 | Network Automation |
-| 10 | Troubleshooting |
-| 11 | Portfolio Documentation |
+Đã kiểm tra kết nối router Cisco IOSv, dựng topology HQ hai Core và hai Access, xác nhận SVI VLAN10 và HSRP Active/Standby với VIP `10.10.10.1`. Địa chỉ IP cho toàn bộ dự án đã được thống nhất trong **IP Addressing Plan Final v1.0**.
 
-## Lab Environment
+**Phân biệt rõ:** hiện chỉ xác nhận kỹ thuật trên VLAN10; VLAN 20–60, Inter-VLAN, RSTP, OSPF, BGP, Firewall policy, VPN và monitoring triển khai từ các Sprint tiếp theo.
 
-- EVE-NG Community 6.2
-- VMware Workstation
-- Cisco IOSv and IOL
-- Cisco ASAv
-- Alpine Linux
-- VPCS
+VPCS là máy test, không tính vào danh sách thiết bị hạ tầng. PC-MGMT từng được dùng để test SVI nhưng không đưa vào topology chuẩn.
 
-## Current Progress
+## Tài liệu
 
-Sprint 0 - Project Foundation
+- [Sprint 0 Report](docs/sprint-reports/sprint-00-report.md)
+- [IP Addressing Plan Final v1.0](docs/ip-addressing-plan.md)
+- [Network Architecture](docs/network-architecture.md)
+- [Sprint 0 Validation](docs/test-results/sprint-00-validation.md)
+- [Project Roadmap](docs/enterprise-network-design-implementation-roadmap.md)
+- [Documentation Index](docs/README.md)
 
-## Documentation
+## Tiến độ
 
-See the `docs/` and `diagrams/` directories.
+| Sprint | Nội dung | Trạng thái |
+|---:|---|---|
+| 0 | Môi trường, kiến trúc, IP Plan, Git | Báo cáo chờ review |
+| 1 | VLAN, 802.1Q Trunk, SVI, RSTP | Tiếp theo |
+| 2 | LACP, HSRP Failover | Chưa triển khai đầy đủ |
+| 3–6 | OSPF, BGP, Firewall, VPN | Kế hoạch |
+| 7–9 | Linux Services, Monitoring, Automation | Kế hoạch |
+| 10–11 | Troubleshooting, Portfolio | Kế hoạch |
 
-## Disclaimer
-
-This is an educational network simulation project.
+Đây là dự án lab phục vụ học tập và portfolio, không phải hạ tầng production.

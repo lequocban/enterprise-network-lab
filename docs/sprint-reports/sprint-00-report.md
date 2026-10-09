@@ -39,7 +39,7 @@ HQ Campus dùng **CORE1 và CORE2** làm hai gateway dự phòng, ACCESS1/ACCESS
 
 Địa chỉ HQ dùng các VLAN 10/20/30/40/50/60. Gateway HSRP mỗi mạng dùng .1, CORE1 dùng .2, CORE2 dùng .3. Native VLAN 99 không cấp IP. DMZ đặt phía firewall, không đặt trên Core. Các mạng WAN/ISP giả lập có subnet transit riêng; địa chỉ đã được chốt trong **[IP Addressing Plan Final v1.0](../ip-addressing-plan.md)**.
 
-**PC-MGMT đã được bỏ khỏi danh sách thiết bị chính.** Đây chỉ là VPCS tạm để kiểm tra SVI/HSRP, không phải thiết bị quản trị phải vận hành. Các máy VPCS khác cũng chỉ là máy sinh lưu lượng kiểm thử.
+**Không đưa VPCS vào danh sách thiết bị hạ tầng cố định.** Các máy tính trong lab được sử dụng để kiểm thử kết nối, VLAN và gateway rồi tháo hoặc thay đổi theo từng bài.
 
 ## 4. Tình trạng từng Story
 

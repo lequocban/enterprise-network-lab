@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="900" height="450">
+<title>HQ dual-core topology reconstructed from EVE-NG screenshot</title>
+<rect width="900" height="450" fill="#f8fafc"/>
+<g font-family="Arial,sans-serif" text-anchor="middle" fill="#0f172a">
+<text x="450" y="28" font-size="22" font-weight="bold">HQ Campus — Dual Core / Dual Uplink</text>
+<text x="450" y="47" font-size="12">Reconstructed from EVE-NG screenshot; labels reflect observed cables, VLANs reflect planned assignments</text>
+</g>
+<g stroke-width="3" fill="none">
+<path d="M280 112H620" stroke="#475569"/>
+<path d="M225 140V245M675 140V245M280 140L620 245M620 140L280 245" stroke="#2563eb"/>
+<path d="M140 107H170M225 300L115 368M225 300L340 368M675 300L555 368M675 300L780 368" stroke="#16a34a"/>
+</g>
+<g font-family="Arial,sans-serif" text-anchor="middle" font-size="15">
+<rect x="170" y="80" width="110" height="60" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="620" y="80" width="110" height="60" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="170" y="245" width="110" height="55" rx="9" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<rect x="620" y="245" width="110" height="55" rx="9" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+<g fill="#0f172a" font-weight="bold">
+<text x="225" y="104">CORE1</text><text x="675" y="104">CORE2</text>
+<text x="225" y="275">ACCESS1</text><text x="675" y="275">ACCESS2</text>
+</g>
+<g font-size="11" fill="#334155">
+<text x="225" y="123">HSRP Active</text><text x="675" y="123">HSRP Standby</text>
+<text x="450" y="95">e0/0 ↔ e0/0</text>
+<text x="124" y="155">e0/1 ↔ e0/0</text>
+<text x="768" y="155">e0/2 ↔ e0/1</text>
+<text x="358" y="171">e0/2 ↔ e0/0</text><text x="537" y="185">e0/1 ↔ e0/1</text>
+</g>
+<rect x="20" y="81" width="120" height="54" rx="9" fill="#dcfce7" stroke="#16a34a"/>
+<text x="80" y="105" fill="#166534">PC-MGMT</text><text x="80" y="123" font-size="11" fill="#166534">CORE1 e1/0</text>
+</g>
+<g font-family="Arial,sans-serif" text-anchor="middle" fill="#166534" font-size="13">
+<rect x="55" y="368" width="120" height="50" rx="9" fill="#dcfce7" stroke="#16a34a"/>
+<rect x="280" y="368" width="120" height="50" rx="9" fill="#dcfce7" stroke="#16a34a"/>
+<rect x="495" y="368" width="120" height="50" rx="9" fill="#dcfce7" stroke="#16a34a"/>
+<rect x="720" y="368" width="120" height="50" rx="9" fill="#dcfce7" stroke="#16a34a"/>
+<text x="115" y="389">PC-IT</text><text x="115" y="405">e0/2 / VLAN 20</text>
+<text x="340" y="389">PC-HR</text><text x="340" y="405">e0/3 / VLAN 30</text>
+<text x="555" y="389">PC-ACC</text><text x="555" y="405">e0/2 / VLAN 40</text>
+<text x="780" y="389">PC-GUEST</text><text x="780" y="405">e0/3 / VLAN 60</text>
+</g>
+</svg>

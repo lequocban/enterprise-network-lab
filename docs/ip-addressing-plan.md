@@ -2,9 +2,9 @@
 
 > Project: Enterprise Network Design & Implementation (EVE-NG)
 >
-> Status: **DRAFT — chờ xác nhận WAN/Firewall/Branch topology**
+> Status: **HQ PLAN CONFIRMED; WAN/Firewall/Branch ALLOCATION DRAFT**
 >
-> Cơ sở: Topology HQ do người thực hành cung cấp ngày 2026-10-09; các IP WAN/DMZ/Branch bên dưới là đề xuất, chưa có trong hình hiện tại.
+> Cơ sở: Topology HQ do người thực hành cung cấp ngày 2026-10-09; VLAN 10 HSRP xác minh qua CLI. Các IP WAN/DMZ/Branch là đề xuất, chưa có trong hình hiện tại. Xem thêm [NET-002 Architecture](network-architecture.md), [Sprint 0 report](sprint-reports/sprint-00-report.md).
 
 ## 1. Design rules
 
@@ -115,4 +115,6 @@
 - [ ] Commit this file at `docs/ip-addressing-plan.md` in the project repository
 - [ ] Validate actual inter-VLAN routing, HSRP failover, security policies in subsequent sprints
 
-**Status rule:** NET-003 hoàn thành phần thiết kế sơ bộ; chưa đóng Story nếu WAN topology/commit chưa được xác nhận.
+**Status rule:** NET-003 đã có bản thiết kế HQ và đề xuất cấp phát không chồng lấn. Chưa thể coi toàn bộ IP Plan là cấu hình đã triển khai; phải chốt interface WAN/Firewall và commit tài liệu trước khi DONE theo DoD chung.
+
+> **Review note (2026-10-09):** Repo mặc định là `master`. Tài liệu này là file bàn giao để commit, không xác nhận đã được đẩy lên GitHub.

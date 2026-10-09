@@ -1,25 +1,21 @@
-# NET-003 — Enterprise IP Addressing Plan
+# NET-003 — IP Addressing Plan (Final v1.0)
 
-> Project: Enterprise Network Design & Implementation (EVE-NG)
->
-> Status: **DRAFT — chờ xác nhận WAN/Firewall/Branch topology**
->
-> Cơ sở: Topology HQ do người thực hành cung cấp ngày 2026-10-09; các IP WAN/DMZ/Branch bên dưới là đề xuất, chưa có trong hình hiện tại.
+**Ngày chốt:** 09/10/2026  
+**Phạm vi:** Thiết kế địa chỉ toàn hệ thống Enterprise Network Lab.  
+**Trạng thái:** **FINAL DESIGN** — cố định để triển khai theo Sprint; không đồng nghĩa tất cả VLAN/WAN đã được cấu hình.
 
-## 1. Design rules
+## 1. Quy ước địa chỉ
 
-- HQ Core: CORE1 và CORE2 sử dụng SVI cho VLAN 10/20/30/40/50/60.
-- HSRP: địa chỉ `.1` làm virtual gateway; CORE1 `.2`; CORE2 `.3` trong mỗi VLAN /24.
-- CORE1 ưu tiên Active (priority 110), CORE2 Standby (priority 100); xác minh bằng failover khi cấu hình từng VLAN.
-- VLAN 99: native VLAN cho trunk nội bộ, không cấp subnet/management IP.
-- Trunk giữa các switch **không được gán IP trực tiếp**. Cần mở rộng danh sách VLAN cho phép ở Sprint 1 (ban đầu inter-core trunk chỉ cho VLAN 10).
-- Hai uplink ACCESS1/ACCESS2 đến hai Core riêng biệt: chạy RSTP; không gộp chúng vào một EtherChannel thông thường nếu không có multi-chassis EtherChannel.
-- PC-MGMT hiện cắm trực tiếp CORE1; nên chuyển về access switch để kiểm thử core failover có ý nghĩa.
-- 10.255.0.0/24 là pool transit; 10.255.255.0/24 là pool loopback. Dùng IP private cho lab, không coi là địa chỉ Internet công cộng.
+- Mạng HQ: `10.10.0.0/16`; Branch 1: `10.20.0.0/16`; Branch 2: `10.30.0.0/16`.
+- Kết nối transit/WAN nội bộ lab: `10.255.0.0/24`. Loopback: `10.255.255.0/24`, gán từng địa chỉ /32.
+- Mỗi VLAN HQ dùng gateway HSRP .1; IP SVI CORE1 .2; CORE2 .3. VLAN 10 đã kiểm tra CLI; các VLAN còn lại triển khai từ Sprint 1.
+- VLAN 99 là native VLAN Layer 2; **không cấp IP và không dùng làm VLAN quản trị**.
+- Máy VPCS chỉ là thiết bị kiểm thử, **không tính trong số lượng node hạ tầng, không dành riêng một PC-MGMT**.
+- Tất cả địa chỉ WAN bên dưới là private, chỉ dùng trong môi trường mô phỏng ISP/VPN, không coi là IP Internet public.
 
-## 2. HQ VLAN / SVI / HSRP
+## 2. HQ: VLAN, SVI, gateway
 
-| VLAN | Name | Subnet | HSRP VIP | CORE1 SVI | CORE2 SVI |
+| VLAN | Tên | Subnet | HSRP VIP | CORE1 | CORE2 |
 |---:|---|---|---|---|---|
 | 10 | MGMT | 10.10.10.0/24 | 10.10.10.1 | 10.10.10.2 | 10.10.10.3 |
 | 20 | IT | 10.10.20.0/24 | 10.10.20.1 | 10.10.20.2 | 10.10.20.3 |
@@ -27,92 +23,68 @@
 | 40 | ACCOUNTING | 10.10.40.0/24 | 10.10.40.1 | 10.10.40.2 | 10.10.40.3 |
 | 50 | SERVER | 10.10.50.0/24 | 10.10.50.1 | 10.10.50.2 | 10.10.50.3 |
 | 60 | GUEST | 10.10.60.0/24 | 10.10.60.1 | 10.10.60.2 | 10.10.60.3 |
-| 99 | NATIVE | Không cấp IP | — | — | — |
+| 99 | NATIVE | Không cấp subnet | — | — | — |
 
-**Lưu ý:** VLAN 10 đã có cấu hình HSRP thành công; các VLAN còn lại là kế hoạch dành cho Sprint 1–2.
+**Đã kiểm tra:** VLAN 10 CORE1/CORE2 up/up, HSRP group 10 Active/Standby, virtual gateway 10.10.10.1. Các giá trị VLAN 20–60 là thiết kế đã chốt, chưa phải kết quả chạy lab.
 
-## 3. HQ hosts / management
+### Địa chỉ quản trị và server
 
-| Node | Proposed IP | Mask | Default gateway | Notes |
-|---|---|---|---|---|
-| PC-MGMT | 10.10.10.10 | /24 | 10.10.10.1 | Hiện nối CORE1 e1/0 |
-| ACCESS1 | 10.10.10.11 | /24 | 10.10.10.1 | Management SVI (L2) |
-| ACCESS2 | 10.10.10.12 | /24 | 10.10.10.1 | Management SVI (L2) |
-| PC-IT | 10.10.20.10 | /24 | 10.10.20.1 | ACCESS1 e0/2 |
-| PC-HR | 10.10.30.10 | /24 | 10.10.30.1 | ACCESS1 e0/3 |
-| PC-ACC | 10.10.40.10 | /24 | 10.10.40.1 | ACCESS2 e0/2 |
-| PC-GUEST | 10.10.60.10 | /24 | 10.10.60.1 | ACCESS2 e0/3 |
-| SRV1-Alpine | 10.10.50.10 | /24 | 10.10.50.1 | Sẽ kết nối ở Sprint 7 |
-
-## 4. Actual HQ interface mapping — verified from supplied EVE-NG screenshot
-
-| Device A | Port A | Device B | Port B | Intended link type |
-|---|---|---|---|---|
-| CORE1 | e0/0 | CORE2 | e0/0 | Inter-core 802.1Q trunk |
-| CORE1 | e0/1 | ACCESS1 | e0/0 | 802.1Q trunk |
-| CORE2 | e0/1 | ACCESS1 | e0/1 | 802.1Q trunk |
-| CORE1 | e0/2 | ACCESS2 | e0/0 | 802.1Q trunk |
-| CORE2 | e0/2 | ACCESS2 | e0/1 | 802.1Q trunk |
-| CORE1 | e1/0 | PC-MGMT | eth0 | Access VLAN 10 (temporary) |
-| ACCESS1 | e0/2 | PC-IT | eth0 | Access VLAN 20 |
-| ACCESS1 | e0/3 | PC-HR | eth0 | Access VLAN 30 |
-| ACCESS2 | e0/2 | PC-ACC | eth0 | Access VLAN 40 |
-| ACCESS2 | e0/3 | PC-GUEST | eth0 | Access VLAN 60 |
-
-**Cảnh báo:** Bảng chỉ xác nhận cổng/kết nối từ ảnh, không xác nhận tất cả switchport đã được cấu hình trunk/VLAN. Các loại port ghi phía trên là **design intent**.
-
-## 5. Branch / DMZ (proposed)
-
-| Zone | Subnet | Proposed gateway | Gateway owner |
+| Thiết bị | Địa chỉ | Gateway | Ghi chú |
 |---|---|---|---|
-| Branch 1 Users | 10.20.10.0/24 | 10.20.10.1 | B1 router |
-| Branch 2 Users | 10.30.10.0/24 | 10.30.10.1 | B2 router |
-| HQ DMZ | 10.10.100.0/24 | 10.10.100.1 | ASAv DMZ interface |
-| DMZ Web Server | 10.10.100.0/24 | 10.10.100.1 | Proposed host IP: 10.10.100.10 |
+| ACCESS1 | 10.10.10.11/24 | 10.10.10.1 | Management SVI |
+| ACCESS2 | 10.10.10.12/24 | 10.10.10.1 | Management SVI |
+| SRV-INFRA (Alpine) | 10.10.50.10/24 | 10.10.50.1 | DHCP/DNS/NTP/Syslog triển khai Sprint 7 |
 
-## 6. WAN / Firewall transit proposal — not yet wired
+VPCS phục vụ test nhận IP tĩnh/DHCP trong từng VLAN theo bài thực hành; không khóa địa chỉ IP cho máy thử nghiệm trong tài liệu hạ tầng.
 
-> Các mạng dưới đây được cấp phát không chồng lấn từ 10.255.0.0/24. Chỉ triển khai khi đã vẽ và kiểm tra topology WAN/Firewall tương ứng. Multi-access /29 cần một broadcast domain chung (thường qua switch L2), không thể nối 3 cổng trực tiếp theo kiểu point-to-point mà vẫn thuộc cùng một LAN.
+## 3. DMZ và hai chi nhánh
 
-| Segment | Prefix | Devices / addresses | Design note |
+| Vùng | Mạng | Thiết bị/cổng gateway | Ghi chú |
 |---|---|---|---|
-| CORE ↔ ASAv INSIDE | 10.255.0.0/29 | FW inside `.1`, CORE1 SVI `.2`, CORE2 SVI `.3`, HSRP VIP `.6` | Cần VLAN transit (đề xuất VLAN 70) được CORE1/CORE2 cùng truy cập; FW route HQ về VIP `.6` |
-| ASAv OUTSIDE ↔ EDGE1/EDGE2 | 10.255.0.8/29 | FW outside `.9`, EDGE1 `.10`, EDGE2 `.11` | Cần shared L2 segment / WAN switch riêng; ASA lựa chọn route theo policy/failover sau này |
-| EDGE1 ↔ ISP1 | 10.255.0.16/30 | EDGE1 `.17`, ISP1 `.18` | Point-to-point |
-| EDGE2 ↔ ISP2 | 10.255.0.20/30 | EDGE2 `.21`, ISP2 `.22` | Point-to-point |
-| Branch1 ↔ ISP1 | 10.255.0.24/30 | B1 `.25`, ISP1 `.26` | Point-to-point, đề xuất |
-| Branch2 ↔ ISP2 | 10.255.0.28/30 | B2 `.29`, ISP2 `.30` | Point-to-point, đề xuất |
+| DMZ | 10.10.100.0/24 | FW1/ASAv 10.10.100.1 | DMZ do firewall quản lý |
+| DMZ Web | 10.10.100.10/24 | Gateway 10.10.100.1 | Web server giả lập |
+| Branch 1 LAN | 10.20.10.0/24 | BR1-R1 10.20.10.1 | Site LAN |
+| Branch 2 LAN | 10.30.10.0/24 | BR2-R1 10.30.10.1 | Site LAN |
 
-### Important implementation notes
+Không đặt SVI DMZ trên CORE1/CORE2. Truy cập DMZ đi qua ASAv và policy được triển khai ở Sprint 5.
 
-- Không thay đổi kết nối CORE1 e0/0 ↔ CORE2 e0/0 đang dùng trunk/HSRP thành routed port.
-- Inside transit VLAN 70 có thể nối ASAv vào một switch L2 được dual-homed lên 2 Core, hoặc một switch transit riêng. Nếu ASA chỉ cắm CORE1, core failover **không** bảo vệ được đường vào firewall khi CORE1 tắt.
-- ASA outside và EDGE1/EDGE2 dùng một broadcast domain riêng, tách khỏi VLAN người dùng; tránh bridge trực tiếp vùng ngoài vào campus VLAN.
-- Đây là topology ban đầu có một firewall (single point of failure). Không gọi đây là HA firewall.
-- Các interface ASAv/EDGE/ISP chưa thể điền số cổng từ ảnh HQ hiện tại; sẽ chốt tại sơ đồ WAN/DMZ.
-- Chế độ eBGP/dual ISP và public simulation/test prefixes sẽ được chốt ở Sprint 4. Có thể dùng RFC 5737 documentation prefixes để mô phỏng IP public, nhưng không định tuyến thật ra Internet.
+## 4. Transit và simulated WAN: cấp phát cố định
 
-## 7. Loopback plan (proposed)
+| ID | Segment / link | Subnet | Thiết bị và địa chỉ |
+|---|---|---|---|
+| T01 | HQ Core ↔ FW Inside (VLAN 90) | 10.255.0.0/29 | FW1 .1; CORE1 .2; CORE2 .3; HSRP VIP .6 |
+| T02 | FW Outside ↔ EDGE1/EDGE2 (VLAN 91) | 10.255.0.8/29 | FW1 .9; EDGE1 .10; EDGE2 .11 |
+| T03 | EDGE1 ↔ ISP1 | 10.255.0.16/30 | EDGE1 .17; ISP1 .18 |
+| T04 | EDGE2 ↔ ISP2 | 10.255.0.20/30 | EDGE2 .21; ISP2 .22 |
+| T05 | BR1-R1 ↔ ISP1 | 10.255.0.24/30 | BR1-R1 .25; ISP1 .26 |
+| T06 | BR2-R1 ↔ ISP2 | 10.255.0.28/30 | BR2-R1 .29; ISP2 .30 |
+| T07 | ISP1 ↔ ISP2 (simulated provider backbone) | 10.255.0.32/30 | ISP1 .33; ISP2 .34 |
 
-| Node | Loopback /32 |
-|---|---|
-| CORE1 | 10.255.255.1/32 |
-| CORE2 | 10.255.255.2/32 |
-| EDGE1 | 10.255.255.11/32 |
-| EDGE2 | 10.255.255.12/32 |
-| BRANCH1-R1 | 10.255.255.21/32 |
-| BRANCH2-R1 | 10.255.255.22/32 |
+**VLAN 90, 91 là các phân đoạn Layer 2 đa truy cập, không phải đường point-to-point:** cần xây dựng kết nối chung thích hợp (ví dụ Ethernet switch node riêng) trước khi cấu hình. Đặc biệt ASA outside và hai EDGE cần cùng VLAN 91. Đường EDGE1/2 lên ISP và từ ISP đến Branch là /30 point-to-point. Số cổng vật lý của nhóm WAN sẽ được ghi trong `docs/network-architecture.md` khi thêm node vào EVE-NG.
 
-## 8. NET-003 Acceptance Checklist
+**Định hướng routing/VPN:** các router BR kết nối đến ISP mô phỏng, IPsec Site-to-Site giữa HQ và Branch triển khai qua mạng ISP. ISP1↔ISP2 nối nhau để kiểm thử đường đi qua mạng provider giả lập. Chưa xác nhận routing/BGP/IPsec.
 
-- [x] HQ VLAN/subnet/gateway design
-- [x] HQ user/management/static server IP proposals
-- [x] Interface mapping from actual HQ EVE-NG topology
-- [x] Branch LAN, DMZ subnet proposals
-- [x] Non-overlapping WAN transit subnet allocation **proposal**
-- [x] Loopback /32 allocation proposal
-- [ ] Confirm detailed WAN/Firewall/Branch node/interface topology
-- [ ] Commit this file at `docs/ip-addressing-plan.md` in the project repository
-- [ ] Validate actual inter-VLAN routing, HSRP failover, security policies in subsequent sprints
+Dải `10.255.0.36–10.255.0.255` được giữ để mở rộng. Địa chỉ .0/.7 của /29 và .8/.15 là network/broadcast tương ứng; không cấp cho interface.
 
-**Status rule:** NET-003 hoàn thành phần thiết kế sơ bộ; chưa đóng Story nếu WAN topology/commit chưa được xác nhận.
+## 5. Loopback /32
+
+| Thiết bị | Loopback | Mục đích |
+|---|---|---|
+| CORE1 | 10.255.255.1/32 | Router ID |
+| CORE2 | 10.255.255.2/32 | Router ID |
+| EDGE1 | 10.255.255.11/32 | Router ID |
+| EDGE2 | 10.255.255.12/32 | Router ID |
+| ISP1 | 10.255.255.101/32 | Provider simulated router ID |
+| ISP2 | 10.255.255.102/32 | Provider simulated router ID |
+| BR1-R1 | 10.255.255.21/32 | Router ID |
+| BR2-R1 | 10.255.255.22/32 | Router ID |
+
+## 6. Kiểm tra thiết kế và nguyên tắc thay đổi
+
+- Không có subnet nào trong T01–T07 chồng lấn nhau.
+- SVI HQ, Branch LAN, DMZ, Transit và Loopback nằm trong các nhóm dải riêng.
+- Native VLAN 99 không định tuyến; Guest sẽ bị giới hạn bằng ACL ở Sprint 5, **không phải chỉ nhờ VLAN**.
+- Không triển khai LACP từ ACCESS1/2 tới hai Core độc lập như một Port-Channel duy nhất; sử dụng RSTP cho dual uplink.
+- Sau bản **Final v1.0**, bất kỳ đổi subnet, VIP hoặc vai trò gateway nào phải ghi lý do và cập nhật cả bảng kết nối, cấu hình và test cases trong cùng một PR.
+
+**Công việc triển khai còn lại:** tạo các interface VLAN 20–60, dựng thêm các node Edge/ISP/Firewall/Branch, xác nhận chính xác interface vật lý và kiểm thử connectivity/segmentation theo Sprint. Thiết kế được chốt trước để tránh đổi IP giữa các bài lab.

@@ -1,46 +1,48 @@
 # Enterprise Network Design & Implementation
 
-Lab mô phỏng mạng doanh nghiệp trên **EVE-NG Community 6.2** để thực hành switching, routing, high availability, firewall, VPN và vận hành hạ tầng. Công việc chia theo Sprint, mỗi tính năng được ghi lại cấu hình và kết quả kiểm thử.
+Lab mạng doanh nghiệp trên **EVE-NG Community 6.2**, thực hành switching, routing, high availability, firewall, VPN và vận hành theo sprint.
 
-## Phạm vi dự án
+## Phạm vi
 
-- **HQ:** 2 Core (CORE1/CORE2), 2 Access (ACCESS1/ACCESS2), mạng IT, HR, Accounting, Server, Guest, Management.
-- **WAN:** 2 Edge router, 2 ISP giả lập, 2 chi nhánh.
-- **Security:** Cisco ASAv, DMZ, ACL/NAT, VPN Site-to-Site.
-- **Service/Operations:** Alpine Linux, DHCP, DNS, NTP, Syslog, monitoring và automation.
+- HQ: hai Core, hai Access; IT, HR, Accounting, Server, Guest và Management.
+- WAN: hai Edge, hai ISP mô phỏng, hai chi nhánh.
+- Security: ASAv, DMZ, ACL/NAT và Site-to-Site VPN.
+- Services/Operations: Alpine, DHCP/DNS/NTP/Syslog, monitoring và automation.
 
-Các hạng mục WAN, DMZ, Branch, bảo mật và vận hành sẽ được bổ sung theo Sprint; chưa phải toàn bộ đều đã chạy.
+WAN/DMZ/Branch/services là thiết kế dự kiến, chưa phải toàn bộ đã chạy. VPCS là endpoint test linh động.
 
 ## Môi trường
 
-Lenovo Legion 5 (Ryzen 7 7840H, RAM 16 GB), VMware Workstation, EVE-NG VM (4 vCPU, 8 GB RAM, 120 GB disk). IOSv cho router; Cisco IOL L2 cho switching/Core test; ASAv cho firewall; Alpine thay Ubuntu để giảm RAM.
+Lenovo Legion 5 (Ryzen 7 7840H, RAM 16 GB), VMware Workstation; EVE VM dự kiến 4 vCPU, 8 GB RAM, 120 GB disk. IOSv cho router, IOL L2 cho switch/Core, ASAv cho firewall và Alpine cho server. Output Linux hiện có xác nhận 4 vCPU/RAM 7.7 GiB; chưa có kiểm thử tải toàn Enterprise.
 
-## Sprint 0 — Kết quả hiện tại
+## Sprint 0 — Đã đóng ngày 10/10/2026
 
-Đã kiểm tra kết nối router Cisco IOSv, dựng topology HQ hai Core và hai Access, xác nhận SVI VLAN10 và HSRP Active/Standby với VIP `10.10.10.1`. Địa chỉ IP cho toàn bộ dự án đã được thống nhất trong **IP Addressing Plan Final v1.0**.
+**CLOSED WITH FOLLOW-UPS:** nghiệm thu nền tảng với giới hạn và việc bàn giao rõ trong [biên bản đóng sprint](docs/sprint-reports/sprint-00-closeout.md).
 
-**Phân biệt rõ:** hiện chỉ xác nhận kỹ thuật trên VLAN10; VLAN 20–60, Inter-VLAN, RSTP, OSPF, BGP, Firewall policy, VPN và monitoring triển khai từ các Sprint tiếp theo.
+- Export HQ sạch: tám node/chín link, CRC/XML/cabling PASS; không còn VPCS dư.
+- Bốn switch có console/version; 12 snapshot cấu hình và runtime VLAN10/trunk/STP/routes đã lưu.
+- Ping hai Core 5/5 mỗi chiều; HSRP shutdown/no shutdown SVI CORE1 đạt chuyển role và khôi phục.
+- Logical/physical và IP Plan v1.0 đã review; repo/workflow/evidence được chốt bằng commit local. Push/PR/merge bộ closeout chưa thực hiện.
 
-VPCS là máy test, không tính vào danh sách thiết bị hạ tầng. Các máy VPCS được thêm hoặc tháo tùy bài thực hành.
+ZIP chỉ chứa topology/metadata, phải đi kèm config và VLAN evidence; import/reload/restore chưa thử. IOSv ping lịch sử 4/5, boot ASAv/Alpine theo xác nhận người thực hành; artifact bổ sung có mốc tiếp nhận. CORE2/ACCESS1 còn khác VTY running/startup. Không ghi các giới hạn này thành PASS hoặc nghiệm thu failover client/Inter-VLAN.
 
 ## Tài liệu
 
-- [Sprint 0 Report](docs/sprint-reports/sprint-00-report.md)
-- [IP Addressing Plan Final v1.0](docs/ip-addressing-plan.md)
-- [Network Architecture](docs/network-architecture.md)
-- [Sprint 0 Validation](docs/test-results/sprint-00-validation.md)
-- [Project Roadmap](docs/enterprise-network-design-implementation-roadmap.md)
-- [Documentation Index](docs/README.md)
+- [Sprint 0 Report](docs/sprint-reports/sprint-00-report.md) · [Biên bản đóng và việc bàn giao](docs/sprint-reports/sprint-00-closeout.md)
+- [Validation](docs/test-results/sprint-00-validation.md) · [Export và tái dựng](eve-exports/README.md) · [Cấu hình](configs/README.md)
+- [Logical topology](diagrams/logical-topology.md) · [Physical topology](diagrams/physical-topology.md)
+- [IP Plan Final v1.0](docs/ip-addressing-plan.md) · [Architecture](docs/network-architecture.md)
+- [Roadmap](docs/enterprise-network-design-implementation-roadmap.md) · [Workflow](docs/repository-workflow.md) · [Danh mục tài liệu](docs/README.md)
 
-## Tiến độ
+## Tiến độ và bước tiếp theo
 
-| Sprint | Nội dung | Trạng thái |
-|---:|---|---|
-| 0 | Môi trường, kiến trúc, IP Plan, Git | Báo cáo chờ review |
-| 1 | VLAN, 802.1Q Trunk, SVI, RSTP | Tiếp theo |
-| 2 | LACP, HSRP Failover | Chưa triển khai đầy đủ |
-| 3–6 | OSPF, BGP, Firewall, VPN | Kế hoạch |
-| 7–9 | Linux Services, Monitoring, Automation | Kế hoạch |
-| 10–11 | Troubleshooting, Portfolio | Kế hoạch |
+- Sprint 0: đóng nền tảng, follow-up theo biên bản.
+- Sprint 1: VLAN/trunk/SVI, STP và Inter-VLAN; chưa bắt đầu triển khai đầy đủ.
+- Sprint 2: LACP và full HSRP/client failover.
+- Sprint 3–6: WAN, OSPF/BGP, firewall và VPN.
+- Sprint 7–9: Linux services, monitoring, automation.
+- Sprint 10–11: troubleshooting và portfolio.
 
-Đây là dự án lab phục vụ học tập và portfolio, không phải hạ tầng production.
+Bắt đầu Sprint 1 bằng kiểm tra baseline, giữ uplink dự phòng shutdown khi dựng VLAN/trunk, kiểm tra STP trước bật đủ link, rồi test Inter-VLAN. Chỉ làm việc trong thư mục dự án; ưu tiên docs/Markdown, kế hoạch nội bộ ở `ai-agent/` được ignore.
+
+Đây là lab học tập/portfolio, chưa phải hạ tầng production.

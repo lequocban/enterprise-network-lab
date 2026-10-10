@@ -1,0 +1,33 @@
+Source: console output supplied by the practitioner on 2026-10-10.
+Agent did not run these commands. Trailing whitespace normalized.
+One show clock and two show standby br outputs per node were supplied.
+No separate timestamp for either standby sample; the interval is not measurable from this output.
+
+CORE1#show clock
+*08:15:17.257 UTC Sat Oct 10 2026
+CORE1#show ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up
+Ethernet0/1            unassigned      YES unset  up                    up
+Ethernet0/2            unassigned      YES unset  up                    up
+Ethernet0/3            unassigned      YES unset  up                    up
+Ethernet1/0            unassigned      YES unset  up                    up
+Ethernet1/1            unassigned      YES unset  up                    up
+Ethernet1/2            unassigned      YES unset  up                    up
+Ethernet1/3            unassigned      YES unset  up                    up
+Ethernet2/0            unassigned      YES unset  up                    up
+Ethernet2/1            unassigned      YES unset  up                    up
+Ethernet2/2            unassigned      YES unset  up                    up
+Ethernet2/3            unassigned      YES unset  up                    up
+Vlan10                 10.10.10.2      YES NVRAM  up                    up
+CORE1#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+CORE1#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+CORE1#

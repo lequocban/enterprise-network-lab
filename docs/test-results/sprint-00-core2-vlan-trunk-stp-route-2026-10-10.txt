@@ -1,0 +1,75 @@
+Source: console output supplied by the practitioner on 2026-10-10.
+Agent did not run these commands. Trailing whitespace normalized.
+Individual command collection timestamps are not supplied.
+The CORE1 HSRP syslog has a device timestamp; no timezone is shown on that line.
+
+CORE2>terminal length 0
+CORE2>show lan br
+             ^
+% Invalid input detected at '^' marker.
+
+CORE2>show vlan br
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Et0/1, Et0/2, Et0/3, Et1/0
+                                                Et1/1, Et1/2, Et1/3, Et2/0
+                                                Et2/1, Et2/2, Et2/3
+10   MGMT                             active
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+CORE2>show int trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      1
+
+Port        Vlans allowed on trunk
+Et0/0       10
+
+Port        Vlans allowed and active in management domain
+Et0/0       10
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       10
+CORE2>show spa
+CORE2>show span
+CORE2>show spanning
+CORE2>show spanning-tree vlan 10
+
+VLAN0010
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    32778
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32778  (priority 32768 sys-id-ext 10)
+             Address     aabb.cc00.2000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+
+
+CORE2>show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.10.10.0/24 is directly connected, Vlan10
+L        10.10.10.3/32 is directly connected, Vlan10
+CORE2>

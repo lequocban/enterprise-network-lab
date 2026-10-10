@@ -1,0 +1,24 @@
+Source: Console transcript supplied by the user on 2026-10-10.
+Agent did not execute these commands on EVE-NG.
+Timestamp shown by EVE-NG: 2026-10-10T07:00:39+00:00
+Equivalent Asia/Saigon time: 2026-10-10 14:00:39 +07:00
+VMware allocation and list of running nodes at measurement time: not supplied.
+
+root@eve-ng:~# date -Is
+hostname
+free -h
+df -h /
+nproc
+grep -Ec '(vmx|svm)' /proc/cpuinfo
+ls -l /dev/kvm
+2026-10-10T07:00:39+00:00
+eve-ng
+               total        used        free      shared  buff/cache   available
+Mem:           7.7Gi       1.7Gi       3.5Gi       6.0Mi       2.6Gi       5.7Gi
+Swap:          4.0Gi          0B       4.0Gi
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv  116G   13G   98G  12% /
+4
+4
+crw-rw---- 1 root kvm 10, 232 Oct  8 13:59 /dev/kvm
+root@eve-ng:~#

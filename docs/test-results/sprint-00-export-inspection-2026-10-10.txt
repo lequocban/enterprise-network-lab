@@ -1,0 +1,44 @@
+Sprint 00 export inspection - 2026-10-10
+Method: local ZIP/XML inspection; no EVE import or device commands executed.
+Archive: eve-exports/sprint-00-hq-2026-10-10.zip
+Archive bytes: 973
+SHA256: A6D8EF6A334878095FEA17F13ACCE116265AA3016500D5C86BAB90FC97F2D459
+ZIP entries: Enterprise-Network-HQ.unl
+UNL bytes: 4411
+Lab name: Enterprise-Network-HQ
+Lab XML version attribute: 1 (not an EVE server version)
+Nodes: 9; networks: 9
+
+NODE METADATA (as stored in export):
+id=1; name=CORE1; type=iol; image=L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin; ram=512; ethernet=3; nvram=1024; config=0; left=654; top=429; connected_interfaces=3
+id=2; name=CORE2; type=iol; image=L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin; ram=512; ethernet=3; nvram=1024; config=0; left=1152; top=432; connected_interfaces=3
+id=3; name=ACCESS1; type=iol; image=L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin; ram=256; ethernet=2; nvram=1024; config=0; left=648; top=651; connected_interfaces=4
+id=4; name=ACCESS2; type=iol; image=L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin; ram=256; ethernet=2; nvram=1024; config=0; left=1143; top=627; connected_interfaces=4
+id=5; name=PC-IT; type=vpcs; image=; ram=; ethernet=1; nvram=; config=0; left=549; top=789; connected_interfaces=1
+id=6; name=PC-HR; type=vpcs; image=; ram=; ethernet=1; nvram=; config=0; left=711; top=789; connected_interfaces=1
+id=7; name=PC-ACC; type=vpcs; image=; ram=; ethernet=1; nvram=; config=0; left=1095; top=777; connected_interfaces=1
+id=8; name=PC-GUEST; type=vpcs; image=; ram=; ethernet=1; nvram=; config=0; left=1770; top=1395; connected_interfaces=0
+id=9; name=PC-GUEST; type=vpcs; image=; ram=; ethernet=1; nvram=; config=0; left=1212; top=774; connected_interfaces=1
+
+NETWORK ENDPOINTS:
+network 1: CORE1:e0/0 <-> CORE2:e0/0
+network 2: ACCESS1:e0/0 <-> CORE1:e0/1
+network 3: ACCESS1:e0/1 <-> CORE2:e0/1
+network 4: ACCESS2:e0/0 <-> CORE1:e0/2
+network 5: ACCESS2:e0/1 <-> CORE2:e0/2
+network 6: ACCESS1:e0/2 <-> PC-IT:eth0
+network 7: ACCESS1:e0/3 <-> PC-HR:eth0
+network 8: ACCESS2:e0/2 <-> PC-ACC:eth0
+network 9: ACCESS2:e0/3 <-> PC-GUEST:eth0
+Result: all nine network links match expected HQ cabling.
+
+FINDINGS:
+Extra node id=8, name=PC-GUEST, has no connected interfaces; position left=1770 top=1395.
+Keep connected PC-GUEST id=9, eth0 -> network 9 -> ACCESS2 e0/3.
+Nine nodes are present; expected HQ is four switches and four connected VPCS (eight nodes).
+No config/configs XML elements or separate config ZIP entries; all nodes have config=0.
+Export therefore provides topology/metadata; do not claim embedded startup-config or restore test success.
+Full IOL image filename: L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin
+Core RAM attributes: 512 each; Access RAM attributes: 256 each; node vCPU attributes absent.
+No credential/key fields found in the inspected XML; review any replacement export separately.
+Follow-up: remove only the unused duplicate in EVE after identifying it, then export a new revision. Preserve this original export as evidence.

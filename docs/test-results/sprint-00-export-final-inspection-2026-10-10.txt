@@ -1,0 +1,42 @@
+Sprint 00 final HQ export inspection - 2026-10-10 (Asia/Saigon)
+Method: read-only local ZIP CRC, XML, node uniqueness and exact endpoint comparison.
+No EVE import, reload or device command execution.
+Archive: eve-exports/sprint-00-hq-2026-10-10.zip
+Archive bytes: 952
+SHA256: CAD0EE62F6A1213B08147D5BB7471EBFB873D0B5F28FD0DB047276B6395F539F
+ZIP entry: Enterprise-Network-HQ.unl
+UNL bytes: 4241
+ZIP CRC: PASS
+Lab: Enterprise-Network-HQ
+XML version attribute: 1 (not the EVE server version)
+Nodes: 8; networks: 9; unique names and IDs: PASS
+Four IOL switches and four connected VPCS.
+Unused duplicate PC-GUEST ID8: absent; connected PC-GUEST ID9 retained.
+Each network has exactly two endpoints; all nine expected HQ links: PASS.
+
+LINKS:
+CORE1:e0/0 <-> CORE2:e0/0
+CORE1:e0/1 <-> ACCESS1:e0/0
+CORE2:e0/1 <-> ACCESS1:e0/1
+CORE1:e0/2 <-> ACCESS2:e0/0
+CORE2:e0/2 <-> ACCESS2:e0/1
+ACCESS1:e0/2 <-> PC-IT:eth0
+ACCESS1:e0/3 <-> PC-HR:eth0
+ACCESS2:e0/2 <-> PC-ACC:eth0
+ACCESS2:e0/3 <-> PC-GUEST:eth0
+
+IOL image: L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin
+RAM attributes: CORE1/CORE2=512, ACCESS1/ACCESS2=256
+Ethernet group attributes: Core=3, Access=2; NVRAM=1024
+Node vCPU attributes: absent.
+All nodes config=0; no config/configs XML payload and no config ZIP entries.
+The archive provides topology and metadata; separate .cfg snapshots and VLAN evidence are required.
+No credential/key fields observed in the XML.
+CONFIG SNAPSHOTS: 12 checked; four post-test snapshots match command content of corresponding originals.
+CORE1/ACCESS2 running/startup commands match; CORE2/ACCESS1 only running includes VTY login.
+No import, reload, full VLAN database backup, client traffic failover or restore success claimed.
+
+PROVENANCE:
+Earlier export and v2 inspection records are retained as historical observations.
+Their hashes and names do not identify the current ZIP. The current hash above is authoritative.
+No attempt was made to reconstruct missing old ZIPs or create a synthetic export.

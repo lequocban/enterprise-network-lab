@@ -36,6 +36,9 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+# Local AI-agent working documents
+/ai-agent/
+
 # Logs and temporary files
 *.log
 *.tmp

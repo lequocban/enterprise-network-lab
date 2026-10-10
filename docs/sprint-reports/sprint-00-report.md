@@ -1,70 +1,44 @@
 # Báo cáo Sprint 0 — Chuẩn bị môi trường và thiết kế mạng
 
-**Dự án:** Enterprise Network Design & Implementation (EVE-NG)  
-**Thời gian tổng hợp:** 09/10/2026  
-**Người thực hiện:** lequocban  
-**Phạm vi:** NET-001 đến NET-004  
-**Trạng thái:** Hoàn thành nền tảng kỹ thuật HQ; đã chốt thiết kế IP v1.0; còn bổ sung minh chứng và thiết kế cổng WAN khi triển khai các Sprint sau.
+**Dự án:** Enterprise Network Design & Implementation (EVE-NG)
+**Người thực hiện:** lequocban
+**Ngày đóng:** 10/10/2026, Asia/Saigon
+**Phạm vi:** NET-001–004
+**Trạng thái:** **CLOSED WITH FOLLOW-UPS** — nền tảng được nghiệm thu, phần chưa kiểm chứng có story/mốc tiếp nhận.
+**Nguồn quyết định:** [Biên bản đóng Sprint 00](sprint-00-closeout.md). Commit local chứa bộ hồ sơ này là mốc closeout; chưa ghi nhận push/PR/merge GitHub cho đợt bổ sung.
 
-## 1. Công việc đã thực hiện
+## 1. Kết quả
 
-Sprint này tập trung vào việc chuẩn bị môi trường thực hành và thống nhất phương án thiết kế trước khi cấu hình hệ thống lớn.
+- EVE có 4 vCPU, RAM 7.7 GiB/available 5.7 GiB, disk available 98 GB, virtualization flags và thiết bị KVM. Không kết luận chịu tải toàn Enterprise từ một lần đo.
+- Bốn switch có version/console thật. Image IOL đầy đủ trong export là `L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin`; RAM node Core 512/Access 256 theo metadata, khác memory IOS runtime.
+- HQ có đúng bốn switch, bốn VPCS, chín link. ZIP hiện tại đã bỏ node PC-GUEST dư, CRC/XML/cabling PASS; [kiểm tra cuối](../test-results/sprint-00-export-final-inspection-2026-10-10.txt).
+- VLAN10 MGMT: CORE1 .2/24, CORE2 .3/24, VIP .1. Ping hai Core mỗi chiều 5/5. Et0/0 trunk dot1q/native1, VLAN10 forwarding; CORE1 root RSTP, CORE2 root port Et0/0. Base priority cả hai 32768, chưa cấu hình root primary/secondary tường minh.
+- HSRP shutdown SVI CORE1: CORE1 về Init, CORE2 nhận Active; no shutdown khôi phục CORE1 Active/CORE2 Standby và hai SVI up/up. [Log trước/trong/sau](../test-results/sprint-00-hsrp-switchover-2026-10-10.txt) chứng minh chuyển role/khôi phục, chưa đo convergence hoặc failover lưu lượng client.
+- Có 12 snapshot config; bốn bản hai Core sau test khớp lệnh với bản trước tương ứng và không còn shutdown SVI. CORE1/ACCESS2 khớp running/startup, CORE2/ACCESS1 chỉ running có VTY `login`, giữ nguyên và bàn giao Sprint 1.
+- Logical/physical/architecture và IP Plan v1.0 đã review. Review tĩnh 24 subnet/loopback không phát hiện chồng lấn; chưa triển khai phần WAN/DMZ/Branch.
+- Repo, workflow công khai và cấu trúc artifact đã có; `ai-agent/` bị ignore và docs công khai không phụ thuộc vào thư mục này.
 
-- Cài EVE-NG Community 6.2 trên VMware Workstation, cấu hình VM 4 vCPU, 8 GB RAM, 120 GB disk.
-- Kiểm tra tài nguyên, nested virtualization và kết nối giữa hai router IOSv.
-- Xác nhận image IOL L2 hiện có dùng được các lệnh SVI và HSRP, từ đó giữ phương án hai Core làm gateway Layer 3 thay vì thêm router-on-a-stick.
-- Dựng mạng HQ Campus gồm CORE1, CORE2, ACCESS1, ACCESS2; các VPCS đi kèm chỉ phục vụ test.
-- Kiểm tra SVI VLAN10, trạng thái Active/Standby của HSRP và quy trình chuyển vai trò.
-- Thiết kế và **chốt IP Addressing Plan v1.0** cho HQ, DMZ, Branch 1/2, transit và Loopback.
-- Tổ chức GitHub repository để lưu tài liệu, cấu hình và các báo cáo Sprint tiếp theo.
+## 2. Nghiệm thu theo story
 
-## 2. Kết quả kiểm tra
+- **NET-001:** chấp nhận nền tảng HQ từ output môi trường, boot/console switch, ping và config/test thực tế. IOSv ping lịch sử 4/5 chứng minh có kết nối; Linux/ASAv boot theo xác nhận người thực hành, artifact chưa đủ. Các giới hạn này được giữ rõ và chuyển theo mục 3; không đánh dấu ping ổn định 10/10 hoặc boot artifact PASS khi chưa có.
+- **NET-002:** logical/physical đã review; HQ đối chiếu ảnh/export hiện tại đúng tám node/chín link. Phần Enterprise dự kiến và cổng TBD có mốc chốt.
+- **NET-003:** IP Plan Final v1.0 giữ nguyên, review tĩnh và SVI/VIP baseline nhất quán; routing/failover chuyển WAN-01.
+- **NET-004:** repository đã khởi tạo, merge PR #2 có trong lịch sử local. Bộ hồ sơ closeout được review và lưu bằng commit local; xuất bản GitHub là bước riêng.
 
-| Nội dung | Kết quả ghi nhận | Đánh giá |
-|---|---|---|
-| EVE-NG VM | RAM 7.7 GiB, available 6.3 GiB; CPU 4 vCPU; còn 100 GB disk | Đạt |
-| Router R1 ↔ R2 | Ping R1 đến R2 thành công 4/5 gói (80%), RTT 1/1/2 ms | Có kết nối; chưa có test 10/10 lưu lại |
-| VLAN 10 CORE1 | 10.10.10.2/24, SVI up/up | Đạt |
-| VLAN 10 CORE2 | 10.10.10.3/24, SVI up/up | Đạt |
-| HSRP Group 10 | CORE1 Active (110), CORE2 Standby (100), VIP 10.10.10.1 | Đạt theo CLI |
-| HSRP switchover | Đã được người thực hành xác nhận hoạt động | Cần lưu log trước/trong/sau |
-| Inter-VLAN Routing | Chưa thử giữa các VLAN khác nhau | Sang Sprint 1 |
-| ASAv và Alpine | Đã cài đặt | Chưa lưu đủ ảnh console trong repo |
+Đóng sprint theo phạm vi chuẩn bị môi trường/thiết kế, với các ngoại lệ minh chứng được nêu rõ. Điều này không thay đổi các acceptance chưa chạy thành PASS; xem [biên bản](sprint-00-closeout.md#1-kết-quả-nghiệm-thu).
 
-Các giá trị trong bảng lấy từ output console đã được lưu trong trao đổi lab. Không tính các tính năng chưa thực hiện là kết quả hoàn thành.
+## 3. Giới hạn và việc bàn giao
 
-## 3. Thiết kế thống nhất
+- **Sprint 1, NET-101–104:** VLAN/trunk/native99, SVI Access .11/.12, baseline VTY CORE2/ACCESS1, root priority và test STP trước mở đủ uplink; kiểm chứng Inter-VLAN thật.
+- **Sprint 2, NET-201/202:** LACP cần thêm link cùng cặp endpoint; không gom hai Core độc lập vào một channel. Full Core/client failover, packet loss và convergence chưa thử.
+- **Trước Sprint 3, NET-301/302:** IOSv version/console và ping lặp hai chiều sau warm-up; giữ kết quả 4/5 lịch sử. Bổ sung allocation/tải VM khi mở rộng số node.
+- **WAN-01, trước Sprint 3–6:** L2 transit90/91, default/return routes, ASA outside gateway/failover, OSPF Branch, NAT/VPN endpoint; [quyết định kiến trúc](../network-architecture.md#6-các-quyết-định-thiết-kế-còn-mở).
+- **NET-503 trước Sprint 5 / NET-701 trước Sprint 7:** bổ sung version/boot artifact ASAv/Alpine khi mở lại; không thêm node vào HQ chỉ để đóng Sprint 0.
+- ZIP không có cấu hình nhúng; import/reload/restore toàn lab và backup VLAN database đầy đủ chưa thử. [Hướng dẫn tái dựng](../../eve-exports/README.md) phải đi cùng config/VLAN evidence.
+- Log riêng 08:09/08:35 không thay cho failure test; người thực hành xác nhận có thao tác trước 08:35, chưa có chi tiết. Không kết luận lỗi tự phát hoặc ổn định liên tục từ snapshot.
 
-HQ Campus dùng **CORE1 và CORE2** làm hai gateway dự phòng, ACCESS1/ACCESS2 nối hai uplink tới hai Core. RSTP sẽ xử lý vòng lặp Layer 2 trong Sprint 1; HSRP giữ gateway logic ổn định cho client. Chưa dùng EtherChannel giữa hai Core độc lập và một Access nếu image không hỗ trợ cơ chế multi-chassis.
+## 4. Bắt đầu Sprint 1
 
-Địa chỉ HQ dùng các VLAN 10/20/30/40/50/60. Gateway HSRP mỗi mạng dùng .1, CORE1 dùng .2, CORE2 dùng .3. Native VLAN 99 không cấp IP. DMZ đặt phía firewall, không đặt trên Core. Các mạng WAN/ISP giả lập có subnet transit riêng; địa chỉ đã được chốt trong **[IP Addressing Plan Final v1.0](../ip-addressing-plan.md)**.
+Lưu baseline và kiểm tra trạng thái → giữ uplink dự phòng shutdown → VLAN → trunk/native → STP/root/port role → bật từng uplink và xác nhận → test cùng VLAN → routing/Inter-VLAN. Không triển khai Sprint 1 trong lần closeout này.
 
-**Không đưa VPCS vào danh sách thiết bị hạ tầng cố định.** Các máy tính trong lab được sử dụng để kiểm thử kết nối, VLAN và gateway rồi tháo hoặc thay đổi theo từng bài.
-
-## 4. Tình trạng từng Story
-
-| Story | Kết quả | Việc còn lại |
-|---|---|---|
-| NET-001 | EVE-NG, router, switch hoạt động; kiểm tra tài nguyên và ping | Lưu ảnh ASAv/Alpine boot vào repo |
-| NET-002 | Topology HQ và HSRP đã kiểm tra | Vẽ sơ đồ cổng đầy đủ cho WAN/DMZ/Branches khi tạo node |
-| NET-003 | Chốt IP Plan Final v1.0 | Áp cấu hình và kiểm thử theo Sprint |
-| NET-004 | Repo GitHub đã có README, docs và quy trình review bằng PR | Review và merge bộ tài liệu Sprint 0 |
-
-## 5. Vấn đề và cách xử lý
-
-- **Giới hạn RAM 16 GB trên host:** chia bài lab theo Sprint, chỉ bật node cần dùng, theo dõi RAM sau khi tăng số node.
-- **IOL L2 đóng vai trò Core:** hiện kiểm tra được SVI và HSRP; không kết luận khả năng chuyển tiếp đa VLAN khi chưa chạy test Inter-VLAN.
-- **Hai uplink Access:** cần cấu hình RSTP trước khi bật toàn bộ trunk; tránh tạo vòng lặp Layer 2.
-- **Một firewall ASAv:** có rủi ro single point of failure ở security edge, không ghi nhận firewall HA trong scope hiện tại.
-- **IP WAN mô phỏng:** subnet và vai trò đã cố định; khi dựng thêm node phải tạo L2 transit VLAN 90/91 đúng thiết kế thay vì nối trực tiếp gây sai broadcast domain.
-- **Minh chứng:** cần lưu ảnh console và kết quả test vào đúng thư mục ngay sau mỗi bài lab.
-
-## 6. Kế hoạch Sprint 1
-
-Triển khai theo thứ tự NET-101 (VLAN), NET-102 (802.1Q Trunk), NET-103 (Inter-VLAN Routing), NET-104 (Rapid STP). Cần chạy test phân đoạn trước khi bật routing, sau đó kiểm tra traffic liên VLAN và failover uplink. Mỗi Story lưu cấu hình, output test, lỗi nếu có và commit riêng.
-
-## 7. Kết luận
-
-Sprint 0 đã xây dựng được nền tảng EVE-NG và mô hình HQ hai Core có HSRP. Thiết kế địa chỉ v1.0 đã chốt để các Sprint sau triển khai thống nhất, không đổi dải mạng theo từng bài. Các mục còn thiếu chủ yếu là bằng chứng lưu trữ và bước triển khai WAN/DMZ/Branch, không được ghi là đã hoàn tất về mặt kỹ thuật.
-
-**Tài liệu kèm theo:** [Architecture](../network-architecture.md) · [Final IP Plan](../ip-addressing-plan.md) · [Validation Log](../test-results/sprint-00-validation.md).
+**Hồ sơ:** [Validation](../test-results/sprint-00-validation.md) · [Closeout](sprint-00-closeout.md) · [Architecture](../network-architecture.md) · [IP Plan](../ip-addressing-plan.md) · [Workflow](../repository-workflow.md).

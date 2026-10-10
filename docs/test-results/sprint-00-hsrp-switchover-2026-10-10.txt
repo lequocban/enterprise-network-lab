@@ -1,0 +1,127 @@
+Source: console output supplied by the practitioner on 2026-10-10.
+Agent did not run these commands. Trailing whitespace normalized.
+Device show clock outputs report UTC; collection is not simultaneous across nodes.
+The isolated 08:09 state-change event is separate from this controlled test.
+
+CORE1#show clock
+*08:26:01.661 UTC Sat Oct 10 2026
+CORE1#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+CORE1#
+CORE2#show clock
+*08:26:15.229 UTC Sat Oct 10 2026
+CORE2#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Standby 10.10.10.2      local           10.10.10.1
+CORE2#
+
+CORE1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+CORE1(config)#int vlan 10
+CORE1(config-if)#shut
+CORE1(config-if)#end
+CORE1#show
+*Oct 10 08:27:22.971: %SYS-5-CONFIG_I: Configured from console by console
+*Oct 10 08:27:23.007: %LINK-5-CHANGED: Interface Vlan10, changed state to administratively down
+CORE1#show clock
+*08:27:25.551 UTC Sat Oct 10 2026
+CORE1#
+*Oct 10 08:27:24.012: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to down
+*Oct 10 08:27:24.012: %HSRP-5-STATECHANGE: Vlan10 Grp 10 state Active -> Init
+CORE1#show int br
+                ^
+% Invalid input detected at '^' marker.
+
+CORE1#show ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up
+Ethernet0/1            unassigned      YES unset  up                    up
+Ethernet0/2            unassigned      YES unset  up                    up
+Ethernet0/3            unassigned      YES unset  up                    up
+Ethernet1/0            unassigned      YES unset  up                    up
+Ethernet1/1            unassigned      YES unset  up                    up
+Ethernet1/2            unassigned      YES unset  up                    up
+Ethernet1/3            unassigned      YES unset  up                    up
+Ethernet2/0            unassigned      YES unset  up                    up
+Ethernet2/1            unassigned      YES unset  up                    up
+Ethernet2/2            unassigned      YES unset  up                    up
+Ethernet2/3            unassigned      YES unset  up                    up
+Vlan10                 10.10.10.2      YES NVRAM  administratively down down
+CORE1#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Init    unknown         unknown         10.10.10.1
+CORE1#
+CORE2#show clock
+*08:28:11.644 UTC Sat Oct 10 2026
+CORE2#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Active  local           unknown         10.10.10.1
+CORE2#
+
+CORE1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+CORE1(config)#int vlan 10
+CORE1(config-if)#no shut
+CORE1(config-if)#end
+CORE1#
+*Oct 10 08:28:49.361: %SYS-5-CONFIG_I: Configured from console by console
+CORE1#
+*Oct 10 08:28:50.468: %LINK-3-UPDOWN: Interface Vlan10, changed state to up
+*Oct 10 08:28:51.474: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to up
+CORE1#
+*Oct 10 08:28:52.765: %HSRP-5-STATECHANGE: Vlan10 Grp 10 state Listen -> Active
+CORE1#show clock
+*08:29:00.821 UTC Sat Oct 10 2026
+CORE1#show ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up
+Ethernet0/1            unassigned      YES unset  up                    up
+Ethernet0/2            unassigned      YES unset  up                    up
+Ethernet0/3            unassigned      YES unset  up                    up
+Ethernet1/0            unassigned      YES unset  up                    up
+Ethernet1/1            unassigned      YES unset  up                    up
+Ethernet1/2            unassigned      YES unset  up                    up
+Ethernet1/3            unassigned      YES unset  up                    up
+Ethernet2/0            unassigned      YES unset  up                    up
+Ethernet2/1            unassigned      YES unset  up                    up
+Ethernet2/2            unassigned      YES unset  up                    up
+Ethernet2/3            unassigned      YES unset  up                    up
+Vlan10                 10.10.10.2      YES NVRAM  up                    up
+CORE1#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+CORE1#
+CORE2#show clock
+*08:29:34.570 UTC Sat Oct 10 2026
+CORE2#show ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up
+Ethernet0/1            unassigned      YES unset  up                    up
+Ethernet0/2            unassigned      YES unset  up                    up
+Ethernet0/3            unassigned      YES unset  up                    up
+Ethernet1/0            unassigned      YES unset  up                    up
+Ethernet1/1            unassigned      YES unset  up                    up
+Ethernet1/2            unassigned      YES unset  up                    up
+Ethernet1/3            unassigned      YES unset  up                    up
+Ethernet2/0            unassigned      YES unset  up                    up
+Ethernet2/1            unassigned      YES unset  up                    up
+Ethernet2/2            unassigned      YES unset  up                    up
+Ethernet2/3            unassigned      YES unset  up                    up
+Vlan10                 10.10.10.3      YES NVRAM  up                    up
+CORE2#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Standby 10.10.10.2      local           10.10.10.1
+CORE2#

@@ -3,6 +3,8 @@
 
 > **Mục tiêu dự án:** Xây dựng một mô hình mạng doanh nghiệp nhiều site đủ chất lượng để đưa vào CV/GitHub, đồng thời dùng chính dự án này làm lộ trình học từ nền tảng CCNA lên các kỹ năng gần thực tế doanh nghiệp: switching, routing, redundancy, firewall, VPN, Linux services, monitoring và automation.
 
+> **Closeout 10/10/2026:** Sprint 0 CLOSED WITH FOLLOW-UPS theo [biên bản](sprint-reports/sprint-00-closeout.md). Nền tảng HQ được nghiệm thu; IOSv 4/5 lịch sử và boot ASAv/Alpine theo xác nhận giữ đúng mức bằng chứng, artifact bổ sung có story tiếp nhận. Sprint sau chưa triển khai chỉ từ việc đóng Sprint 0.
+
 ---
 
 # 1. Tổng quan dự án
@@ -80,6 +82,8 @@ Công ty có:
 
 # 2. Kiến trúc đề xuất
 
+Sơ đồ dưới là minh họa ban đầu của roadmap. Thiết kế v1.0 đang dùng, gồm transit VLAN90/91 và ISP1↔ISP2, theo [Architecture](network-architecture.md), [Logical topology](../diagrams/logical-topology.md) và [Physical topology](../diagrams/physical-topology.md). Không dùng sơ đồ minh họa để suy ra thêm link/IP ngoài IP Plan.
+
 ```text
                              INTERNET
                          +------+------+
@@ -113,7 +117,9 @@ Công ty có:
 
 ---
 
-# 3. Kế hoạch địa chỉ IP mẫu
+# 3. Tham chiếu địa chỉ IP
+
+Bảng dưới là tổng quan. Nguồn phân bổ chính thức, gồm gateway và transit cụ thể, là [IP Addressing Plan Final v1.0](ip-addressing-plan.md).
 
 | Site | VLAN/Zone | Chức năng | Subnet đề xuất |
 |---|---|---|---|
@@ -128,7 +134,7 @@ Công ty có:
 | Branch 2 | LAN | Users | 10.30.10.0/24 |
 | WAN | Transit | Router links | 10.255.0.0/24 |
 
-> Có thể thay đổi địa chỉ nếu muốn tự thiết kế IP Plan riêng.
+> Sau Final v1.0, thay đổi subnet/VIP/vai trò gateway phải ghi lý do và cập nhật IP Plan, architecture, config và test liên quan cùng nhau. Không đổi địa chỉ riêng cho từng bài lab.
 
 ---
 
@@ -175,7 +181,7 @@ Ví dụ:
 
 # 5. Definition of Done chung
 
-Một Story chỉ được xem là **DONE** khi:
+Một Story **triển khai kỹ thuật** chỉ được xem là **DONE** khi:
 
 - [ ] Đã hiểu lý thuyết chính
 - [ ] Đã cấu hình thành công trên lab
@@ -185,6 +191,8 @@ Một Story chỉ được xem là **DONE** khi:
 - [ ] Đã cập nhật tài liệu Markdown
 - [ ] Đã commit lên Git
 - [ ] Có thể tự giải thích lại cách hoạt động mà không nhìn tài liệu
+
+Với story thiết kế/tài liệu như NET-002/003/004, nghiệm thu bằng deliverable đúng scope, review/đối chiếu, tài liệu nhất quán và commit/PR; không yêu cầu cấu hình các tính năng còn thuộc sprint sau. NET-001 vẫn cần boot/kết nối và bằng chứng thật. Điều kiện chi tiết của Sprint 0 tại [kế hoạch hoàn thiện](sprint-reports/sprint-00-closeout.md); merge tài liệu không tự làm hoàn tất story triển khai.
 
 ---
 
@@ -210,53 +218,59 @@ Chuẩn bị EVE-NG, xác định kiến trúc mạng và tạo bộ khung proje
 
 ### Story NET-001 — Cài đặt và kiểm tra EVE-NG
 
-**Mục tiêu:** Có môi trường lab hoạt động ổn định.
+**Mục tiêu:** Có môi trường lab dùng được để bắt đầu thực hành; độ ổn định khi mở rộng được kiểm thử theo sprint.
+
+**Mức bằng chứng khi đóng:** HQ có output thật; router IOSv có ping lịch sử 4/5, không phải 10/10 ổn định; Linux/ASAv boot theo xác nhận người thực hành, artifact bổ sung chuyển NET-701/503. Việc đánh dấu chuẩn bị/import không chứng minh firewall policy hoặc dịch vụ đã chạy.
 
 #### Tasks
-- [ ] Cài EVE-NG
-- [ ] Kiểm tra CPU virtualization
-- [ ] Import image router
-- [ ] Import image switch
-- [ ] Import Ubuntu Server
-- [ ] Import firewall phù hợp
-- [ ] Test console thiết bị
-- [ ] Test kết nối node với nhau
+- [x] Cài EVE-NG
+- [x] Kiểm tra CPU virtualization
+- [x] Import image router
+- [x] Import image switch
+- [x] Import Alpine Linux cho SRV-INFRA
+- [x] Import firewall phù hợp
+- [x] Test console thiết bị
+- [x] Test kết nối node với nhau
 
 #### Acceptance Criteria
-- [ ] Router boot được
-- [ ] Switch boot được
-- [ ] Linux boot được
-- [ ] Hai router ping nhau thành công
+- [x] Router boot/kết nối theo kết quả IOSv lịch sử; version/console bổ sung trước NET-301/302
+- [x] Switch boot được
+- [x] Linux boot theo xác nhận người thực hành; chưa có artifact console, tiếp nhận NET-701
+- [x] Có kết nối router từ ping lịch sử 4/5; chưa nghiệm thu ping ổn định/lặp hai chiều
 
 ---
 
 ### Story NET-002 — Thiết kế topology tổng thể
 
 #### Tasks
-- [ ] Vẽ topology Logical
-- [ ] Vẽ topology Physical
-- [ ] Xác định số router
-- [ ] Xác định số switch
-- [ ] Xác định firewall
-- [ ] Xác định server
-- [ ] Xác định ISP giả lập
+- [x] Vẽ topology Logical
+- [x] Vẽ topology Physical
+- [x] Xác định số router
+- [x] Xác định số switch
+- [x] Xác định firewall
+- [x] Xác định server
+- [x] Xác định ISP giả lập
 
 #### Deliverable
-`diagrams/logical-topology.png`
+`diagrams/logical-topology.md`
 
-`diagrams/physical-topology.png`
+`diagrams/physical-topology.md`
+
+**Review 10/10/2026:** đã đối chiếu HQ tám node/chín link với export sạch và ảnh; thiết kế tổng thể gồm sáu router WAN/Branch, bốn switch Campus, một ASAv và Alpine, node L2 transit bổ sung TBD.
+
+**Quyết định tài liệu 09/10/2026:** dùng Markdown làm deliverable chính theo phạm vi làm việc hiện tại; logical diagram dùng Mermaid, physical dùng bảng cổng. PNG chỉ là bản xuất bổ sung nếu cần. Sơ đồ phải ghi rõ phần dự kiến và phần đã đối chiếu lab; cổng WAN TBD có mốc chốt ở S0-02/WAN-01.
 
 ---
 
 ### Story NET-003 — Thiết kế IP Addressing Plan
 
 #### Tasks
-- [ ] Chia subnet HQ
-- [ ] Chia subnet Branch 1
-- [ ] Chia subnet Branch 2
-- [ ] Chia transit subnet
-- [ ] Chia DMZ subnet
-- [ ] Định nghĩa Loopback IP
+- [x] Chia subnet HQ
+- [x] Chia subnet Branch 1
+- [x] Chia subnet Branch 2
+- [x] Chia transit subnet
+- [x] Chia DMZ subnet
+- [x] Định nghĩa Loopback IP
 
 #### Deliverable
 `docs/ip-addressing-plan.md`
@@ -266,39 +280,47 @@ Chuẩn bị EVE-NG, xác định kiến trúc mạng và tạo bộ khung proje
 ### Story NET-004 — Khởi tạo GitHub Repository
 
 #### Tasks
-- [ ] Tạo repo
-- [ ] Viết README ban đầu
-- [ ] Tạo cấu trúc thư mục
-- [ ] Thêm `.gitignore`
-- [ ] Tạo branch strategy đơn giản
+- [x] Tạo repo
+- [x] Viết README ban đầu
+- [x] Tạo cấu trúc thư mục
+- [x] Thêm `.gitignore`
+- [x] Tạo branch strategy đơn giản
 
 #### Cấu trúc
 
 ```text
 enterprise-network-lab/
 ├── README.md
+├── .gitignore
 ├── diagrams/
 ├── configs/
 ├── docs/
-├── routing/
-├── security/
-├── monitoring/
+├── eve-exports/
+├── captures/
 ├── automation/
 ├── troubleshooting/
 └── screenshots/
 ```
 
+Quy ước branch/PR và bằng chứng: [Repository workflow](repository-workflow.md). Git không lưu thư mục rỗng; dùng README trong thư mục artifact và tạo thư mục con khi có file thật. Tài liệu routing/security/monitoring được bổ sung khi đến sprint liên quan.
+
 ## Sprint Review
-- [ ] Topology hoàn chỉnh
-- [ ] EVE-NG hoạt động
-- [ ] Repo GitHub hoạt động
-- [ ] IP Plan hoàn chỉnh
+- [x] Sơ đồ Markdown được review, HQ đối chiếu được; WAN planned/TBD có mốc chốt
+- [x] EVE/HQ có output boot/console/kết nối/config; mức bằng chứng IOSv lịch sử và Linux/ASAv theo xác nhận được ghi rõ, artifact bổ sung có nơi tiếp nhận
+- [x] Repo/workflow và docs bổ sung đã commit/review
+- [x] IP Plan được review; quyết định routing/failover còn mở có story tiếp nhận
+
+**CLOSED WITH FOLLOW-UPS ngày 10/10/2026.** Các phần chưa thử và ngoại lệ minh chứng được ghi rõ. Trạng thái theo report và [kế hoạch hoàn thiện](sprint-reports/sprint-00-closeout.md). Không yêu cầu WAN/VPN chạy trong Sprint 0.
 
 ---
 
 # Sprint 1 — Campus Switching
 
 ## EPIC-NET-01 — Enterprise Switching
+
+## Trình tự triển khai
+
+NET-101 → NET-102 trên link đang dùng, giữ uplink dự phòng shutdown → cấu hình/kiểm tra NET-104 → bật từng link dự phòng và xác nhận STP hội tụ → test VLAN khi chưa routing → NET-103 → failure test uplink. Kiểm tra mode STP hiện tại trước thao tác; mã story giữ nguyên nhưng không quyết định thứ tự kỹ thuật. Chi tiết tại S1-01/S1-02 trong [kế hoạch](sprint-reports/sprint-00-closeout.md).
 
 ## Kiến thức cần học
 - Broadcast domain
@@ -366,6 +388,8 @@ show interfaces trunk
 
 ### Story NET-103 — Triển khai Inter-VLAN Routing
 
+Kiểm chứng forwarding tối thiểu VLAN20↔30 trên image Core trước mở rộng toàn bộ VLAN. Giữ IP Plan .1 VIP/.2 CORE1/.3 CORE2; nếu client test dùng VIP thì cấu hình gateway HSRP tối thiểu tương ứng. Nghiệm thu HA/failover đầy đủ vẫn ở NET-202 Sprint 2.
+
 #### Tasks
 - [ ] Tạo SVI
 - [ ] Gán Gateway VLAN
@@ -379,6 +403,8 @@ show interfaces trunk
 ---
 
 ### Story NET-104 — Triển khai Rapid STP
+
+Cấu hình và kiểm tra root/port role trước khi bật toàn bộ uplink dự phòng. Dự kiến CORE1 root primary, CORE2 root secondary cho VLAN10–60 để khớp HSRP Active dự kiến; xác nhận mode được image hỗ trợ và trạng thái thực tế bằng output.
 
 #### Tasks
 - [ ] Chọn Root Primary
@@ -416,8 +442,10 @@ show spanning-tree
 
 #### Tasks
 - [ ] Tạo LACP giữa CORE1 và CORE2
-- [ ] Tạo LACP giữa Core và Access
+- [ ] Tạo LACP giữa một Core và một Access với ít nhất hai link cùng cặp endpoint
 - [ ] Kiểm tra channel-group
+
+Bảng cổng HQ hiện có một link mỗi cặp; thêm link và cập nhật physical topology trước bài test mất member. Không gộp hai Core độc lập thành một channel từ Access.
 
 #### Commands
 
@@ -733,7 +761,7 @@ Lặp lại tương tự Branch 1.
 ## EPIC-NET-05 — Infrastructure Services
 
 ## Kiến thức cần học
-- Ubuntu Server
+- Alpine Linux; package/service phù hợp distro và version thực tế
 - DNS
 - DHCP
 - NTP
@@ -743,14 +771,16 @@ Lặp lại tương tự Branch 1.
 
 ---
 
-### Story NET-701 — Ubuntu Infrastructure Server
+### Story NET-701 — Alpine Infrastructure Server
 
 #### Tasks
-- [ ] Tạo Ubuntu Server
+- [ ] Tạo Alpine Linux cho SRV-INFRA
 - [ ] Cấu hình static IP
 - [ ] Cấu hình hostname
 - [ ] Update package
 - [ ] Enable SSH
+
+Chọn package và service manager theo Alpine/version đã ghi trong inventory; không áp nguyên lệnh Ubuntu. NET-705 lựa chọn syslog server phù hợp với image/package thực tế.
 
 ---
 

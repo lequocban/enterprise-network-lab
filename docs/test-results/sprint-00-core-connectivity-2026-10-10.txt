@@ -1,0 +1,16 @@
+Source: Console transcripts supplied by the user on 2026-10-10.
+Agent did not execute these commands on the devices.
+Exact ping timestamps, source interfaces and image versions: not supplied.
+Scope: CORE1 <-> CORE2 connectivity to their VLAN10 design addresses.
+This is not the IOSv R1 <-> R2 test and not a VIP/HSRP failover test.
+
+CORE1#ping 10.10.10.3
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.3, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+CORE2#ping 10.10.10.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms

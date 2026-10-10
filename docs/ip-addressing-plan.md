@@ -88,3 +88,11 @@ Dải `10.255.0.36–10.255.0.255` được giữ để mở rộng. Địa ch�
 - Sau bản **Final v1.0**, bất kỳ đổi subnet, VIP hoặc vai trò gateway nào phải ghi lý do và cập nhật cả bảng kết nối, cấu hình và test cases trong cùng một PR.
 
 **Công việc triển khai còn lại:** tạo các interface VLAN 20–60, dựng thêm các node Edge/ISP/Firewall/Branch, xác nhận chính xác interface vật lý và kiểm thử connectivity/segmentation theo Sprint. Thiết kế được chốt trước để tránh đổi IP giữa các bài lab.
+
+## 7. Phạm vi đã chốt và quyết định cần bổ sung
+
+Final v1.0 chốt **phân bổ địa chỉ**. Default/return routes, gateway ASA outside và cơ chế failover, đường OSPF Branch và endpoint VPN còn mở tại [WAN-01](sprint-reports/sprint-00-closeout.md#3-việc-chuyển-tiếp-và-điều-kiện-thực-hiện). Chưa thêm VIP phía Edge hoặc đổi vai trò gateway khi chưa có quyết định tương ứng.
+
+Lab router tạm dùng `10.255.0.0/30` trong validation lịch sử phải chạy tách biệt T01 `10.255.0.0/29`; không ghép hai bài với địa chỉ .1/.2 trùng. Không dùng subnet test tạm để thay bảng transit này.
+
+Kết quả review tĩnh nằm ở [Validation Sprint 0](test-results/sprint-00-validation.md#6-review-tĩnh-ip-plan); không thay thế kiểm thử runtime. Topology dự kiến và cổng cần đối chiếu tại [Logical](../diagrams/logical-topology.md) và [Physical](../diagrams/physical-topology.md).

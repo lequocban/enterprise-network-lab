@@ -1,0 +1,29 @@
+Source: console metadata and intervening event supplied by the practitioner on 2026-10-10.
+Agent did not run device commands. Full configuration bodies are stored in the four
+CORE1/CORE2.post-switchover*.cfg files under configs/core/sprint-00/.
+Prompt/preamble removed from those config files; trailing whitespace normalized.
+This file retains the metadata and event separately; it is not a full console transcript.
+
+CORE1#show run
+Building configuration...
+Current configuration : 1272 bytes
+! Last configuration change at 08:35:12 UTC Sat Oct 10 2026
+
+CORE1#show
+*Oct 10 08:35:49.118: %HSRP-5-STATECHANGE: Vlan10 Grp 10 state Standby -> Active
+CORE1#show start
+Using 785 out of 524288 bytes, uncompressed size = 1271 bytes
+! Last configuration change at 14:49:27 UTC Thu Oct 8 2026
+
+CORE2#show run
+Building configuration...
+Current configuration : 1142 bytes
+! Last configuration change at 08:35:11 UTC Sat Oct 10 2026
+CORE2#show start
+Using 713 out of 524288 bytes, uncompressed size = 1134 bytes
+! Last configuration change at 14:53:56 UTC Thu Oct 8 2026
+
+Practitioner clarification received in the same exchange:
+An operation (node restart/reload or SVI/trunk shutdown/no shutdown) did occur before
+this collection. The exact operation, affected node/interface and time have not yet
+been specified. Do not infer that this proves a particular cause of the event.

@@ -1,24 +1,32 @@
 # Topology vật lý — bảng nối cổng và kế hoạch mở rộng
 
-**Ngày cập nhật:** 10/10/2026
+**Ngày cập nhật:** 18/10/2026
 
-**Trạng thái:** cabling HQ đã đối chiếu với [ảnh người thực hành cung cấp ngày 10/10/2026](../screenshots/sprint-00/hq-topology-2026-10-10.png); export sạch tám node/chín link và config bốn switch đã đối chiếu; runtime VLAN10 hai Core có evidence, toàn Campus chưa nghiệm thu. `TBD` là chưa xác định, không phải cổng đã tạo.
+**Trạng thái hiện tại:** HQ Sprint2 có tám node/mười một link, đã đối chiếu [export18/10](../docs/test-results/sprint-02-export-inspection-2026-10-18.txt) với bốn final running. Mục0 là trạng thái hiện tại; bảng mục1 và các checkpoint ngày trước ở mục3 là lịch sử trước/đang triển khai. `TBD` là chưa xác định, không phải cổng đã tạo. Cabling hợp lệ không đồng nghĩa lỗi dự phòng Po1 đã được sửa.
 
-## 1. HQ theo bảng cổng đã báo cáo
+## 0. Cabling Sprint 2 đã kiểm tra
+
+- Po1: CORE1 e0/0↔CORE2 e0/0 (link cũ), CORE1 e0/3↔CORE2 e0/3 (link mới).
+- Po11: CORE1 e0/1↔ACCESS1 e0/0 (link cũ), CORE1 e1/1↔ACCESS1 e1/0 (link mới).
+- CORE2–ACCESS1, hai trunk tới ACCESS2 và bốn dây VPCS giữ đúng các cổng ở bảng baseline mục1; tổng cộng11 link. Các link cũ thuộc Po1/Po11 nay là member LACP, không phải trunk độc lập.
+- CORE1 e1/0 vẫn là cổng test shutdown, không có dây trong export. PC-ACC và PC-GUEST đã về VLAN40/60. Không thêm server VLAN50 cố định từ các bài VPCS tạm.
+- [Báo cáo Sprint2](../docs/sprint-reports/sprint-02-report.md) phân biệt runtime cuối hai P, các bài HA chức năng và lỗi tự loại member Po1 đang mở. Chưa thử import/restore ZIP.
+
+## 1. Baseline HQ trước LACP theo ảnh/export Sprint 01
 
 | Thiết bị A | Cổng A | Thiết bị B | Cổng B | Vai trò |
 |---|---|---|---|---|
-| CORE1 | e0/0 | CORE2 | e0/0 | Inter-core, VLAN10 test; mở rộng trunk ở Sprint 1 |
-| CORE1 | e0/1 | ACCESS1 | e0/0 | Uplink chính dự kiến |
-| CORE2 | e0/1 | ACCESS1 | e0/1 | Uplink dự phòng dự kiến |
-| CORE1 | e0/2 | ACCESS2 | e0/0 | Uplink chính dự kiến |
-| CORE2 | e0/2 | ACCESS2 | e0/1 | Uplink dự phòng dự kiến |
+| CORE1 | e0/0 | CORE2 | e0/0 | Inter-core trunk native99, allowed bảy VLAN |
+| CORE1 | e0/1 | ACCESS1 | e0/0 | Uplink chính, trunk native99 |
+| CORE2 | e0/1 | ACCESS1 | e0/1 | Uplink dự phòng, trunk native99 |
+| CORE1 | e0/2 | ACCESS2 | e0/0 | Uplink chính, trunk native99 |
+| CORE2 | e0/2 | ACCESS2 | e0/1 | Uplink dự phòng, trunk native99 |
 | ACCESS1 | e0/2 | PC-IT, VPCS tạm | eth0 | Test VLAN20 |
 | ACCESS1 | e0/3 | PC-HR, VPCS tạm | eth0 | Test VLAN30 |
 | ACCESS2 | e0/2 | PC-ACC, VPCS tạm | eth0 | Test VLAN40 |
 | ACCESS2 | e0/3 | PC-GUEST, VPCS tạm | eth0 | Test VLAN60 |
 
-Bảng mô tả cabling khớp ảnh HQ được cung cấp ngày 10/10/2026, chưa xác nhận tất cả interface đang up hoặc trunk đã cấu hình. Trước thao tác Sprint 1, đối chiếu trạng thái/config thực tế. Ảnh mới không có VPCS tạm nối CORE1 e1/0; bài test đó vẫn giữ trong lịch sử validation, không bổ sung thành node hạ tầng cố định.
+Bảng mô tả cabling khớp ảnh HQ ngày 10/10/2026 và ZIP Sprint 01 kiểm tra ngày 11/10/2026. Năm trunk đã có cấu hình hai đầu được review; trạng thái forwarding phải đọc theo VLAN/STP. CORE1 e1/0 không nối endpoint trong export, đã shutdown ở snapshot cuối; bài test VLAN10 cũ giữ trong lịch sử, không bổ sung thành node hạ tầng cố định.
 
 ## 2. Kết nối mở rộng dự kiến
 
@@ -39,8 +47,10 @@ T01/T02 cần chốt trước Sprint 3. Khi chọn Ethernet switch node riêng c
 
 ## 3. Dự phòng và thay đổi cabling
 
-- Sprint 1: giữ link dự phòng shutdown lúc chuẩn bị VLAN/trunk; kiểm tra STP trước bật đủ link, theo [S1-01](../docs/sprint-reports/sprint-00-closeout.md#4-điểm-bắt-đầu-sprint-1).
-- Sprint 2: hiện mỗi cặp Core–Core/Core–Access chỉ có một link trong bảng. Bài LACP cần thêm ít nhất một link cùng cặp endpoint và cập nhật bảng cổng trước test mất member.
+- Sprint 1 đã mở đủ link sau chốt root; trạng thái bình thường Access e0/0 Root/FWD, e0/1 Altn/BLK. Bài thử ACCESS1 và giới hạn ACCESS2 nằm trong [validation](../docs/test-results/sprint-01-validation.md).
+- Sprint 2, runtime12/10: [Po1 CORE1–CORE2 đã có e0/0(P) và e0/3(P) ở hai Core](../docs/test-results/sprint-02-po1-progress-2026-10-12.md); neighbor nhận cùng partner với remote Port Number0x1/0x4, phù hợp cặp e0/0 ↔ e0/0 và e0/3 ↔ e0/3 đã hướng dẫn. Bảng mục1 là baseline trước LACP; chưa có ảnh/export mới để đối chiếu toàn bộ cabling. Đích Po1-only là tám node/mười link nếu các link khác giữ nguyên, không ghi ZIP cũ thành mười link.
+- Checkpoint Po1: runtime/lưu OK/ping từ12/10 giữ lịch sử, bộ bốn snapshot hoàn thiện nguồn16/10; S2-FWD-01 phục hồi, S2-IOL-01 giữ nguyên. Không có bằng chứng thay đổi cabling trong lượt xác nhận nguồn.
+- [Po11 hai member/checkpoint đã lưu16/10](../docs/test-results/sprint-02-po11-progress-2026-10-16.md): CORE1 e0/1 ↔ ACCESS1 e0/0 và CORE1 e1/1 ↔ ACCESS1 e1/0 đều bundled P, peer mapping phù hợp; cổng mới up/up. ACCESS1 VLAN20 dùng Po11 Root/FWD/cost56, đường CORE2 vẫn riêng/Altn BLK; Po1 CORE1 vẫn hai P. Bốn snapshot CORE1/ACCESS1 running-startup đã khớp, không còn bước save/thu lại. Port test CORE1 e1/0 giữ nguyên; tiếp theo thử mất từng member Po11. Ảnh/export mới chưa có; nếu dây khác không đổi dự kiến8 node/11 link, không ghi ZIP cũ thành export mới.
 - Không gom uplink tới hai Core độc lập vào một Port-Channel duy nhất.
 - Một ASAv không tạo firewall HA. Các failure test phải tách mất Core, uplink, Edge, ISP và FW.
 

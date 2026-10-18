@@ -1,0 +1,147 @@
+CORE1#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+CORE1(config)#interface Ethernet1/1
+CORE1(config-if)# shutdown
+CORE1(config-if)#end
+CORE1#show running-config interface Ethernet1/1
+Building configuration...
+
+Current configuration : 39 bytes
+!
+interface Ethernet1/1
+ shutdown
+end
+
+CORE1#wr
+Building configuration...
+Compressed configuration from 3310 bytes to 1681 bytes[OK]
+CORE1#show startup-config | section ^interface Ethernet1/1
+interface Ethernet1/1
+ shutdown
+CORE1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up
+Ethernet0/1            unassigned      YES unset  up                    up
+Ethernet0/2            unassigned      YES unset  up                    up
+Ethernet0/3            unassigned      YES unset  up                    up
+Ethernet1/0            unassigned      YES unset  administratively down down
+Ethernet1/1            unassigned      YES unset  administratively down down
+Ethernet1/2            unassigned      YES unset  up                    up
+Ethernet1/3            unassigned      YES unset  up                    up
+Ethernet2/0            unassigned      YES unset  up                    up
+Ethernet2/1            unassigned      YES unset  up                    up
+Ethernet2/2            unassigned      YES unset  up                    up
+Ethernet2/3            unassigned      YES unset  up                    up
+Port-channel1          unassigned      YES unset  up                    up
+Vlan10                 10.10.10.2      YES NVRAM  up                    up
+Vlan20                 10.10.20.2      YES NVRAM  up                    up
+Vlan30                 10.10.30.2      YES NVRAM  up                    up
+Vlan40                 10.10.40.2      YES NVRAM  up                    up
+Vlan50                 10.10.50.2      YES NVRAM  up                    up
+Vlan60                 10.10.60.2      YES NVRAM  up                    up
+CORE1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(P)
+
+CORE1#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+Vl20        20   110 P Active  local           10.10.20.3      10.10.20.1
+Vl30        30   110 P Active  local           10.10.30.3      10.10.30.1
+Vl40        40   110 P Active  local           10.10.40.3      10.10.40.1
+Vl50        50   110 P Active  local           10.10.50.3      10.10.50.1
+Vl60        60   110 P Active  local           10.10.60.3      10.10.60.1
+CORE1#
+*Oct 16 14:27:04.067: %SYS-5-CONFIG_I: Configured from console by console
+CORE1#
+*Oct 16 14:27:06.072: %LINK-5-CHANGED: Interface Ethernet1/1, changed state to administratively down
+*Oct 16 14:27:07.073: %LINEPROTO-5-UPDOWN: Line proto
+
+ACCESS1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up
+Ethernet0/1            unassigned      YES unset  up                    up
+Ethernet0/2            unassigned      YES unset  up                    up
+Ethernet0/3            unassigned      YES unset  up                    up
+Ethernet1/0            unassigned      YES unset  administratively down down
+Ethernet1/1            unassigned      YES unset  up                    up
+Ethernet1/2            unassigned      YES unset  up                    up
+Ethernet1/3            unassigned      YES unset  up                    up
+Vlan10                 10.10.10.11     YES NVRAM  up                    up
+ACCESS1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      99
+Et0/1       on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       10,20,30,40,50,60,99
+Et0/1       none
+ACCESS1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+Et0/1               Altn BLK 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
+
+PC-IT-01> ping 10.10.20.1
+
+84 bytes from 10.10.20.1 icmp_seq=1 ttl=255 time=0.513 ms
+84 bytes from 10.10.20.1 icmp_seq=2 ttl=255 time=0.626 ms
+84 bytes from 10.10.20.1 icmp_seq=3 ttl=255 time=0.724 ms
+84 bytes from 10.10.20.1 icmp_seq=4 ttl=255 time=0.669 ms
+84 bytes from 10.10.20.1 icmp_seq=5 ttl=255 time=0.832 ms
+
+PC-IT-01> ping 10.10.40.20
+
+84 bytes from 10.10.40.20 icmp_seq=1 ttl=63 time=2.755 ms
+84 bytes from 10.10.40.20 icmp_seq=2 ttl=63 time=0.990 ms
+84 bytes from 10.10.40.20 icmp_seq=3 ttl=63 time=1.359 ms
+84 bytes from 10.10.40.20 icmp_seq=4 ttl=63 time=1.414 ms
+84 bytes from 10.10.40.20 icmp_seq=5 ttl=63 time=1.639 ms
+
+PC-IT-01>

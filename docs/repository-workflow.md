@@ -16,7 +16,7 @@
 - `docs/test-results/`: output `.txt`, tổng hợp `.md`; `*.log` hiện bị ignore.
 - `eve-exports/`: export thật, ghi hash/metadata và có/không cấu hình nhúng; không mặc định đã import/restore được.
 - `screenshots/sprint-<NN>/`: ảnh thật có ngày và nguồn. Git không lưu thư mục rỗng; thêm README hoặc tạo thư mục khi có artifact.
-- `ai-agent/`: ghi chú/kế hoạch nội bộ bị ignore; docs công khai không liên kết vào đây.
+- `ai-agent/`: kế hoạch thao tác, hướng dẫn từng buổi, bản nháp và ghi chú nội bộ bị ignore; docs công khai không liên kết vào đây. Thiết kế, báo cáo, tiêu chí nghiệm thu và bằng chứng đã review tiếp tục nằm trong các thư mục công khai tương ứng.
 - Không đưa binary Cisco/VM image, private key hoặc credential vào Git. Review config/export trước stage.
 
 ## Nghiệm thu

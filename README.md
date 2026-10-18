@@ -26,9 +26,17 @@ Lenovo Legion 5 (Ryzen 7 7840H, RAM 16 GB), VMware Workstation; EVE VM dự ki�
 
 ZIP chỉ chứa topology/metadata, phải đi kèm config và VLAN evidence; import/reload/restore chưa thử. IOSv ping lịch sử 4/5, boot ASAv/Alpine theo xác nhận người thực hành; artifact bổ sung có mốc tiếp nhận. CORE2/ACCESS1 còn khác VTY running/startup. Không ghi các giới hạn này thành PASS hoặc nghiệm thu failover client/Inter-VLAN.
 
+## Sprint 1 — Hoàn thành thực hành có follow-ups, 11/10/2026
+
+VLAN/trunk, STP root và sáu SVI/HSRP đã triển khai; bốn running-config cuối được review. Forwarding hoạt động theo xác nhận người thực hành với `no ip cef` trên hai Core. Bài uplink ACCESS1 có log hai khoảng mất 15 gói rồi phục hồi; ACCESS2 bỏ thử theo yêu cầu.
+
+Export Sprint01 đạt CRC/XML, đúng tám node/chín link; ZIP không nhúng config. [Báo cáo](docs/sprint-reports/sprint-01-report.md) và [validation13 ca](docs/test-results/sprint-01-validation.md) giữ mức bằng chứng tại mốc thực hành, các phần startup/restore và convergence chưa đối chiếu đầy đủ. Hồ sơ Sprint01 được lưu bằng commit local riêng trước Sprint02; chưa push/PR/merge. Đây là mốc chốt thực hành, chưa phải toàn bộ DoD hoặc mọi ca PASS.
+
 ## Tài liệu
 
 - [Sprint 0 Report](docs/sprint-reports/sprint-00-report.md) · [Biên bản đóng và việc bàn giao](docs/sprint-reports/sprint-00-closeout.md)
+- [Sprint 1 Report](docs/sprint-reports/sprint-01-report.md) · [Validation Sprint 1](docs/test-results/sprint-01-validation.md)
+- [Điều tra CEF Sprint 1](docs/test-results/sprint-01-core1-cef-investigation-2026-10-10.md) · [Review cấu hình](docs/test-results/sprint-01-config-review-2026-10-11.md)
 - [Validation](docs/test-results/sprint-00-validation.md) · [Export và tái dựng](eve-exports/README.md) · [Cấu hình](configs/README.md)
 - [Logical topology](diagrams/logical-topology.md) · [Physical topology](diagrams/physical-topology.md)
 - [IP Plan Final v1.0](docs/ip-addressing-plan.md) · [Architecture](docs/network-architecture.md)
@@ -37,12 +45,12 @@ ZIP chỉ chứa topology/metadata, phải đi kèm config và VLAN evidence; im
 ## Tiến độ và bước tiếp theo
 
 - Sprint 0: đóng nền tảng, follow-up theo biên bản.
-- Sprint 1: VLAN/trunk/SVI, STP và Inter-VLAN; chưa bắt đầu triển khai đầy đủ.
-- Sprint 2: LACP và full HSRP/client failover.
+- Sprint 1: hoàn thành thực hành có follow-ups; báo cáo/config/export đã lưu local, không ghi toàn bộ test PASS hoặc DoD DONE.
+- Sprint2: [Bàn giao ngày18/10/2026](docs/sprint-reports/sprint-02-report.md): đủ bốn final running, Po1/Po11 hai member ở runtime cuối và export8 node/11 link đã kiểm tra. Các bài mất channel/Core có bằng chứng HA chức năng; [lỗi chuyển member Po1](docs/test-results/sprint-02-po1-member-check-2026-10-18.md) còn mở. ZIP chỉ chứa topology; restore và số đo thời gian HA chưa nghiệm thu đầy đủ. Không đánh dấu toàn bộ Sprint2 DONE.
 - Sprint 3–6: WAN, OSPF/BGP, firewall và VPN.
 - Sprint 7–9: Linux services, monitoring, automation.
 - Sprint 10–11: troubleshooting và portfolio.
 
-Bắt đầu Sprint 1 bằng kiểm tra baseline, giữ uplink dự phòng shutdown khi dựng VLAN/trunk, kiểm tra STP trước bật đủ link, rồi test Inter-VLAN. Chỉ làm việc trong thư mục dự án; ưu tiên docs/Markdown, kế hoạch nội bộ ở `ai-agent/` được ignore.
+Baseline dùng tiếp là cấu hình và export Sprint 01, giữ ngoại lệ CEF và việc bàn giao trong báo cáo. Trước LACP Sprint 2, thêm link cùng cặp endpoint và cập nhật bảng cổng. Kế hoạch nội bộ ở `ai-agent/` được ignore.
 
 Đây là lab học tập/portfolio, chưa phải hạ tầng production.

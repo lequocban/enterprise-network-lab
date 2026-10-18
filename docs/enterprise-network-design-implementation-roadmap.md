@@ -318,9 +318,11 @@ Quy ước branch/PR và bằng chứng: [Repository workflow](repository-workfl
 
 ## EPIC-NET-01 — Enterprise Switching
 
+**Mốc 11/10/2026:** hoàn thành thực hành có follow-ups theo [báo cáo Sprint 01](sprint-reports/sprint-01-report.md) và [validation](test-results/sprint-01-validation.md). Checkbox cấu hình dựa trên snapshot/output; test có ghi "theo xác nhận" chưa đồng nghĩa log đủ số gói. Startup/restore, một số log hai chiều, ảnh/Git DoD còn thiếu; không đánh dấu mọi story DONE. Bỏ thử uplink ACCESS2 theo yêu cầu người thực hành.
+
 ## Trình tự triển khai
 
-NET-101 → NET-102 trên link đang dùng, giữ uplink dự phòng shutdown → cấu hình/kiểm tra NET-104 → bật từng link dự phòng và xác nhận STP hội tụ → test VLAN khi chưa routing → NET-103 → failure test uplink. Kiểm tra mode STP hiện tại trước thao tác; mã story giữ nguyên nhưng không quyết định thứ tự kỹ thuật. Chi tiết tại S1-01/S1-02 trong [kế hoạch](sprint-reports/sprint-00-closeout.md).
+NET-101 → NET-102 trên link đang dùng, giữ uplink dự phòng shutdown → cấu hình/kiểm tra NET-104 → bật từng link dự phòng và xác nhận STP hội tụ → test VLAN khi chưa routing → NET-103 → failure test uplink. Kiểm tra mode STP hiện tại trước thao tác; mã story giữ nguyên nhưng không quyết định thứ tự kỹ thuật. Kết quả thực tế và các điều chỉnh nằm trong [validation Sprint 01](test-results/sprint-01-validation.md).
 
 ## Kiến thức cần học
 - Broadcast domain
@@ -352,10 +354,10 @@ NET-101 → NET-102 trên link đang dùng, giữ uplink dự phòng shutdown �
 | 99 | NATIVE |
 
 #### Tasks
-- [ ] Tạo VLAN
-- [ ] Đặt tên VLAN
-- [ ] Gán port access
-- [ ] Kiểm tra VLAN database
+- [x] Tạo VLAN — bảy VLAN trên bốn running-config
+- [x] Đặt tên VLAN — khớp IP Plan
+- [x] Gán port access — IT20/HR30/ACC40/GUEST60 trong snapshot cuối
+- [ ] Kiểm tra VLAN database — chưa có bộ runtime cuối riêng đủ bốn switch
 
 #### Commands cần hiểu
 
@@ -365,18 +367,18 @@ show interfaces switchport
 ```
 
 #### Test
-- [ ] PC cùng VLAN ping được nhau
-- [ ] PC khác VLAN chưa ping được nhau
+- [x] PC cùng VLAN ping được nhau — theo xác nhận thực hành, chưa có log riêng đủ số gói/MAC
+- [x] PC khác VLAN chưa ping được nhau — pha trước routing theo xác nhận, chưa có log ARP/SVI riêng
 
 ---
 
 ### Story NET-102 — Triển khai 802.1Q Trunk
 
 #### Tasks
-- [ ] Cấu hình trunk Core ↔ Access
-- [ ] Đặt Native VLAN
-- [ ] Giới hạn VLAN được phép đi qua trunk
-- [ ] Disable DTP nếu image hỗ trợ
+- [x] Cấu hình trunk Core ↔ Access — và inter-core; mười đầu khớp cấu hình
+- [x] Đặt Native VLAN — 99 trên cả năm link
+- [x] Giới hạn VLAN được phép đi qua trunk — 10,20,30,40,50,60,99
+- [x] Disable DTP nếu image hỗ trợ — `switchport nonegotiate` trong snapshot
 
 #### Test
 
@@ -391,14 +393,14 @@ show interfaces trunk
 Kiểm chứng forwarding tối thiểu VLAN20↔30 trên image Core trước mở rộng toàn bộ VLAN. Giữ IP Plan .1 VIP/.2 CORE1/.3 CORE2; nếu client test dùng VIP thì cấu hình gateway HSRP tối thiểu tương ứng. Nghiệm thu HA/failover đầy đủ vẫn ở NET-202 Sprint 2.
 
 #### Tasks
-- [ ] Tạo SVI
-- [ ] Gán Gateway VLAN
-- [ ] Bật Layer 3 routing
-- [ ] Test liên VLAN
+- [x] Tạo SVI — sáu SVI mỗi Core, VLAN99 chỉ L2
+- [x] Gán Gateway VLAN — VIP .1, CORE1 .2, CORE2 .3
+- [x] Bật Layer 3 routing — forwarding theo xác nhận, giữ workaround `no ip cef` hai Core
+- [x] Test liên VLAN — có xác nhận thực hành và log tới VLAN40; giới hạn từng chiều ở validation
 
 #### Acceptance Criteria
-- [ ] VLAN 20 ping VLAN 30
-- [ ] VLAN 30 ping Server VLAN
+- [x] VLAN 20 ping VLAN 30 — theo xác nhận sau workaround, chưa có log đủ từng pha trên hai Core
+- [ ] VLAN 30 ping Server VLAN — đã hướng dẫn VPCS tạm VLAN50, chưa đủ log/xác nhận riêng hai chiều
 
 ---
 
@@ -407,10 +409,10 @@ Kiểm chứng forwarding tối thiểu VLAN20↔30 trên image Core trước m�
 Cấu hình và kiểm tra root/port role trước khi bật toàn bộ uplink dự phòng. Dự kiến CORE1 root primary, CORE2 root secondary cho VLAN10–60 để khớp HSRP Active dự kiến; xác nhận mode được image hỗ trợ và trạng thái thực tế bằng output.
 
 #### Tasks
-- [ ] Chọn Root Primary
-- [ ] Chọn Root Secondary
-- [ ] Xác định blocked port
-- [ ] Test failover
+- [x] Chọn Root Primary — CORE1 priority24576
+- [x] Chọn Root Secondary — CORE2 priority28672
+- [x] Xác định blocked port — Access e0/1 trên bảy VLAN, inconsistent0
+- [x] Test failover — ACCESS1 có log traffic phục hồi, acceptance STP gốc chỉ đạt một phần; ACCESS2 bỏ thử
 
 #### Test
 
@@ -419,14 +421,16 @@ show spanning-tree
 ```
 
 #### Lab Failure Test
-- [ ] Shutdown uplink chính
-- [ ] Quan sát STP convergence
+- [x] Shutdown uplink chính — bài ACCESS1 theo người thực hành, có log traffic liên quan
+- [ ] Quan sát STP convergence — thiếu timestamp/port role trong lúc lỗi; không suy thời gian từ số gói mất
 
 ---
 
 # Sprint 2 — EtherChannel và High Availability
 
 ## EPIC-NET-03 — Network High Availability
+
+**Cập nhật 18/10/2026:** đã triển khai Po1 CORE1–CORE2 và Po11 CORE1–ACCESS1; đủ bốn final running và export8 node/11 link đã kiểm tra. Các bài mất channel/Core có bằng chứng chức năng trong [báo cáo Sprint2](sprint-reports/sprint-02-report.md). Lỗi tự chuyển tiếp khi chỉ mất một đầu member Po1 vẫn mở; môi trường EVE/image là giả thuyết chưa xác nhận. Theo lựa chọn người thực hành, dừng lặp từng VLAN và dùng đường đại diện; chưa nghiệm thu toàn bộ DoD, số đo HA hoặc restore. Kế hoạch ban đầu12/10 tiếp nhận các follow-up từ [Sprint1](sprint-reports/sprint-01-report.md); giữ kết quả thực tế và giới hạn riêng.
 
 ## Kiến thức cần học
 - LACP
@@ -441,11 +445,11 @@ show spanning-tree
 ### Story NET-201 — EtherChannel
 
 #### Tasks
-- [ ] Tạo LACP giữa CORE1 và CORE2
-- [ ] Tạo LACP giữa một Core và một Access với ít nhất hai link cùng cặp endpoint
-- [ ] Kiểm tra channel-group
+- [x] Tạo LACP giữa CORE1 và CORE2 — Po1 e0/0+e0/3 hai đầu
+- [x] Tạo LACP giữa một Core và một Access với ít nhất hai link cùng cặp endpoint — Po11 CORE1 e0/1+e1/1 ↔ ACCESS1 e0/0+e1/0
+- [x] Kiểm tra channel-group — runtime cuối hai member P của mỗi channel
 
-Bảng cổng HQ hiện có một link mỗi cặp; thêm link và cập nhật physical topology trước bài test mất member. Không gộp hai Core độc lập thành một channel từ Access.
+Bảng cổng [physical topology](../diagrams/physical-topology.md) đã cập nhật hai link mới và đối chiếu export Sprint2. Không gộp hai Core độc lập thành một channel từ Access.
 
 #### Commands
 
@@ -455,20 +459,22 @@ show interfaces port-channel
 ```
 
 #### Failure Test
-- [ ] Shutdown một interface thành viên
-- [ ] Xác nhận Port-Channel vẫn hoạt động
+- [x] Shutdown một interface thành viên — đã thử các member, giữ log/capture và khôi phục
+- [ ] Xác nhận Port-Channel vẫn hoạt động — runtime SU chưa đủ; Po1 có lượt mất traffic khi chỉ tắt một đầu e0/3, chưa đạt dự phòng tự động
 
 ---
 
 ### Story NET-202 — HSRP Gateway Redundancy
 
+SVI/VIP/priority/preempt đã có trong cấu hình Sprint 1. Sprint 2 đối chiếu sáu nhóm runtime và sửa lệch nếu có, sau đó kiểm thử client qua VIP khi dừng toàn CORE1 và khi khôi phục; không xóa/tạo lại cấu hình chỉ để thực hiện task.
+
 #### Tasks
-- [ ] Tạo SVI trên CORE1
-- [ ] Tạo SVI trên CORE2
-- [ ] Cấu hình Virtual IP
-- [ ] Cấu hình priority
-- [ ] Cấu hình preempt
-- [ ] Theo dõi trạng thái Active/Standby
+- [x] Tạo SVI trên CORE1 — giữ và đối chiếu sáu SVI từ Sprint1
+- [x] Tạo SVI trên CORE2 — giữ và đối chiếu sáu SVI từ Sprint1
+- [x] Cấu hình Virtual IP — .1 cho VLAN10/20/30/40/50/60
+- [x] Cấu hình priority — CORE1 110, CORE2 mặc định100
+- [x] Cấu hình preempt — CORE1 trở lại Active sau Start
+- [x] Theo dõi trạng thái Active/Standby — có runtime sáu nhóm trước/trong/sau mất Core
 
 #### Ví dụ
 
@@ -479,12 +485,14 @@ CORE2: 10.10.20.3
 ```
 
 #### Test
-- [ ] Client dùng VIP làm gateway
-- [ ] Shutdown CORE1
-- [ ] Client vẫn ping được mạng ngoài
+- [x] Client dùng VIP làm gateway — theo IP Plan và output client
+- [x] Shutdown CORE1 — Stop toàn node qua EVE, không chỉ tắt một interface
+- [x] Client vẫn ping được đích ngoài subnet tại HQ qua VIP khi CORE1 dừng — các luồng IT→ACC, HR↔VLAN50 tạm, IT↔client VLAN10 tạm có bằng chứng; không suy toàn bộ VLAN/chiều hoặc thời gian hội tụ. WAN/Internet failover tiếp nhận Sprint3–4 sau khi có routing và endpoint thật
 
 #### Deliverable
 `screenshots/hsrp-failover.png`
+
+Kế hoạch chi tiết dùng bộ ảnh thật `screenshots/sprint-02/` có nguồn/ngày và liên kết từ validation để thể hiện trước–trong–sau lỗi; chưa có ảnh kết quả Sprint 2.
 
 ---
 

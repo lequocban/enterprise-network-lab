@@ -1,0 +1,47 @@
+Sprint 01 HQ export inspection - 2026-10-11 (Asia/Saigon)
+Method: read-only local Python zipfile.testzip, XML parsing, unique-node and exact endpoint comparison.
+No EVE import, reload or device command execution.
+Archive: eve-exports/sprint-01-hq-2026-10-11.zip
+Archive bytes: 947
+SHA256: 5B84F2E09DBEC6101E1D7AE925A42DAC6A77575C37131726C4F4715EB94F3D83
+ZIP entry: Enterprise-Network-HQ.unl
+UNL bytes: 4241
+UNL SHA256: 8A938D4DFBE67751F046055E0B09A1FA4C3652FCE2098C5B178AB9394E74BE12
+ZIP CRC: PASS
+XML parse: PASS
+Lab: Enterprise-Network-HQ
+Nodes: 8; networks: 9
+Unique node names and IDs: PASS
+Each network has exactly two endpoints: PASS
+All nine expected HQ links match: PASS
+
+LINKS:
+CORE1:e0/0 <-> CORE2:e0/0
+CORE1:e0/1 <-> ACCESS1:e0/0
+CORE2:e0/1 <-> ACCESS1:e0/1
+CORE1:e0/2 <-> ACCESS2:e0/0
+CORE2:e0/2 <-> ACCESS2:e0/1
+ACCESS1:e0/2 <-> PC-IT:eth0
+ACCESS1:e0/3 <-> PC-HR:eth0
+ACCESS2:e0/2 <-> PC-ACC:eth0
+ACCESS2:e0/3 <-> PC-GUEST:eth0
+
+NODES:
+CORE1 ID1: IOL; RAM512; ethernet groups3; NVRAM1024; config=0
+CORE2 ID2: IOL; RAM512; ethernet groups3; NVRAM1024; config=0
+ACCESS1 ID3: IOL; RAM256; ethernet groups2; NVRAM1024; config=0
+ACCESS2 ID4: IOL; RAM256; ethernet groups2; NVRAM1024; config=0
+PC-IT ID5: VPCS; config=0
+PC-HR ID6: VPCS; config=0
+PC-ACC ID7: VPCS; config=0
+PC-GUEST ID9: VPCS; config=0
+IOL image: L2-ADVENTERPRISEK9-M-15.2-IRON-20151103.bin
+Node CPU attributes: absent.
+
+Only one UNL ZIP entry; no extra configuration files.
+All nodes config=0; no XML tags containing config payloads.
+The archive contains topology/metadata, not embedded device startup-config or VLAN database backups.
+Separate Sprint 01 running snapshots must accompany this archive.
+UNL bytes differ from Sprint 00, but node names and all expected HQ links still match.
+Sprint 00 ZIP retained; no existing export was replaced.
+No import, full restore, startup persistence or client traffic acceptance is inferred from ZIP inspection.

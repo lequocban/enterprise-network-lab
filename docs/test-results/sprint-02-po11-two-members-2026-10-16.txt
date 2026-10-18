@@ -1,0 +1,271 @@
+CORE1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 2
+Number of aggregators:           2
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(P)
+11     Po11(SU)        LACP      Et0/1(P)    Et1/1(P)
+
+CORE1#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode
+
+Channel group 1 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.2000  25s    0x0    0x1    0x1     0x3D
+Et0/3     SA      32768     aabb.cc80.2000  16s    0x0    0x1    0x4     0x3D
+
+Channel group 11 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/1     SA      32768     aabb.cc80.3000   0s    0x0    0xB    0x1     0x3D
+Et1/1     SA      32768     aabb.cc80.3000   4s    0x0    0xB    0x101   0x3D
+CORE1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/2       on               802.1q         trunking      99
+Po1         on               802.1q         trunking      99
+Po11        on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+CORE1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             This bridge is the root
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    24596  (priority 24576 sys-id-ext 20)
+             Address     aabb.cc00.1000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/2               Desg FWD 100       128.3    Shr
+Po1                 Desg FWD 56        128.65   Shr
+Po11                Desg FWD 56        128.66   Shr
+
+
+CORE1#show spanning-tree inconsistentports
+
+Name                 Interface                Inconsistency
+-------------------- ------------------------ ------------------
+
+Number of inconsistent ports (segments) in the system : 0
+ACCESS1#
+ACCESS1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+11     Po11(SU)        LACP      Et0/0(P)    Et1/0(P)
+
+ACCESS1#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode
+
+Channel group 11 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.1000   4s    0x0    0xB    0x2     0x3D
+Et1/0     SA      32768     aabb.cc80.1000  17s    0x0    0xB    0x102   0x3D
+ACCESS1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/1       on               802.1q         trunking      99
+Po11        on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/1       10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/1       10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/1       none
+Po11        10,20,30,40,50,60,99
+ACCESS1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        56
+             Port        65 (Port-channel11)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/1               Altn BLK 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
+Po11                Root FWD 56        128.65   Shr
+
+
+ACCESS1#show spanning-tree inconsistentports
+
+Name                 Interface                Inconsistency
+-------------------- ------------------------ ------------------
+
+Number of inconsistent ports (segments) in the system : 0
+
+ACCESS1#
+
+CORE1#show int e1/1
+Ethernet1/1 is up, line protocol is up (connected)
+  Hardware is AmdP2, address is aabb.cc00.1011 (bia aabb.cc00.1011)
+  Description: PO11_TO_ACCESS1_MEMBER2
+  MTU 1500 bytes, BW 10000 Kbit/sec, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Auto-duplex, Auto-speed, media type is unknown
+  input flow-control is off, output flow-control is unsupported
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:18, output 00:00:20, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/2000/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/0 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     28 packets input, 8081 bytes, 0 no buffer
+     Received 27 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 input packets with dribble condition detected
+     517 packets output, 49525 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+CORE1#show standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+Vl20        20   110 P Active  local           10.10.20.3      10.10.20.1
+Vl30        30   110 P Active  local           10.10.30.3      10.10.30.1
+Vl40        40   110 P Active  local           10.10.40.3      10.10.40.1
+Vl50        50   110 P Active  local           10.10.50.3      10.10.50.1
+Vl60        60   110 P Active  local           10.10.60.3      10.10.60.1
+CORE1#
+
+ACCESS1#show int e1/0
+Ethernet1/0 is up, line protocol is up (connected)
+  Hardware is AmdP2, address is aabb.cc00.3001 (bia aabb.cc00.3001)
+  Description: PO11_TO_CORE1_MEMBER2
+  MTU 1500 bytes, BW 10000 Kbit/sec, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Auto-duplex, Auto-speed, media type is unknown
+  input flow-control is off, output flow-control is unsupported
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:09, output 00:00:06, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/2000/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/0 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     33 packets input, 9313 bytes, 0 no buffer
+     Received 32 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 input packets with dribble condition detected
+     57 packets output, 15647 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+ACCESS1#
+
+
+PC-IT-01> ping 10.10.20.1
+
+84 bytes from 10.10.20.1 icmp_seq=1 ttl=255 time=0.497 ms
+84 bytes from 10.10.20.1 icmp_seq=2 ttl=255 time=0.892 ms
+84 bytes from 10.10.20.1 icmp_seq=3 ttl=255 time=0.575 ms
+84 bytes from 10.10.20.1 icmp_seq=4 ttl=255 time=0.719 ms
+84 bytes from 10.10.20.1 icmp_seq=5 ttl=255 time=0.636 ms
+
+PC-IT-01> ping 10.10.40.20
+
+84 bytes from 10.10.40.20 icmp_seq=1 ttl=63 time=2.698 ms
+84 bytes from 10.10.40.20 icmp_seq=2 ttl=63 time=1.415 ms
+84 bytes from 10.10.40.20 icmp_seq=3 ttl=63 time=1.945 ms
+84 bytes from 10.10.40.20 icmp_seq=4 ttl=63 time=1.348 ms
+84 bytes from 10.10.40.20 icmp_seq=5 ttl=63 time=1.507 ms
+
+PC-IT-01>

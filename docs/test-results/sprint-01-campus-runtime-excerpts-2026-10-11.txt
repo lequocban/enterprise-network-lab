@@ -1,0 +1,227 @@
+Sprint 01 Campus runtime excerpts - archived 2026-10-11 (Asia/Saigon)
+Source: device output previously pasted by the practitioner in this chat.
+These are selected verbatim blocks, not a complete continuous console recording.
+Original capture timestamps were not supplied. Archival date is not the device test date.
+Agent did not run these commands. Blank separators and trailing whitespace are normalized.
+
+CORE1 TRUNK NATIVE/STATE EXCERPT:
+CORE1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      99
+Et0/1       on               802.1q         trunking      99
+Et0/2       on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+
+CORE2 TRUNK NATIVE/STATE EXCERPT (remaining columns omitted):
+CORE2#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      99
+Et0/1       on               802.1q         trunking      99
+Et0/2       on               802.1q         trunking      99
+
+HSRP VLAN10 EXCERPTS:
+CORE1#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+CORE2#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Standby 10.10.10.2      local           10.10.10.1
+
+STP ROOT EXCERPTS:
+CORE1#show spanning-tree root
+
+                                        Root    Hello Max Fwd
+Vlan                   Root ID          Cost    Time  Age Dly  Root Port
+---------------- -------------------- --------- ----- --- ---  ------------
+VLAN0001         32769 aabb.cc00.1000         0    2   20  15
+VLAN0010         24586 aabb.cc00.1000         0    2   20  15
+VLAN0020         24596 aabb.cc00.1000         0    2   20  15
+VLAN0030         24606 aabb.cc00.1000         0    2   20  15
+VLAN0040         24616 aabb.cc00.1000         0    2   20  15
+VLAN0050         24626 aabb.cc00.1000         0    2   20  15
+VLAN0060         24636 aabb.cc00.1000         0    2   20  15
+VLAN0099         24675 aabb.cc00.1000         0    2   20  15
+
+CORE2#show spanning-tree root
+
+                                        Root    Hello Max Fwd
+Vlan                   Root ID          Cost    Time  Age Dly  Root Port
+---------------- -------------------- --------- ----- --- ---  ------------
+VLAN0001         32769 aabb.cc00.2000         0    2   20  15
+VLAN0010         24586 aabb.cc00.1000       100    2   20  15  Et0/0
+VLAN0020         24596 aabb.cc00.1000       100    2   20  15  Et0/0
+VLAN0030         24606 aabb.cc00.1000       100    2   20  15  Et0/0
+VLAN0040         24616 aabb.cc00.1000       100    2   20  15  Et0/0
+VLAN0050         24626 aabb.cc00.1000       100    2   20  15  Et0/0
+VLAN0060         24636 aabb.cc00.1000       100    2   20  15  Et0/0
+VLAN0099         24675 aabb.cc00.1000       100    2   20  15  Et0/0
+
+CORE1 STP VLAN20 EXCERPT:
+CORE1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             This bridge is the root
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    24596  (priority 24576 sys-id-ext 20)
+             Address     aabb.cc00.1000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Desg FWD 100       128.1    Shr
+Et0/1               Desg FWD 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
+
+CORE2 STP VLAN20 EXCERPT:
+CORE2#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    28692  (priority 28672 sys-id-ext 20)
+             Address     aabb.cc00.2000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+Et0/1               Desg FWD 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
+
+ACCESS1 STP AND MANAGEMENT PING EXCERPTS:
+ACCESS1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+Et0/1               Altn BLK 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
+
+ACCESS1#show spanning-tree blockedports
+
+Name                 Blocked Interfaces List
+-------------------- ------------------------------------
+VLAN0010             Et0/1
+VLAN0020             Et0/1
+VLAN0030             Et0/1
+VLAN0040             Et0/1
+VLAN0050             Et0/1
+VLAN0060             Et0/1
+VLAN0099             Et0/1
+
+Number of blocked ports (segments) in the system : 7
+
+ACCESS1#show spanning-tree inconsistentports
+
+Name                 Interface                Inconsistency
+-------------------- ------------------------ ------------------
+
+Number of inconsistent ports (segments) in the system : 0
+
+ACCESS1#ping 10.10.10.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+ACCESS1#ping 10.10.10.12
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.12, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+
+ACCESS2 STP AND MANAGEMENT PING EXCERPTS:
+ACCESS2#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.4000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+Et0/1               Altn BLK 100       128.2    Shr
+
+ACCESS2#show spanning-tree blockedports
+
+Name                 Blocked Interfaces List
+-------------------- ------------------------------------
+VLAN0010             Et0/1
+VLAN0020             Et0/1
+VLAN0030             Et0/1
+VLAN0040             Et0/1
+VLAN0050             Et0/1
+VLAN0060             Et0/1
+VLAN0099             Et0/1
+
+Number of blocked ports (segments) in the system : 7
+
+ACCESS2#show spanning-tree inconsistentports
+
+Name                 Interface                Inconsistency
+-------------------- ------------------------ ------------------
+
+Number of inconsistent ports (segments) in the system : 0
+
+ACCESS2#ping 10.10.10.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+ACCESS2#ping 10.10.10.11
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.11, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms

@@ -1,0 +1,110 @@
+ACCESS1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/1       on               802.1q         trunking      99
+Et1/0       on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/1       10,20,30,40,50,60,99
+Et1/0       10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/1       10,20,30,40,50,60,99
+Et1/0       10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/1       10,20,30,40,50,60,99
+Et1/0       10,20,30,40,50,60,99
+ACCESS1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        5 (Ethernet1/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/1               Desg FWD 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
+Et1/0               Root FWD 100       128.5    Shr
+
+CORE1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/2       on               802.1q         trunking      99
+Et1/1       on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/2       10,20,30,40,50,60,99
+Et1/1       10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/2       10,20,30,40,50,60,99
+Et1/1       10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/2       10,20,30,40,50,60,99
+Et1/1       10,20,30,40,50,60,99
+CORE1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             This bridge is the root
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    24596  (priority 24576 sys-id-ext 20)
+             Address     aabb.cc00.1000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/2               Desg FWD 100       128.3    Shr
+Et1/1               Desg FWD 100       128.6    Shr
+
+
+CORE1#
+CORE1#
+
+CORE1#show mac address-table dynamic vlan 20
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+  20    aabb.cc80.2000    DYNAMIC     Po1
+Total Mac Addresses for this criterion: 1
+
+PC-IT-01> ping 10.10.20.1
+
+84 bytes from 10.10.20.1 icmp_seq=1 ttl=255 time=0.520 ms
+84 bytes from 10.10.20.1 icmp_seq=2 ttl=255 time=0.818 ms
+84 bytes from 10.10.20.1 icmp_seq=3 ttl=255 time=0.813 ms
+84 bytes from 10.10.20.1 icmp_seq=4 ttl=255 time=0.695 ms
+84 bytes from 10.10.20.1 icmp_seq=5 ttl=255 time=0.732 ms
+
+PC-IT-01> ping 10.10.20.2
+
+84 bytes from 10.10.20.2 icmp_seq=1 ttl=255 time=0.461 ms
+84 bytes from 10.10.20.2 icmp_seq=2 ttl=255 time=0.794 ms
+84 bytes from 10.10.20.2 icmp_seq=3 ttl=255 time=0.700 ms
+84 bytes from 10.10.20.2 icmp_seq=4 ttl=255 time=0.693 ms
+84 bytes from 10.10.20.2 icmp_seq=5 ttl=255 time=0.792 ms
+
+PC-IT-01> ping 10.10.40.20
+
+84 bytes from 10.10.40.20 icmp_seq=1 ttl=63 time=3.002 ms
+84 bytes from 10.10.40.20 icmp_seq=2 ttl=63 time=2.586 ms
+84 bytes from 10.10.40.20 icmp_seq=3 ttl=63 time=1.262 ms
+84 bytes from 10.10.40.20 icmp_seq=4 ttl=63 time=1.168 ms
+84 bytes from 10.10.40.20 icmp_seq=5 ttl=63 time=1.154 ms

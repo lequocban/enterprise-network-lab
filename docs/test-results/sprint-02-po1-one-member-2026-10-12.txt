@@ -1,0 +1,137 @@
+CORE1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(D)
+
+CORE1#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode
+
+Channel group 1 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.2000  17s    0x0    0x1    0x1     0x3D
+Et0/3     FP      0         0000.0000.0000 727s    0x0    0x0    0x0     0x2
+CORE1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/1       on               802.1q         trunking      99
+Et0/2       on               802.1q         trunking      99
+Po1         on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+CORE1#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           10.10.10.3      10.10.10.1
+Vl20        20   110 P Active  local           10.10.20.3      10.10.20.1
+Vl30        30   110 P Active  local           10.10.30.3      10.10.30.1
+Vl40        40   110 P Active  local           10.10.40.3      10.10.40.1
+Vl50        50   110 P Active  local           10.10.50.3      10.10.50.1
+Vl60        60   110 P Active  local           10.10.60.3      10.10.60.1
+
+CORE2#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(D)
+
+CORE2#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode
+
+Channel group 1 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.1000   9s    0x0    0x1    0x1     0x3D
+Et0/3     FP      0         0000.0000.0000 799s    0x0    0x0    0x0     0x2
+CORE2#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/1       on               802.1q         trunking      99
+Et0/2       on               802.1q         trunking      99
+Po1         on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+CORE2#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Standby 10.10.10.2      local           10.10.10.1
+Vl20        20   100 P Standby 10.10.20.2      local           10.10.20.1
+Vl30        30   100 P Standby 10.10.30.2      local           10.10.30.1
+Vl40        40   100 P Standby 10.10.40.2      local           10.10.40.1
+Vl50        50   100 P Standby 10.10.50.2      local           10.10.50.1
+Vl60        60   100 P Standby 10.10.60.2      local           10.10.60.1

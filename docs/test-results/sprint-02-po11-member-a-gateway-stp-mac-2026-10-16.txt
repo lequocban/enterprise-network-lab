@@ -1,0 +1,74 @@
+PC-IT-01> ping 10.10.20.1
+
+host (10.10.20.1) not reachable
+
+PC-IT-01> ping 10.10.20.2
+
+host (10.10.20.2) not reachable
+
+PC-IT-01>
+CORE1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             This bridge is the root
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    24596  (priority 24576 sys-id-ext 20)
+             Address     aabb.cc00.1000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/2               Desg FWD 100       128.3    Shr
+Po1                 Desg FWD 56        128.65   Shr
+Po11                Desg FWD 100       128.66   Shr
+
+
+CORE1#show mac address-table dynamic vlan 20
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+  20    aabb.cc80.2000    DYNAMIC     Po1
+Total Mac Addresses for this criterion: 1
+CORE1#
+ACCESS1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        65 (Port-channel11)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/1               Altn BLK 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
+Po11                Root FWD 100       128.65   Shr
+
+
+ACCESS1#show mac address-table dynamic vlan 20
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+  20    0000.0c07.ac14    DYNAMIC     Po11
+  20    0050.7966.6805    DYNAMIC     Et0/2
+  20    aabb.cc80.1000    DYNAMIC     Po11
+  20    aabb.cc80.2000    DYNAMIC     Po11
+Total Mac Addresses for this criterion: 4
+ACCESS1#
+Group  Port-channel  Protocol    Ports

@@ -1,0 +1,50 @@
+CORE1#show clock
+*15:34:22.446 UTC Fri Oct 16 2026
+CORE1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 2
+Number of aggregators:           2
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(P)
+11     Po11(SU)        LACP      Et0/1(P)    Et1/1(P)
+
+CORE1#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode
+
+Channel group 1 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.2000  24s    0x0    0x1    0x1     0x3D
+Et0/3     SA      32768     aabb.cc80.2000   1s    0x0    0x1    0x4     0x3D
+
+Channel group 11 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/1     SA      32768     aabb.cc80.3000  10s    0x0    0xB    0x1     0x3D
+Et1/1     SA      32768     aabb.cc80.3000  10s    0x0    0xB    0x101   0x3D
+CORE1#

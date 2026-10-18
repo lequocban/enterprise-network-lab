@@ -3,6 +3,8 @@
 **Bản thiết kế:** v1.0 — 09/10/2026  
 **Hiện trạng 10/10/2026:** Sprint 0 đã đóng nền tảng với follow-up; HQ tám node/chín link đối chiếu export sạch. Edge, DMZ và Branch vẫn planned.
 
+**Cập nhật 12/10/2026:** Campus Sprint 1 đã chốt thực hành có follow-ups theo [báo cáo](sprint-reports/sprint-01-report.md) và [validation](test-results/sprint-01-validation.md); cabling vẫn tám node/chín link. LACP/HA thuộc Sprint 2 trong [roadmap](enterprise-network-design-implementation-roadmap.md), chưa thêm link hoặc nghiệm thu failover.
+
 **Sơ đồ Markdown:** [Logical topology](../diagrams/logical-topology.md) · [Physical topology](../diagrams/physical-topology.md). Đã review hồ sơ thiết kế và đối chiếu HQ với ảnh/export; mức bằng chứng và việc bàn giao tại [kế hoạch hoàn thiện](sprint-reports/sprint-00-closeout.md).
 
 ## 1. Phạm vi
@@ -38,7 +40,7 @@ Hình này mô tả quan hệ logic. ISP và Firewall **chưa được nối và
 
 | Thiết bị A | Interface | Thiết bị B | Interface | Vai trò |
 |---|---|---|---|---|
-| CORE1 | e0/0 | CORE2 | e0/0 | Inter-core trunk VLAN 10 test |
+| CORE1 | e0/0 | CORE2 | e0/0 | Inter-core trunk native99, allowed 10/20/30/40/50/60/99 |
 | CORE1 | e0/1 | ACCESS1 | e0/0 | Uplink |
 | CORE2 | e0/1 | ACCESS1 | e0/1 | Uplink dự phòng |
 | CORE1 | e0/2 | ACCESS2 | e0/0 | Uplink |
@@ -52,10 +54,10 @@ Hình này mô tả quan hệ logic. ISP và Firewall **chưa được nối và
 
 ### Core hoạt động và giới hạn đã nhận biết
 
-- CORE1/CORE2 có bằng chứng runtime SVI/HSRP và connected/local routes; snapshot không có lệnh `ip routing` tường minh. Chưa nghiệm thu forwarding Inter-VLAN trên image này.
-- VLAN 10: CORE1 10.10.10.2 up/up, CORE2 10.10.10.3 up/up; HSRP VIP 10.10.10.1.
-- CORE1 Active priority 110; CORE2 Standby priority 100; bật preempt cả hai.
-- Chưa đủ bằng chứng kiểm tra Inter-VLAN Routing VLAN20↔30 và traffic failover end-to-end. Thực hiện ở Sprint 1/2.
+- Snapshot cuối Sprint 1 có sáu SVI/nhóm HSRP VLAN10/20/30/40/50/60, CORE1 `.2`, CORE2 `.3`, VIP `.1`; priority 110/100 và preempt. VLAN99 chỉ L2; cả bốn switch có VLAN/trunk và rapid-pvst theo report.
+- Runtime HSRP VLAN10 có CORE1 Active/CORE2 Standby; trạng thái mở rộng và forwarding liên VLAN được người thực hành xác nhận với workaround `no ip cef`. Một số log hai chiều/từng Core và runtime đủ sáu nhóm còn thiếu, giữ mức bằng chứng trong validation Sprint 1.
+- Snapshot Core không có `ip routing` tường minh; không suy ra routing tắt hoặc client transit đạt chỉ từ một dòng cấu hình. Sprint 2 kiểm tra routes và traffic client thật, giữ ngoại lệ CEF; đánh giá image trước Sprint 3.
+- Full Core/client failover, số đo convergence có timestamp, startup/persistence và restore chưa nghiệm thu đầy đủ; tiếp nhận Sprint 2 trước thao tác tương ứng.
 
 ## 4. Triển khai dự phòng
 
@@ -92,4 +94,4 @@ Khi chốt mỗi quyết định, ghi phương án, lý do, yêu cầu image, c�
 
 Sprint 1 kiểm tra mode STP hiện tại và giữ link dự phòng shutdown lúc chuẩn bị VLAN/trunk; cấu hình/kiểm tra STP trước khi bật đủ uplink, rồi test routing và failover. Không suy ra STP mặc định bị tắt từ việc chưa chạy RSTP.
 
-Sprint 2 cần bổ sung ít nhất hai link cùng cặp endpoint cho bài LACP. Bảng cổng HQ hiện có một link cho mỗi cặp; phải cập nhật physical topology khi thêm link. Không tạo một channel trải qua CORE1 và CORE2 độc lập.
+Sprint 2 cần mỗi channel có ít nhất hai link cùng cặp endpoint. Thiết kế dự kiến thêm một link CORE1–CORE2 và một link CORE1–ACCESS1, tận dụng link cũ để tạo Po1/Po11. Bảng cổng HQ hiện có một link cho mỗi cặp; phải cập nhật physical topology khi thêm link. Không tạo một channel trải qua CORE1 và CORE2 độc lập.

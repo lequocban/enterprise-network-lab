@@ -2,6 +2,12 @@
 
 Lưu cấu hình **lấy từ thiết bị đã chạy lab**, không tạo config giả từ bảng IP để làm bằng chứng.
 
+## Baseline Sprint 01 đã lưu
+
+Đã nhận và cập nhật running-config bốn switch ngày 11/10/2026: [CORE1](core/sprint-01/CORE1.cfg), [CORE2](core/sprint-01/CORE2.cfg), [ACCESS1](access/sprint-01/ACCESS1.cfg), [ACCESS2](access/sprint-01/ACCESS2.cfg). Cả bốn đã có baseline VTY `transport input none`; cổng test CORE1 Ethernet1/0 đã shutdown. Bản trước VTY được giữ với hậu tố `.pre-vty.cfg`, CORE1 có thêm `.pre-test-port-shutdown.cfg`. Tại mốc chốt 11/10, CORE2 và hai Access có output lưu thành công; chưa có startup-config để đối chiếu, chưa xác nhận lưu CORE1 sau shutdown cổng test. Nguồn, chuẩn hóa và giới hạn tại thời điểm đó nằm trong [biên bản review](../docs/test-results/sprint-01-config-review-2026-10-11.md); bằng chứng startup mới được bổ sung riêng bên dưới.
+
+Bộ Sprint 01 gồm **chín snapshot: bốn running cuối và năm bản lịch sử**; không có bản startup giả từ running. [Báo cáo](../docs/sprint-reports/sprint-01-report.md) đã hoàn thiện với follow-up startup/restore; đi kèm [export Sprint 01](../eve-exports/sprint-01-hq-2026-10-11.zip) chỉ chứa topology. Không cần thu lại running để hoàn thiện báo cáo.
+
 ## Tổ chức
 
 - `core/sprint-<NN>/`: CORE1, CORE2.

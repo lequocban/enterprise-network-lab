@@ -318,9 +318,11 @@ Quy ước branch/PR và bằng chứng: [Repository workflow](repository-workfl
 
 ## EPIC-NET-01 — Enterprise Switching
 
+**Mốc 11/10/2026:** hoàn thành thực hành có follow-ups theo [báo cáo Sprint 01](sprint-reports/sprint-01-report.md) và [validation](test-results/sprint-01-validation.md). Checkbox cấu hình dựa trên snapshot/output; test có ghi "theo xác nhận" chưa đồng nghĩa log đủ số gói. Startup/restore, một số log hai chiều, ảnh/Git DoD còn thiếu; không đánh dấu mọi story DONE. Bỏ thử uplink ACCESS2 theo yêu cầu người thực hành.
+
 ## Trình tự triển khai
 
-NET-101 → NET-102 trên link đang dùng, giữ uplink dự phòng shutdown → cấu hình/kiểm tra NET-104 → bật từng link dự phòng và xác nhận STP hội tụ → test VLAN khi chưa routing → NET-103 → failure test uplink. Kiểm tra mode STP hiện tại trước thao tác; mã story giữ nguyên nhưng không quyết định thứ tự kỹ thuật. Chi tiết tại S1-01/S1-02 trong [kế hoạch](sprint-reports/sprint-00-closeout.md).
+NET-101 → NET-102 trên link đang dùng, giữ uplink dự phòng shutdown → cấu hình/kiểm tra NET-104 → bật từng link dự phòng và xác nhận STP hội tụ → test VLAN khi chưa routing → NET-103 → failure test uplink. Kiểm tra mode STP hiện tại trước thao tác; mã story giữ nguyên nhưng không quyết định thứ tự kỹ thuật. Kết quả thực tế và các điều chỉnh nằm trong [validation Sprint 01](test-results/sprint-01-validation.md).
 
 ## Kiến thức cần học
 - Broadcast domain
@@ -352,10 +354,10 @@ NET-101 → NET-102 trên link đang dùng, giữ uplink dự phòng shutdown �
 | 99 | NATIVE |
 
 #### Tasks
-- [ ] Tạo VLAN
-- [ ] Đặt tên VLAN
-- [ ] Gán port access
-- [ ] Kiểm tra VLAN database
+- [x] Tạo VLAN — bảy VLAN trên bốn running-config
+- [x] Đặt tên VLAN — khớp IP Plan
+- [x] Gán port access — IT20/HR30/ACC40/GUEST60 trong snapshot cuối
+- [ ] Kiểm tra VLAN database — chưa có bộ runtime cuối riêng đủ bốn switch
 
 #### Commands cần hiểu
 
@@ -365,18 +367,18 @@ show interfaces switchport
 ```
 
 #### Test
-- [ ] PC cùng VLAN ping được nhau
-- [ ] PC khác VLAN chưa ping được nhau
+- [x] PC cùng VLAN ping được nhau — theo xác nhận thực hành, chưa có log riêng đủ số gói/MAC
+- [x] PC khác VLAN chưa ping được nhau — pha trước routing theo xác nhận, chưa có log ARP/SVI riêng
 
 ---
 
 ### Story NET-102 — Triển khai 802.1Q Trunk
 
 #### Tasks
-- [ ] Cấu hình trunk Core ↔ Access
-- [ ] Đặt Native VLAN
-- [ ] Giới hạn VLAN được phép đi qua trunk
-- [ ] Disable DTP nếu image hỗ trợ
+- [x] Cấu hình trunk Core ↔ Access — và inter-core; mười đầu khớp cấu hình
+- [x] Đặt Native VLAN — 99 trên cả năm link
+- [x] Giới hạn VLAN được phép đi qua trunk — 10,20,30,40,50,60,99
+- [x] Disable DTP nếu image hỗ trợ — `switchport nonegotiate` trong snapshot
 
 #### Test
 
@@ -391,14 +393,14 @@ show interfaces trunk
 Kiểm chứng forwarding tối thiểu VLAN20↔30 trên image Core trước mở rộng toàn bộ VLAN. Giữ IP Plan .1 VIP/.2 CORE1/.3 CORE2; nếu client test dùng VIP thì cấu hình gateway HSRP tối thiểu tương ứng. Nghiệm thu HA/failover đầy đủ vẫn ở NET-202 Sprint 2.
 
 #### Tasks
-- [ ] Tạo SVI
-- [ ] Gán Gateway VLAN
-- [ ] Bật Layer 3 routing
-- [ ] Test liên VLAN
+- [x] Tạo SVI — sáu SVI mỗi Core, VLAN99 chỉ L2
+- [x] Gán Gateway VLAN — VIP .1, CORE1 .2, CORE2 .3
+- [x] Bật Layer 3 routing — forwarding theo xác nhận, giữ workaround `no ip cef` hai Core
+- [x] Test liên VLAN — có xác nhận thực hành và log tới VLAN40; giới hạn từng chiều ở validation
 
 #### Acceptance Criteria
-- [ ] VLAN 20 ping VLAN 30
-- [ ] VLAN 30 ping Server VLAN
+- [x] VLAN 20 ping VLAN 30 — theo xác nhận sau workaround, chưa có log đủ từng pha trên hai Core
+- [ ] VLAN 30 ping Server VLAN — đã hướng dẫn VPCS tạm VLAN50, chưa đủ log/xác nhận riêng hai chiều
 
 ---
 
@@ -407,10 +409,10 @@ Kiểm chứng forwarding tối thiểu VLAN20↔30 trên image Core trước m�
 Cấu hình và kiểm tra root/port role trước khi bật toàn bộ uplink dự phòng. Dự kiến CORE1 root primary, CORE2 root secondary cho VLAN10–60 để khớp HSRP Active dự kiến; xác nhận mode được image hỗ trợ và trạng thái thực tế bằng output.
 
 #### Tasks
-- [ ] Chọn Root Primary
-- [ ] Chọn Root Secondary
-- [ ] Xác định blocked port
-- [ ] Test failover
+- [x] Chọn Root Primary — CORE1 priority24576
+- [x] Chọn Root Secondary — CORE2 priority28672
+- [x] Xác định blocked port — Access e0/1 trên bảy VLAN, inconsistent0
+- [x] Test failover — ACCESS1 có log traffic phục hồi, acceptance STP gốc chỉ đạt một phần; ACCESS2 bỏ thử
 
 #### Test
 
@@ -419,8 +421,8 @@ show spanning-tree
 ```
 
 #### Lab Failure Test
-- [ ] Shutdown uplink chính
-- [ ] Quan sát STP convergence
+- [x] Shutdown uplink chính — bài ACCESS1 theo người thực hành, có log traffic liên quan
+- [ ] Quan sát STP convergence — thiếu timestamp/port role trong lúc lỗi; không suy thời gian từ số gói mất
 
 ---
 

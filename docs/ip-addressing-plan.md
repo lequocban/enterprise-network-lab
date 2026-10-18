@@ -8,7 +8,7 @@
 
 - Mạng HQ: `10.10.0.0/16`; Branch 1: `10.20.0.0/16`; Branch 2: `10.30.0.0/16`.
 - Kết nối transit/WAN nội bộ lab: `10.255.0.0/24`. Loopback: `10.255.255.0/24`, gán từng địa chỉ /32.
-- Mỗi VLAN HQ dùng gateway HSRP .1; IP SVI CORE1 .2; CORE2 .3. VLAN 10 đã kiểm tra CLI; các VLAN còn lại triển khai từ Sprint 1.
+- Mỗi VLAN HQ dùng gateway HSRP .1; IP SVI CORE1 .2; CORE2 .3. Cấu hình sáu VLAN10–60 đã đối chiếu trong Sprint 1; runtime và mức bằng chứng theo báo cáo/validation, không đồng nghĩa HA đã đạt.
 - VLAN 99 là native VLAN Layer 2; **không cấp IP và không dùng làm VLAN quản trị**.
 - Máy VPCS chỉ là thiết bị kiểm thử, **không tính trong số lượng node hạ tầng, không dành riêng một PC-MGMT**.
 - Tất cả địa chỉ WAN bên dưới là private, chỉ dùng trong môi trường mô phỏng ISP/VPN, không coi là IP Internet public.
@@ -25,7 +25,7 @@
 | 60 | GUEST | 10.10.60.0/24 | 10.10.60.1 | 10.10.60.2 | 10.10.60.3 |
 | 99 | NATIVE | Không cấp subnet | — | — | — |
 
-**Đã kiểm tra:** VLAN 10 CORE1/CORE2 up/up, HSRP group 10 Active/Standby, virtual gateway 10.10.10.1. Các giá trị VLAN 20–60 là thiết kế đã chốt, chưa phải kết quả chạy lab.
+**Cập nhật trạng thái 12/10/2026:** VLAN10 có runtime Core up/up và HSRP Active/Standby; snapshot Sprint 1 có đầy đủ SVI/VIP VLAN10–60 theo bảng. Forwarding mở rộng được người thực hành xác nhận với `no ip cef`, một số log/runtime còn thiếu theo [báo cáo Sprint 1](sprint-reports/sprint-01-report.md) và [validation](test-results/sprint-01-validation.md). Full HA tiếp nhận Sprint 2 theo [roadmap](enterprise-network-design-implementation-roadmap.md), hiện chưa kiểm thử; phân bổ địa chỉ Final v1.0 giữ nguyên.
 
 ### Địa chỉ quản trị và server
 
@@ -87,7 +87,7 @@ Dải `10.255.0.36–10.255.0.255` được giữ để mở rộng. Địa ch�
 - Không triển khai LACP từ ACCESS1/2 tới hai Core độc lập như một Port-Channel duy nhất; sử dụng RSTP cho dual uplink.
 - Sau bản **Final v1.0**, bất kỳ đổi subnet, VIP hoặc vai trò gateway nào phải ghi lý do và cập nhật cả bảng kết nối, cấu hình và test cases trong cùng một PR.
 
-**Công việc triển khai còn lại:** tạo các interface VLAN 20–60, dựng thêm các node Edge/ISP/Firewall/Branch, xác nhận chính xác interface vật lý và kiểm thử connectivity/segmentation theo Sprint. Thiết kế được chốt trước để tránh đổi IP giữa các bài lab.
+**Công việc triển khai còn lại:** kiểm chứng runtime/full HA các SVI/VIP đã cấu hình, dựng thêm các node Edge/ISP/Firewall/Branch, xác nhận chính xác interface vật lý và kiểm thử connectivity/segmentation theo Sprint. Thiết kế được chốt trước để tránh đổi IP giữa các bài lab.
 
 ## 7. Phạm vi đã chốt và quyết định cần bổ sung
 

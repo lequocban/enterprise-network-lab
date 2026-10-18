@@ -1,8 +1,18 @@
 # Danh mục tài liệu
 
+
+
 Sprint 0 được đóng ngày 10/10/2026 theo phạm vi nền tảng, với follow-up và giới hạn được ghi rõ. Mốc đóng là commit local chứa bộ hồ sơ; chưa xác nhận push/PR/merge trên GitHub.
 
+Sprint1 chốt phần thực hành có follow-ups ngày11/10/2026; báo cáo/validation và export đã kiểm tra được lưu thành commit local riêng trước Sprint02. Chưa push/PR/merge. Không quy đổi mốc này thành toàn bộ DoD hoặc13 ca PASS.
+
 - [Biên bản đóng Sprint 00](sprint-reports/sprint-00-closeout.md): quyết định nghiệm thu, mức bằng chứng, việc bàn giao và mốc tiếp nhận.
+- [Báo cáo Sprint 1](sprint-reports/sprint-01-report.md): kết quả NET-101–104, workaround CEF, bài thử uplink, export và follow-ups có mốc tiếp nhận.
+- [Validation Sprint 1](test-results/sprint-01-validation.md): actual theo 13 ca, phân biệt raw output, xác nhận thực hành, phần chưa đối chiếu và ca bỏ qua.
+- [Điều tra CEF trên CORE1, Sprint 1](test-results/sprint-01-core1-cef-investigation-2026-10-10.md): output routing/ARP/source ping và xác nhận timeout → thành công → timeout khi bật–tắt–bật CEF; workaround tạm, NET-103 chưa nghiệm thu đầy đủ.
+- [Review running-config Sprint 01](test-results/sprint-01-config-review-2026-10-11.md): bốn snapshot cuối đã có VTY/cổng test hoàn thiện, lịch sử trước thay đổi và giới hạn startup.
+- [Thử uplink ACCESS1, Sprint 01](test-results/sprint-01-access1-uplink-test-2026-10-11.md): log ping, giới hạn phép đo và quyết định bỏ thử ACCESS2.
+- [Kiểm tra export Sprint 01](test-results/sprint-01-export-inspection-2026-10-11.txt): hash/CRC/XML và chín kết nối HQ; ZIP không nhúng config.
 - [Báo cáo Sprint 0](sprint-reports/sprint-00-report.md): kết quả/giới hạn và bước bắt đầu Sprint 1.
 - [Validation](test-results/sprint-00-validation.md): output người thực hành, review IP, HSRP và kiểm tra export tại local.
 - [Roadmap](enterprise-network-design-implementation-roadmap.md): mục tiêu/story từng sprint; checkbox chưa chạy giữ nguyên.
@@ -11,4 +21,4 @@ Sprint 0 được đóng ngày 10/10/2026 theo phạm vi nền tảng, với fol
 - [Môi trường/image inventory](00-eve-ng-setup.md), [Config](../configs/README.md), [Export/tái dựng](../eve-exports/README.md), [Ảnh](../screenshots/README.md): artifact và giới hạn tái dựng.
 - [Workflow](repository-workflow.md), [Mẫu test case](test-results/test-case-template.md): quy ước lưu/review bằng chứng.
 
-Đọc closeout/report trước khi chuyển Sprint 1. Docs dùng chung không phụ thuộc vào kế hoạch nội bộ bị ignore; thay IP/cổng phải cập nhật tài liệu và test liên quan.
+Đọc closeout/report của sprint trước cùng phạm vi và tiêu chí trong roadmap trước khi thực hành. Docs dùng chung không phụ thuộc vào kế hoạch nội bộ bị ignore; thay IP/cổng phải cập nhật tài liệu và test liên quan.

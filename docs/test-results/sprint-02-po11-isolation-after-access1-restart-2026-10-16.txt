@@ -1,0 +1,57 @@
+ACCESS1#
+ACCESS1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+11     Po11(SD)        LACP      Et0/0(s)    Et1/0(s)
+
+ACCESS1#show running-config interface Ethernet1/0
+Building configuration...
+
+Current configuration : 264 bytes
+!
+interface Ethernet1/0
+ description PO11_TO_CORE1_MEMBER2
+ switchport trunk allowed vlan 10,20,30,40,50,60,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 99
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 11 mode active
+end
+
+
+CORE1#show running-config interface Ethernet1/1
+Building configuration...
+
+Current configuration : 246 bytes
+!
+interface Ethernet1/1
+ description PO11_TO_ACCESS1_MEMBER2
+ switchport trunk allowed vlan 10,20,30,40,50,60,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 99
+ switchport mode trunk
+ switchport nonegotiate
+ shutdown
+end
+
+CORE1#

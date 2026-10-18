@@ -430,6 +430,8 @@ show spanning-tree
 
 ## EPIC-NET-03 — Network High Availability
 
+**Cập nhật 18/10/2026:** đã triển khai Po1 CORE1–CORE2 và Po11 CORE1–ACCESS1; đủ bốn final running và export8 node/11 link đã kiểm tra. Các bài mất channel/Core có bằng chứng chức năng trong [báo cáo Sprint2](sprint-reports/sprint-02-report.md). Lỗi tự chuyển tiếp khi chỉ mất một đầu member Po1 vẫn mở; môi trường EVE/image là giả thuyết chưa xác nhận. Theo lựa chọn người thực hành, dừng lặp từng VLAN và dùng đường đại diện; chưa nghiệm thu toàn bộ DoD, số đo HA hoặc restore. Kế hoạch ban đầu12/10 tiếp nhận các follow-up từ [Sprint1](sprint-reports/sprint-01-report.md); giữ kết quả thực tế và giới hạn riêng.
+
 ## Kiến thức cần học
 - LACP
 - EtherChannel
@@ -443,11 +445,11 @@ show spanning-tree
 ### Story NET-201 — EtherChannel
 
 #### Tasks
-- [ ] Tạo LACP giữa CORE1 và CORE2
-- [ ] Tạo LACP giữa một Core và một Access với ít nhất hai link cùng cặp endpoint
-- [ ] Kiểm tra channel-group
+- [x] Tạo LACP giữa CORE1 và CORE2 — Po1 e0/0+e0/3 hai đầu
+- [x] Tạo LACP giữa một Core và một Access với ít nhất hai link cùng cặp endpoint — Po11 CORE1 e0/1+e1/1 ↔ ACCESS1 e0/0+e1/0
+- [x] Kiểm tra channel-group — runtime cuối hai member P của mỗi channel
 
-Bảng cổng HQ hiện có một link mỗi cặp; thêm link và cập nhật physical topology trước bài test mất member. Không gộp hai Core độc lập thành một channel từ Access.
+Bảng cổng [physical topology](../diagrams/physical-topology.md) đã cập nhật hai link mới và đối chiếu export Sprint2. Không gộp hai Core độc lập thành một channel từ Access.
 
 #### Commands
 
@@ -457,20 +459,22 @@ show interfaces port-channel
 ```
 
 #### Failure Test
-- [ ] Shutdown một interface thành viên
-- [ ] Xác nhận Port-Channel vẫn hoạt động
+- [x] Shutdown một interface thành viên — đã thử các member, giữ log/capture và khôi phục
+- [ ] Xác nhận Port-Channel vẫn hoạt động — runtime SU chưa đủ; Po1 có lượt mất traffic khi chỉ tắt một đầu e0/3, chưa đạt dự phòng tự động
 
 ---
 
 ### Story NET-202 — HSRP Gateway Redundancy
 
+SVI/VIP/priority/preempt đã có trong cấu hình Sprint 1. Sprint 2 đối chiếu sáu nhóm runtime và sửa lệch nếu có, sau đó kiểm thử client qua VIP khi dừng toàn CORE1 và khi khôi phục; không xóa/tạo lại cấu hình chỉ để thực hiện task.
+
 #### Tasks
-- [ ] Tạo SVI trên CORE1
-- [ ] Tạo SVI trên CORE2
-- [ ] Cấu hình Virtual IP
-- [ ] Cấu hình priority
-- [ ] Cấu hình preempt
-- [ ] Theo dõi trạng thái Active/Standby
+- [x] Tạo SVI trên CORE1 — giữ và đối chiếu sáu SVI từ Sprint1
+- [x] Tạo SVI trên CORE2 — giữ và đối chiếu sáu SVI từ Sprint1
+- [x] Cấu hình Virtual IP — .1 cho VLAN10/20/30/40/50/60
+- [x] Cấu hình priority — CORE1 110, CORE2 mặc định100
+- [x] Cấu hình preempt — CORE1 trở lại Active sau Start
+- [x] Theo dõi trạng thái Active/Standby — có runtime sáu nhóm trước/trong/sau mất Core
 
 #### Ví dụ
 
@@ -481,12 +485,14 @@ CORE2: 10.10.20.3
 ```
 
 #### Test
-- [ ] Client dùng VIP làm gateway
-- [ ] Shutdown CORE1
-- [ ] Client vẫn ping được mạng ngoài
+- [x] Client dùng VIP làm gateway — theo IP Plan và output client
+- [x] Shutdown CORE1 — Stop toàn node qua EVE, không chỉ tắt một interface
+- [x] Client vẫn ping được đích ngoài subnet tại HQ qua VIP khi CORE1 dừng — các luồng IT→ACC, HR↔VLAN50 tạm, IT↔client VLAN10 tạm có bằng chứng; không suy toàn bộ VLAN/chiều hoặc thời gian hội tụ. WAN/Internet failover tiếp nhận Sprint3–4 sau khi có routing và endpoint thật
 
 #### Deliverable
 `screenshots/hsrp-failover.png`
+
+Kế hoạch chi tiết dùng bộ ảnh thật `screenshots/sprint-02/` có nguồn/ngày và liên kết từ validation để thể hiện trước–trong–sau lỗi; chưa có ảnh kết quả Sprint 2.
 
 ---
 

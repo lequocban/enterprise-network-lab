@@ -1,0 +1,69 @@
+PC-ACC-01> show ip
+
+NAME        : PC-ACC-01[1]
+IP/MASK     : 10.10.40.20/24
+GATEWAY     : 10.10.40.1
+DNS         :
+MAC         : 00:50:79:66:68:07
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+ACCESS1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+ACCESS1(config)#int e1/0
+ACCESS1(config-if)#channel-gr
+ACCESS1(config-if)#channel-group 11 mode ?
+  active     Enable LACP unconditionally
+  auto       Enable PAgP only if a PAgP device is detected
+  desirable  Enable PAgP unconditionally
+  on         Enable Etherchannel only
+  passive    Enable LACP only if a LACP device is detected
+
+ACCESS1(config-if)#duplex ?
+  auto  Enable AUTO duplex configuration
+  full  Force full duplex operation
+  half  Force half-duplex operation
+
+ACCESS1(config-if)#speed ?
+% Unrecognized command
+ACCESS1(config-if)#end
+ACCESS1#
+CORE1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+CORE1(config)#interface e0/3
+CORE1(config-if)#channel-gr
+CORE1(config-if)#channel-group 1 mode ?
+  active     Enable LACP unconditionally
+  auto       Enable PAgP only if a PAgP device is detected
+  desirable  Enable PAgP unconditionally
+  on         Enable Etherchannel only
+  passive    Enable LACP only if a LACP device is detected
+
+CORE1(config-if)#duplex ?
+  auto  Enable AUTO duplex configuration
+  full  Force full duplex operation
+  half  Force half-duplex operation
+
+CORE1(config-if)#speed ?
+% Unrecognized command
+CORE1(config-if)#end
+CORE1#
+
+CORE2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+CORE2(config)#int e0/3
+CORE2(config-if)#channel-gr
+CORE2(config-if)#channel-group 1 mode ?
+  active     Enable LACP unconditionally
+  auto       Enable PAgP only if a PAgP device is detected
+  desirable  Enable PAgP unconditionally
+  on         Enable Etherchannel only
+  passive    Enable LACP only if a LACP device is detected
+
+CORE2(config-if)#duplex ?
+  auto  Enable AUTO duplex configuration
+  full  Force full duplex operation
+  half  Force half-duplex operation
+
+CORE2(config-if)#speed ?
+% Unrecognized command

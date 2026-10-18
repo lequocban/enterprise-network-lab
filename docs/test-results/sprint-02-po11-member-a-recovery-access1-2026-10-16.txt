@@ -1,0 +1,181 @@
+
+ACCESS1#show clock
+*15:28:32.018 UTC Fri Oct 16 2026
+ACCESS1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+11     Po11(SU)        LACP      Et0/0(P)    Et1/0(P)    
+
+ACCESS1#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs 
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode     
+
+Channel group 11 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.1000  11s    0x0    0xB    0x2     0x3D  
+Et1/0     SA      32768     aabb.cc80.1000   7s    0x0    0xB    0x102   0x3D  
+ACCESS1#show etherchannel 11 detail
+Group state = L2 
+Ports: 2   Maxports = 4
+Port-channels: 1 Max Port-channels = 4
+Protocol:   LACP
+Minimum Links: 0
+
+
+Ports in the group:
+-------------------
+Port: Et0/0
+------------
+
+Port state    = Up Mstr Assoc In-Bndl 
+Channel group = 11          Mode = Active          Gcchange = -
+Port-channel  = Po11        GC   =   -             Pseudo port-channel = Po11
+Port index    = 0           Load = 0x00            Protocol =   LACP
+
+Flags:  S - Device is sending Slow LACPDUs   F - Device is sending fast LACPDUs.
+        A - Device is in active mode.        P - Device is in passive mode.
+
+Local information:
+                            LACP port     Admin     Oper    Port        Port
+Port      Flags   State     Priority      Key       Key     Number      State
+Et0/0     SA      bndl      32768         0xB       0xB     0x1         0x3D  
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.1000  11s    0x0    0xB    0x2     0x3D  
+
+Age of the port in the current state: 0d:00h:07m:30s
+
+Port: Et1/0
+------------
+
+Port state    = Up Mstr Assoc In-Bndl 
+Channel group = 11          Mode = Active          Gcchange = -
+Port-channel  = Po11        GC   =   -             Pseudo port-channel = Po11
+Port index    = 0           Load = 0x00            Protocol =   LACP
+
+Flags:  S - Device is sending Slow LACPDUs   F - Device is sending fast LACPDUs.
+        A - Device is in active mode.        P - Device is in passive mode.
+
+Local information:
+                            LACP port     Admin     Oper    Port        Port
+Port      Flags   State     Priority      Key       Key     Number      State
+Et1/0     SA      bndl      32768         0xB       0xB     0x101       0x3D  
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et1/0     SA      32768     aabb.cc80.1000   7s    0x0    0xB    0x102   0x3D  
+
+Age of the port in the current state: 0d:00h:35m:32s
+
+Port-channels in the group: 
+---------------------------
+
+Port-channel: Po11    (Primary Aggregator)
+
+------------
+
+Age of the Port-channel   = 0d:00h:50m:34s
+Logical slot/port   = 16/0          Number of ports = 2
+HotStandBy port = null 
+Port state          = Port-channel Ag-Inuse 
+Protocol            =   LACP
+Port security       = Disabled
+
+Ports in the Port-channel: 
+
+Index   Load   Port     EC state        No of bits
+------+------+------+------------------+-----------
+  0     00     Et0/0    Active             0
+  0     00     Et1/0    Active             0
+
+Time since last port bundled:    0d:00h:07m:30s    Et0/0
+Time since last port Un-bundled: 0d:00h:10m:18s    Et0/0
+
+ACCESS1#show interfaces ethernet0/0
+Ethernet0/0 is up, line protocol is up (connected) 
+  Hardware is AmdP2, address is aabb.cc00.3000 (bia aabb.cc00.3000)
+  Description: PO11_TO_CORE1_MEMBER1
+  MTU 1500 bytes, BW 10000 Kbit/sec, DLY 1000 usec, 
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Auto-duplex, Auto-speed, media type is unknown
+  input flow-control is off, output flow-control is unsupported 
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:00, output 00:00:13, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/2000/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/0 (size/max)
+  5 minute input rate 4000 bits/sec, 8 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     32804 packets input, 2245814 bytes, 0 no buffer
+     Received 5173 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles 
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 input packets with dribble condition detected
+     1350 packets output, 156289 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+ACCESS1#show interfaces ethernet1/0
+Ethernet1/0 is up, line protocol is up (connected) 
+  Hardware is AmdP2, address is aabb.cc00.3001 (bia aabb.cc00.3001)
+  Description: PO11_TO_CORE1_MEMBER2
+  MTU 1500 bytes, BW 10000 Kbit/sec, DLY 1000 usec, 
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Auto-duplex, Auto-speed, media type is unknown
+  input flow-control is off, output flow-control is unsupported 
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:08, output 00:00:16, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/2000/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/0 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     2285 packets input, 183237 bytes, 0 no buffer
+     Received 133 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles 
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 input packets with dribble condition detected
+     160 packets output, 40510 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+ACCESS1#

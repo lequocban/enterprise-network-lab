@@ -1,0 +1,226 @@
+CORE2#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(D)    
+
+CORE2#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs 
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode     
+
+Channel group 1 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.1000   9s    0x0    0x1    0x1     0x3D  
+Et0/3     FP      0         0000.0000.0000 799s    0x0    0x0    0x0     0x2   
+CORE2#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/1       on               802.1q         trunking      99
+Et0/2       on               802.1q         trunking      99
+Po1         on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+CORE2#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Standby 10.10.10.2      local           10.10.10.1
+Vl20        20   100 P Standby 10.10.20.2      local           10.10.20.1
+Vl30        30   100 P Standby 10.10.30.2      local           10.10.30.1
+Vl40        40   100 P Standby 10.10.40.2      local           10.10.40.1
+Vl50        50   100 P Standby 10.10.50.2      local           10.10.50.1
+Vl60        60   100 P Standby 10.10.60.2      local           10.10.60.1
+CORE2#
+CORE2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+CORE2(config)#int e0/3
+CORE2(config-if)#no shut
+CORE2(config-if)#end 
+CORE2#
+*Oct 12 14:20:34.760: %SYS-5-CONFIG_I: Configured from console by console
+CORE2#
+*Oct 12 14:20:35.872: %LINK-3-UPDOWN: Interface Ethernet0/3, changed state to up
+*Oct 12 14:20:36.879: %LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet0/3, changed state to up
+CORE2#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(P)    
+
+CORE2#show lacp neighbor
+Flags:  S - Device is requesting Slow LACPDUs 
+        F - Device is requesting Fast LACPDUs
+        A - Device is in Active mode       P - Device is in Passive mode     
+
+Channel group 1 neighbors
+
+Partner's information:
+
+                  LACP port                        Admin  Oper   Port    Port
+Port      Flags   Priority  Dev ID          Age    key    Key    Number  State
+Et0/0     SA      32768     aabb.cc80.1000   1s    0x0    0x1    0x1     0x3D  
+Et0/3     SA      32768     aabb.cc80.1000  12s    0x0    0x1    0x4     0x3D  
+CORE2#show interfaces ethernet0/0
+Ethernet0/0 is up, line protocol is up (connected) 
+  Hardware is AmdP2, address is aabb.cc00.2000 (bia aabb.cc00.2000)
+  Description: PO1_INTERCORE_MEMBER1
+  MTU 1500 bytes, BW 10000 Kbit/sec, DLY 1000 usec, 
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Auto-duplex, Auto-speed, media type is unknown
+  input flow-control is off, output flow-control is unsupported 
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:00, output 00:00:00, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/2000/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/0 (size/max)
+  5 minute input rate 2000 bits/sec, 5 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     7423 packets input, 515048 bytes, 0 no buffer
+     Received 1346 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles 
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 input packets with dribble condition detected
+     3604 packets output, 258709 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+CORE2#show interfaces ethernet0/3
+Ethernet0/3 is up, line protocol is up (connected) 
+  Hardware is AmdP2, address is aabb.cc00.2030 (bia aabb.cc00.2030)
+  Description: PO1_INTERCORE_MEMBER2
+  MTU 1500 bytes, BW 10000 Kbit/sec, DLY 1000 usec, 
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Auto-duplex, Auto-speed, media type is unknown
+  input flow-control is off, output flow-control is unsupported 
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:12, output 00:00:00, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/2000/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue: 0/0 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 1000 bits/sec, 2 packets/sec
+     17 packets input, 5515 bytes, 0 no buffer
+     Received 17 broadcasts (0 multicasts)
+     0 runts, 0 giants, 0 throttles 
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored
+     0 input packets with dribble condition detected
+     234 packets output, 20727 bytes, 0 underruns
+     0 output errors, 0 collisions, 0 interface resets
+     0 unknown protocol drops
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+CORE2#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/1       on               802.1q         trunking      99
+Et0/2       on               802.1q         trunking      99
+Po1         on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+CORE2#show spanning-tree root
+
+                                        Root    Hello Max Fwd
+Vlan                   Root ID          Cost    Time  Age Dly  Root Port
+---------------- -------------------- --------- ----- --- ---  ------------
+VLAN0001         32769 aabb.cc00.2000         0    2   20  15                  
+VLAN0010         24586 aabb.cc00.1000        56    2   20  15  Po1             
+VLAN0020         24596 aabb.cc00.1000        56    2   20  15  Po1             
+VLAN0030         24606 aabb.cc00.1000        56    2   20  15  Po1             
+VLAN0040         24616 aabb.cc00.1000        56    2   20  15  Po1             
+VLAN0050         24626 aabb.cc00.1000        56    2   20  15  Po1             
+VLAN0060         24636 aabb.cc00.1000        56    2   20  15  Po1             
+VLAN0099         24675 aabb.cc00.1000        56    2   20  15  Po1             
+CORE2#show spanning-tree inconsistentports
+
+Name                 Interface                Inconsistency
+-------------------- ------------------------ ------------------
+
+Number of inconsistent ports (segments) in the system : 0
+
+CORE2#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Standby 10.10.10.2      local           10.10.10.1
+Vl20        20   100 P Standby 10.10.20.2      local           10.10.20.1
+Vl30        30   100 P Standby 10.10.30.2      local           10.10.30.1
+Vl40        40   100 P Standby 10.10.40.2      local           10.10.40.1
+Vl50        50   100 P Standby 10.10.50.2      local           10.10.50.1
+Vl60        60   100 P Standby 10.10.60.2      local           10.10.60.1
+CORE2#

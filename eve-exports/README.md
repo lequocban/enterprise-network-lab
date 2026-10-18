@@ -1,5 +1,13 @@
 # Export HQ và cấu hình đi kèm
 
+## Bàn giao Sprint 02 — 18/10/2026
+
+[sprint-02-hq-2026-10-18.zip](sprint-02-hq-2026-10-18.zip), **1007 bytes**, chứa một `Enterprise-Network-HQ.unl` **4762 bytes**. SHA256: `c9f18e4b7a22079a3d391a136b31bf8fd19f6b0bb1fc29777550848e840358ce`.
+
+[Kiểm tra export](../docs/test-results/sprint-02-export-inspection-2026-10-18.txt): CRC/XML hợp lệ, tám node, mười một network có đúng hai endpoint mỗi network; toàn bộ11 kết nối khớp cổng đã triển khai. Po1 có CORE1 e0/0↔CORE2 e0/0 và e0/3↔e0/3; Po11 có CORE1 e0/1↔ACCESS1 e0/0 và CORE1 e1/1↔ACCESS1 e1/0. Giữ nguyên các ZIP Sprint00/01.
+
+ZIP **chỉ chứa topology/metadata**: tất cả node `config=0`, không có payload cấu hình/VPCS startup hoặc image. Đi kèm [CORE1](../configs/core/sprint-02/CORE1.final.running.cfg), [CORE2](../configs/core/sprint-02/CORE2.final.running.cfg), [ACCESS1](../configs/access/sprint-02/ACCESS1.final.running.cfg), [ACCESS2](../configs/access/sprint-02/ACCESS2.final.running.cfg) và IP endpoint trong [báo cáo bàn giao](../docs/sprint-reports/sprint-02-report.md). Người thực hành đã xác nhận wr; startup cuối chưa có dump đối chiếu độc lập. Import/restore chưa thử; ZIP hợp lệ không phải bằng chứng khôi phục thành công. Lỗi chuyển member Po1 vẫn mở.
+
 ## Baseline Sprint 01 dùng tiếp
 
 [sprint-01-hq-2026-10-11.zip](sprint-01-hq-2026-10-11.zip), **947 bytes**, chứa một `Enterprise-Network-HQ.unl` **4241 bytes**.

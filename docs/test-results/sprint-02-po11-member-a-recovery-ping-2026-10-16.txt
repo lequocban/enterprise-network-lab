@@ -1,0 +1,7 @@
+PC-IT-01> ping 10.10.40.20
+
+84 bytes from 10.10.40.20 icmp_seq=1 ttl=63 time=2.367 ms
+84 bytes from 10.10.40.20 icmp_seq=2 ttl=63 time=1.100 ms
+84 bytes from 10.10.40.20 icmp_seq=3 ttl=63 time=1.750 ms
+84 bytes from 10.10.40.20 icmp_seq=4 ttl=63 time=1.304 ms
+84 bytes from 10.10.40.20 icmp_seq=5 ttl=63 time=1.281 ms

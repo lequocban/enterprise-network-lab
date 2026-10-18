@@ -1,0 +1,108 @@
+CORE1#show startup-config | section ^interface Ethernet1/2
+interface Ethernet1/2
+CORE1#show running-config interface Ethernet1/1
+Building configuration...
+
+Current configuration : 29 bytes
+!
+interface Ethernet1/1
+end
+
+CORE1#
+
+CORE2#show running-config interface Ethernet0/2
+Building configuration...
+
+Current configuration : 229 bytes
+!
+interface Ethernet0/2
+ description TRUNK_TO_ACCESS2
+ switchport trunk allowed vlan 10,20,30,40,50,60,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 99
+ switchport mode trunk
+ switchport nonegotiate
+end
+
+ACCESS1#show running-config interface Ethernet0/0
+Building configuration...
+
+Current configuration : 227 bytes
+!
+interface Ethernet0/0
+ description TRUNK_TO_CORE1
+ switchport trunk allowed vlan 10,20,30,40,50,60,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 99
+ switchport mode trunk
+ switchport nonegotiate
+end
+
+ACCESS1#show running-config interface Ethernet1/0
+Building configuration...
+
+Current configuration : 29 bytes
+!
+interface Ethernet1/0
+end
+
+ACCESS1#show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 0
+Number of aggregators:           0
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+
+ACCESS1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      99
+Et0/1       on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       10,20,30,40,50,60,99
+Et0/1       none
+ACCESS1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+Et0/1               Altn BLK 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr

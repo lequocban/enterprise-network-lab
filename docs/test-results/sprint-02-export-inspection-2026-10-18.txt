@@ -1,0 +1,28 @@
+Sprint 02 export inspection - 2026-10-18 (Asia/Saigon date)
+Source: user-exported local ZIP; inspection by agent, no import/runtime restore performed.
+ZIP: sprint-02-hq-2026-10-18.zip
+ZIP bytes: 1007
+SHA256: c9f18e4b7a22079a3d391a136b31bf8fd19f6b0bb1fc29777550848e840358ce
+Payload: Enterprise-Network-HQ.unl (4762 bytes)
+CRC: PASS
+XML: PASS
+Unique node IDs/names: PASS (8 nodes)
+Networks: PASS (11, exactly two endpoints each)
+Expected physical connections: PASS (11/11)
+network 1: CORE1:e0/0 <-> CORE2:e0/0
+network 2: CORE1:e0/1 <-> ACCESS1:e0/0
+network 3: CORE2:e0/1 <-> ACCESS1:e0/1
+network 4: CORE1:e0/2 <-> ACCESS2:e0/0
+network 5: CORE2:e0/2 <-> ACCESS2:e0/1
+network 6: ACCESS1:e0/2 <-> PC-IT:eth0
+network 7: ACCESS1:e0/3 <-> PC-HR:eth0
+network 8: ACCESS2:e0/2 <-> PC-ACC:eth0
+network 9: ACCESS2:e0/3 <-> PC-GUEST:eth0
+network 10: CORE1:e0/3 <-> CORE2:e0/3
+network 11: CORE1:e1/1 <-> ACCESS1:e1/0
+Embedded configuration: NONE (all node config=0; no config payload; ZIP contains only UNL)
+Companion switch configs: four *.final.running.cfg files in configs/*/sprint-02/
+Save status: user reports wr on all switches; final startup dumps not independently compared.
+VPCS: final IPs supported by chat/preflight; no VPCS startup files in this ZIP.
+Restore/import: NOT TESTED
+Open issue: Po1 one-sided member failure does not reliably restore traffic; see sprint-02-po1-member-check-2026-10-18.md.

@@ -46,7 +46,7 @@ Export Sprint01 đạt CRC/XML, đúng tám node/chín link; ZIP không nhúng c
 
 - Sprint 0: đóng nền tảng, follow-up theo biên bản.
 - Sprint 1: hoàn thành thực hành có follow-ups; báo cáo/config/export đã lưu local, không ghi toàn bộ test PASS hoặc DoD DONE.
-- Sprint 2: LACP và full HSRP/client failover.
+- Sprint2: [Bàn giao ngày18/10/2026](docs/sprint-reports/sprint-02-report.md): đủ bốn final running, Po1/Po11 hai member ở runtime cuối và export8 node/11 link đã kiểm tra. Các bài mất channel/Core có bằng chứng HA chức năng; [lỗi chuyển member Po1](docs/test-results/sprint-02-po1-member-check-2026-10-18.md) còn mở. ZIP chỉ chứa topology; restore và số đo thời gian HA chưa nghiệm thu đầy đủ. Không đánh dấu toàn bộ Sprint2 DONE.
 - Sprint 3–6: WAN, OSPF/BGP, firewall và VPN.
 - Sprint 7–9: Linux services, monitoring, automation.
 - Sprint 10–11: troubleshooting và portfolio.

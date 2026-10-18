@@ -1,0 +1,9 @@
+CORE1#wr
+Building configuration...
+Compressed configuration from 3300 bytes to 1674 bytes[OK]
+CORE1#
+CORE1#
+CORE1#
+CORE1#show startup-config | section ^interface Ethernet1/1
+interface Ethernet1/1
+CORE1#

@@ -1,0 +1,211 @@
+ACCESS1#terminal length 0
+ACCESS1#show clock
+*12:59:27.273 UTC Mon Oct 12 2026
+ACCESS1#show vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Et1/0, Et1/1, Et1/2, Et1/3
+10   MGMT                             active    
+20   IT                               active    Et0/2
+30   HR                               active    Et0/3
+40   ACCOUNTING                       active    
+50   SERVER                           active    
+60   GUEST                            active    
+99   NATIVE                           active    
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+ACCESS1#show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      99
+Et0/1       on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       10,20,30,40,50,60,99
+Et0/1       none
+ACCESS1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up      
+Ethernet0/1            unassigned      YES unset  up                    up      
+Ethernet0/2            unassigned      YES unset  up                    up      
+Ethernet0/3            unassigned      YES unset  up                    up      
+Ethernet1/0            unassigned      YES unset  up                    up      
+Ethernet1/1            unassigned      YES unset  up                    up      
+Ethernet1/2            unassigned      YES unset  up                    up      
+Ethernet1/3            unassigned      YES unset  up                    up      
+Vlan10                 10.10.10.11     YES NVRAM  up                    up      
+ACCESS1#show spanning-tree vlan 20
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr 
+Et0/1               Altn BLK 100       128.2    Shr 
+Et0/2               Desg FWD 100       128.3    Shr 
+
+
+ACCESS1#show spanning-tree inconsistentports
+
+Name                 Interface                Inconsistency
+-------------------- ------------------------ ------------------
+
+Number of inconsistent ports (segments) in the system : 0
+
+ACCESS1#show startup-config
+Using 1024 out of 524288 bytes, uncompressed size = 1704 bytes
+!
+! Last configuration change at 17:13:43 UTC Sat Oct 10 2026
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname ACCESS1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+vtp mode transparent
+no ip routing
+!
+!
+!
+no ip domain-lookup
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 10
+ name MGMT
+!
+vlan 20
+ name IT
+!
+vlan 30
+ name HR
+!
+vlan 40
+ name ACCOUNTING
+!
+vlan 50
+ name SERVER
+!
+vlan 60
+ name GUEST
+!
+vlan 99
+ name NATIVE
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ description TRUNK_TO_CORE1
+ switchport trunk allowed vlan 10,20,30,40,50,60,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 99
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface Ethernet0/1
+ description TRUNK_TO_CORE2
+ switchport trunk allowed vlan 10,20,30,40,50,60,99
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 99
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface Ethernet0/2
+ description PC_IT
+ switchport access vlan 20
+ switchport mode access
+!
+interface Ethernet0/3
+ description PC_HR
+ switchport access vlan 30
+ switchport mode access
+!
+interface Ethernet1/0
+!
+interface Ethernet1/1
+!
+interface Ethernet1/2
+!
+interface Ethernet1/3
+!
+interface Vlan10
+ description MANAGEMENT
+ ip address 10.10.10.11 255.255.255.0
+!
+ip default-gateway 10.10.10.1
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end

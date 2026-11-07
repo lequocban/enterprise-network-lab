@@ -2,7 +2,7 @@
 
 - [Kiểm bản gốc sau restore](test-results/sprint-04-source-startup-check-2026-11-07.md): năm router có đủ BGP trong startup, khớp running và hai Lo100 ping10/10; không tái hiện lỗi thiếu startup BGP trên bản gốc.
 
-- [Báo cáo chốt Sprint 04](sprint-reports/sprint-04-report.md): NET-401–404/INT-04 đạt kỹ thuật ngày 07/11/2026; hồ sơ bàn giao nhánh `lab/sprint-04-internet-edge`, follow-up ghi riêng.
+- [Báo cáo chốt Sprint 04](sprint-reports/sprint-04-report.md): NET-401–404/INT-04 đạt kỹ thuật ngày 07/11/2026; hồ sơ bàn giao trên `master`, follow-up ghi riêng.
 - [BGP và failover thực tế](routing/bgp-failover.md): scoped LP, route/filter, các ca lỗi và runbook restore.
 - [Restore ZIP cuối](test-results/sprint-04-final-restore-2026-11-07.md): boot 17 node, traffic Campus/Edge/Branch, startup parity 7/7 sau lưu và restart, kèm raw console.
 

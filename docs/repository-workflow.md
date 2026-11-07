@@ -4,9 +4,9 @@
 
 ## Git và review
 
-- `master` giữ bản đã review; nhánh tài liệu dùng `docs/<chu-de>`, triển khai dùng `lab/sprint-<NN>-<chu-de>`.
-- Mỗi commit/PR giải quyết phần có thể review độc lập; mô tả vấn đề, kết quả, validation và giới hạn.
-- Commit local, push, PR và merge là các trạng thái riêng. Chỉ ghi đã xuất bản khi có bằng chứng tương ứng.
+- Dự án cá nhân dùng duy nhất nhánh `master`, theo yêu cầu chủ dự án ngày 07/11/2026. Review thay đổi và commit/push trực tiếp trên `master`; không tự tạo nhánh hoặc PR.
+- Mỗi commit giải quyết phần có thể review độc lập; mô tả vấn đề, kết quả, validation và giới hạn.
+- Commit local và push là các trạng thái riêng. Chỉ ghi đã xuất bản khi có bằng chứng remote tương ứng.
 - Giữ thay đổi hiện có; không reset hoặc force-push để hoàn tất một sprint.
 
 ## Artifact

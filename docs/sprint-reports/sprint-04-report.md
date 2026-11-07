@@ -1,7 +1,7 @@
 # Sprint 04 — Internet Edge và BGP
 
 **Chốt kỹ thuật:** 07/11/2026, Asia/Saigon.  
-**Trạng thái:** **CLOSED WITH FOLLOW-UPS — NET-401–404 và INT-04 đạt phạm vi kỹ thuật**. Các follow-up về đo convergence, lỗi IOL kế thừa và quy trình restore được ghi bên dưới. Bộ hồ sơ bàn giao qua nhánh `lab/sprint-04-internet-edge`; PR/merge là bước riêng. Commit và trạng thái remote đối chiếu bằng lịch sử Git.
+**Trạng thái:** **CLOSED WITH FOLLOW-UPS — NET-401–404 và INT-04 đạt phạm vi kỹ thuật**. Các follow-up về đo convergence, lỗi IOL kế thừa và quy trình restore được ghi bên dưới. Bộ hồ sơ bàn giao trên nhánh duy nhất `master` theo yêu cầu chủ dự án. Commit và trạng thái remote đối chiếu bằng lịch sử Git.
 
 ## Sản phẩm bàn giao
 
@@ -39,6 +39,6 @@ Các failure tests ở buổi 6–7 dùng output người thực hành gửi; ca
 - IOL Core vẫn dùng `no ip cef`; lỗi Po1 khi chỉ một member kế thừa Sprint2 chưa được đóng. Regression này dùng Po1/Po11 đủ hai member.
 - BGP default/INET là mô phỏng. FW/DMZ/NAT, HQ client→Internet/Branch và VPN chưa triển khai; nghiệm thu ở INT-05/06 sau này. Branch có một ISP mỗi site.
 - EVE API cuối có 17 process node, mem33% và swap0%; chưa có kiểm tải toàn Enterprise. API node-status giữa hai lab trùng node IDs có giới hạn, audit ghi riêng và config set nguồn được đối chiếu nguyên byte.
-- Nhánh bàn giao `lab/sprint-04-internet-edge` chứa hồ sơ Sprint4 và các tài liệu thiết kế tích hợp mà nó tham chiếu. PR/merge thực hiện riêng. Bản sửa roadmap định dạng lớn, hai kế hoạch Sprint2/Sprint10 và file tải tạm được giữ ngoài commit Sprint4 để review theo phạm vi.
+- Hồ sơ Sprint4 và các tài liệu thiết kế tích hợp được bàn giao trực tiếp trên `master`. Bản sửa roadmap định dạng lớn và hai kế hoạch Sprint2/Sprint10 được giữ ngoài commit Sprint4 để review theo phạm vi. File tải tạm trùng nguyên byte ZIP cuối được dọn sau khi xác minh bản ZIP đã có trong commit.
 
 Sprint5 có thể bắt đầu từ baseline ZIP này và runbook restore: thêm ASAv/T01/FW vào T02, xây default/return/NAT/policy rồi kiểm traffic client HQ. Không nối tắt Campus–Edge để thay bước firewall.

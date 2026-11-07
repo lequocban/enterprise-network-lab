@@ -9,6 +9,8 @@
 
 ## Inventory/cabling/payload
 
+**Dọn file tải tạm sau bàn giao Git:** `Unconfirmed 618334.crdownload` được xác minh trùng nguyên byte ZIP cuối đã commit rồi xóa khỏi workspace. ZIP cuối và các ZIP checkpoint lịch sử vẫn được giữ; việc giữ file tải tạm phía trên mô tả checkpoint kiểm ban đầu.
+
 - 17 node với ID/tên duy nhất, 21 network, mỗi network có đúng hai endpoint. Mapping toàn bộ 21 dây giống [baseline 26/10](sprint-04-underlay-export-2026-10-26.md).
 - 17/17 payload Base64 giải mã được, ID payload khớp đủ node; tất cả node metadata `config="1"` (Exported). Ảnh Configured Nodes do người thực hành gửi cũng hiển thị Exported cho 17 node.
 - Image, template, RAM, CPU, số Ethernet và NVRAM trong metadata giống baseline. T02 bridge/các endpoint giữ nguyên.

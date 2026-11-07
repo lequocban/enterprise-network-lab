@@ -1,0 +1,39 @@
+CAPTURE UTC 2026-11-07T15:22:32Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;PC-BR1
+PC-BR1> 
+COMMAND show ip
+show ip
+
+NAME        : PC-BR1[1]
+IP/MASK     : 10.20.10.20/24
+GATEWAY     : 10.20.10.1
+DNS         : 
+MAC         : 00:50:79:66:68:10
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC-BR1> 
+COMMAND ping 10.20.10.1 -c 2
+ping 10.20.10.1 -c 2
+
+84 bytes from 10.20.10.1 icmp_seq=1 ttl=255 time=1.147 ms
+84 bytes from 10.20.10.1 icmp_seq=2 ttl=255 time=0.976 ms
+
+PC-BR1> 
+COMMAND ping 10.20.10.1 -c 10
+ping 10.20.10.1 -c 10
+
+84 bytes from 10.20.10.1 icmp_seq=1 ttl=255 time=1.153 ms
+84 bytes from 10.20.10.1 icmp_seq=2 ttl=255 time=0.887 ms
+84 bytes from 10.20.10.1 icmp_seq=3 ttl=255 time=1.095 ms
+84 bytes from 10.20.10.1 icmp_seq=4 ttl=255 time=0.795 ms
+84 bytes from 10.20.10.1 icmp_seq=5 ttl=255 time=0.901 ms
+84 bytes from 10.20.10.1 icmp_seq=6 ttl=255 time=0.896 ms
+84 bytes from 10.20.10.1 icmp_seq=7 ttl=255 time=0.814 ms
+84 bytes from 10.20.10.1 icmp_seq=8 ttl=255 time=0.800 ms
+84 bytes from 10.20.10.1 icmp_seq=9 ttl=255 time=0.926 ms
+84 bytes from 10.20.10.1 icmp_seq=10 ttl=255 time=0.765 ms
+
+PC-BR1> 

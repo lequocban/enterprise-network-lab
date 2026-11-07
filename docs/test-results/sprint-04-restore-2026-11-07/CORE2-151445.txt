@@ -1,0 +1,80 @@
+CAPTURE UTC 2026-11-07T15:14:43Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;CORE2
+*Nov  7 15:14:39.646: %HSRP-5-STATECHANGE: Vlan50 Grp 50 state Standby -> Listen
+*Nov  7 15:14:40.026: %HSRP-5-STATECHANGE: Vlan10 Grp 10 state Standby -> Listen
+CORE2>
+CORE2>enable
+CORE2#
+CORE2#terminal length 0
+CORE2#
+CORE2#
+COMMAND show etherchannel summary
+show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(P)    
+
+CORE2#
+CORE2#
+COMMAND show standby brief
+show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   100 P Speak   10.10.10.2      unknown         10.10.10.1
+Vl20        20   100 P Listen  10.10.20.2      unknown         10.10.20.1
+Vl30        30   100 P Speak   unknown         10.10.30.2      10.10.30.1
+Vl40        40   100 P Listen  unknown         10.10.40.2      10.10.40.1
+Vl50        50   100 P Listen  10.10.50.2      unknown         10.10.50.1
+Vl60        60   100 P Speak   10.10.60.2      unknown         10.10.60.1
+CORE2#
+CORE2#
+COMMAND show interfaces trunk
+show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/1       on               802.1q         trunking      99
+Et0/2       on               802.1q         trunking      99
+Po1         on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/1       10,20,30,40,50,60,99
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+CORE2#
+CORE2#
+COMMAND show running-config | include ^no ip cef
+show running-config | include ^no ip cef
+no ip cef
+CORE2#
+CORE2#

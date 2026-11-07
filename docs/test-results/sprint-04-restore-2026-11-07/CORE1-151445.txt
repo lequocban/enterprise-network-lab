@@ -1,0 +1,83 @@
+CAPTURE UTC 2026-11-07T15:14:43Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;CORE1
+*Nov  7 15:14:40.493: %HSRP-5-STATECHANGE: Vlan50 Grp 50 state Standby -> Active
+*Nov  7 15:14:40.596: %HSRP-5-STATECHANGE: Vlan60 Grp 60 state Standby -> Active
+*Nov  7 15:14:40.880: %HSRP-5-STATECHANGE: Vlan20 Grp 20 state Standby -> Active
+*Nov  7 15:14:41.233: %HSRP-5-STATECHANGE: Vlan10 Grp 10 state Standby -> Active
+CORE1>
+CORE1>enable
+CORE1#
+CORE1#terminal length 0
+CORE1#
+CORE1#
+COMMAND show etherchannel summary
+show etherchannel summary
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 2
+Number of aggregators:           2
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)         LACP      Et0/0(P)    Et0/3(P)    
+11     Po11(SU)        LACP      Et0/1(P)    Et1/1(P)    
+
+CORE1#
+CORE1#
+COMMAND show standby brief
+show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl10        10   110 P Active  local           unknown         10.10.10.1
+Vl20        20   110 P Active  local           unknown         10.10.20.1
+Vl30        30   110 P Standby unknown         local           10.10.30.1
+Vl40        40   110 P Standby unknown         local           10.10.40.1
+Vl50        50   110 P Active  local           unknown         10.10.50.1
+Vl60        60   110 P Active  local           unknown         10.10.60.1
+CORE1#
+CORE1#
+COMMAND show interfaces trunk
+show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/2       on               802.1q         trunking      99
+Po1         on               802.1q         trunking      99
+Po11        on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/2       10,20,30,40,50,60,99
+Po1         10,20,30,40,50,60,99
+Po11        10,20,30,40,50,60,99
+CORE1#
+CORE1#
+COMMAND show running-config | include ^no ip cef
+show running-config | include ^no ip cef
+no ip cef
+CORE1#
+CORE1#

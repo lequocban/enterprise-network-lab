@@ -1,5 +1,16 @@
 # Cấu hình thiết bị
 
+**Snapshot console trên bản restore 07/11:** bảy IOSv trong `edge/isp/branch/internet-test/sprint-04/` có file `*.final.running.cfg` và `*.final.startup.cfg`, trích từ `version` tới `end` trong raw CLI; [startup parity 7/7](../docs/test-results/sprint-04-restore-2026-11-07/startup-parity.json) sau `wr` và restart. Các file `*.restore-initial.startup.cfg` giữ trạng thái startup trước lưu; raw có header/command trong [chỉ mục restore](../docs/test-results/sprint-04-restore-2026-11-07/README.md). Đây là snapshot NVRAM/runtime, tách khỏi 17 payload nguyên byte của ZIP.
+
+**Sprint 04, export cuối 07/11/2026:** [17 cấu hình nguyên byte và manifest](sprint-04-final/README.md) trích từ ZIP cuối; [kiểm CRC/XML/cabling/payload đạt](../docs/test-results/sprint-04-final-export-inspection-2026-11-07.md), [restore bản sao đã đạt theo runbook](../docs/test-results/sprint-04-final-restore-2026-11-07.md).
+
+**Sprint 04, underlay/scoped LP trước failure test:** [EDGE1 scoped LP](edge/sprint-04/EDGE1.scoped-lp.exported.cfg), [BR1-R1](branch/sprint-04/BR1-R1.exported.cfg), [BR2-R1](branch/sprint-04/BR2-R1.exported.cfg), [PC-BR1](vpcs/sprint-04/PC-BR1.exported.cfg), [PC-BR2](vpcs/sprint-04/PC-BR2.exported.cfg) được trích nguyên byte từ [ZIP 26/10](../eve-exports/sprint-04-branch-underlay-scoped-lp-2026-10-26.zip). Tám payload HQ và EDGE2/ISP1/ISP2/INET-TEST giống CP2; xem [biên bản kiểm ZIP](../docs/test-results/sprint-04-underlay-export-2026-10-26.md). Đây là artifact trước failure test, chưa phải bằng chứng đã restore.
+
+**Sprint 04, CP2 dual ISP trước Branch:** [EDGE1](edge/sprint-04/EDGE1.dual-isp.exported.cfg), [EDGE2](edge/sprint-04/EDGE2.dual-isp.exported.cfg), [ISP1](isp/sprint-04/ISP1.dual-isp.exported.cfg), [ISP2](isp/sprint-04/ISP2.dual-isp.exported.cfg) được trích nguyên byte từ [ZIP baseline dual ISP](../eve-exports/sprint-04-dual-isp-bgp-baseline-2026-10-25.zip). INET-TEST giữ CFG buổi 2. Xem [biên bản kiểm ZIP](../docs/test-results/sprint-04-dual-isp-export-2026-10-26.md). Bốn file này là checkpoint trước Branch và trước tinh chỉnh LP theo kết quả RIB BR2; chưa phải startup dump độc lập hoặc kết quả restore.
+
+**Sprint 04, provider 24/10/2026:** [ISP1](isp/sprint-04/ISP1.exported.cfg), [ISP2](isp/sprint-04/ISP2.exported.cfg) và [INET-TEST](internet-test/sprint-04/INET-TEST.exported.cfg) được trích nguyên byte từ payload của [ZIP BGP provider](../eve-exports/sprint-04-provider-bgp-2026-10-24.zip). Xem [biên bản](../docs/test-results/sprint-04-provider-bgp-2026-10-24.md) để phân biệt output runtime, `wr` do người thực hành xác nhận và CFG trong export; chưa có startup dump độc lập hoặc restart/restore.
+
+
 Lưu cấu hình **lấy từ thiết bị đã chạy lab**, không tạo config giả từ bảng IP để làm bằng chứng.
 
 ## Baseline Sprint 01 đã lưu

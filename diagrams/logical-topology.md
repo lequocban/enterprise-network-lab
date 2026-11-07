@@ -1,5 +1,7 @@
 # Topology logic — thiết kế dự kiến v1.0
 
+**Actual Sprint4 ngày 07/11/2026:** Campus/WAN/Branch đã chạy và restore trên topology tích hợp; [báo cáo](../docs/sprint-reports/sprint-04-report.md) và [BGP thực tế](../docs/routing/bgp-failover.md). FW/DMZ/NAT/VPN/services còn planned; các mốc 10–18/10 bên dưới giữ lịch sử thiết kế/HQ.
+
 **Ngày review:** 10/10/2026
 
 **Nguồn:** [Architecture](../docs/network-architecture.md) và [IP Plan](../docs/ip-addressing-plan.md).
@@ -16,6 +18,8 @@
 
 ```mermaid
 flowchart TB
+    TEST[INET-TEST - planned] ---|W08| ISP1
+    TEST ---|W09| ISP2
     ISP1[ISP1 - planned] ---|T07| ISP2[ISP2 - planned]
     ISP1 ---|T03| EDGE1[EDGE1 - planned]
     ISP2 ---|T04| EDGE2[EDGE2 - planned]
@@ -39,17 +43,19 @@ flowchart TB
     ISP2 ---|T06| BR2[BR2-R1 - planned]
     BR1 --- LAN1[Branch1 10.20.10.0/24]
     BR2 --- LAN2[Branch2 10.30.10.0/24]
+    EDGE1 -. VTI / OSPF Area10 over ISP .-> BR1
+    EDGE2 -. VTI / OSPF Area20 over ISP .-> BR2
 ```
 
 ## Cách đọc
 
 - Các đường mô tả quan hệ kết nối dự kiến; trạng thái forwarding/trunk/shutdown phải được kiểm tra riêng.
 - VLAN10/20/30/40/50/60 dùng SVI trên hai Core, gateway HSRP theo IP Plan. Native VLAN99 không cấp IP.
-- VLAN90 nối hai Core với FW inside; VLAN91 nối FW outside với hai Edge. Mỗi vùng cần broadcast domain chung, chưa chốt node Layer 2/cổng cụ thể.
+- VLAN90 dùng EVE Bridge T01 nối hai Core với FW inside; VLAN91 dùng EVE Bridge T02 nối FW outside với hai Edge. Chi tiết cổng/IP đã có trong [thiết kế INT-03](../docs/routing/enterprise-integration-design.md) và [physical topology](physical-topology.md), chờ tạo node/link trên lab phát triển.
 - SRV-INFRA dự kiến nối Access qua VLAN50; lựa chọn Access/cổng phải chốt trong physical topology trước Sprint 7. Đường tới ACCESS1 trong sơ đồ là đề xuất, chưa xác nhận cabling.
 - DMZ gateway nằm ở FW1, không trên Core. Test endpoints là VPCS linh động, không phải hạ tầng cố định.
-- VPN HQ–Branch là lớp kết nối dự kiến qua ISP; chưa vẽ tunnel endpoint cố định vì quyết định terminate ở FW/Edge còn mở tại WAN-01.
+- VPN HQ–Branch dự kiến terminate ở EDGE1/BR1 và EDGE2/BR2 bằng IPsec VTI; OSPF Area10/20 chạy bên trong tunnel, Area0 giữa hai Edge qua T02. ISP chỉ mang underlay.
 
 ## Điểm còn mở
 
-Gateway outside của ASA và failover; default/return routes; OSPF Branch đi trên đường nào; VPN/NAT placement; Internet Test Server và cổng/server DMZ. Theo dõi tại [WAN-01](../docs/sprint-reports/sprint-00-closeout.md#3-việc-chuyển-tiếp-và-điều-kiện-thực-hiện).
+Các mục WAN-01 đã được chọn trong [thiết kế INT-03](../docs/routing/enterprise-integration-design.md): gateway FW outside, default/return route, OSPF trên VTI, NAT tại FW, INET-TEST hai uplink và cổng DMZ. Còn kiểm runtime ở đúng mốc INT-04/05/06, đo tài nguyên EVE và ghi path UNL phát triển thực tế.

@@ -1,0 +1,216 @@
+{
+  "source_zip": "sprint-04-enterprise-final-2026-11-07.zip",
+  "zip_bytes": 14082,
+  "zip_sha256": "245C9B3C6ED7343C946BBB531DFB93151226C404F8ECFB9EA66496F1AA813D50",
+  "lab": "Enterprise-Network-Integrated",
+  "nodes": 17,
+  "networks": 21,
+  "startup_config_enabled": 17,
+  "payloads": [
+    {
+      "node": "CORE1",
+      "file": "CORE1.exported.cfg",
+      "bytes": 4067,
+      "sha256": "FAECEDA8112DF418D5530A5EDAD75FCEE962D9C3BAE16406463C4BFF34CDD229",
+      "baseline_identical": false
+    },
+    {
+      "node": "CORE2",
+      "file": "CORE2.exported.cfg",
+      "bytes": 3281,
+      "sha256": "2733E6734FBF471D0EA6F885A89D5C769BC2774C72EFE9F2369C3B4510F5E232",
+      "baseline_identical": false
+    },
+    {
+      "node": "ACCESS1",
+      "file": "ACCESS1.exported.cfg",
+      "bytes": 2339,
+      "sha256": "89B1751C4132382DCA43788770B6E70CD1B0167BEA8C12C28C75958DD7017215",
+      "baseline_identical": false
+    },
+    {
+      "node": "ACCESS2",
+      "file": "ACCESS2.exported.cfg",
+      "bytes": 1831,
+      "sha256": "23DC311D68767078881E49664AE3F0312500C47E9B195A142BF37103AE127094",
+      "baseline_identical": false
+    },
+    {
+      "node": "PC-IT",
+      "file": "PC-IT.exported.cfg",
+      "bytes": 49,
+      "sha256": "8D66D6712A9313EE4E0FB3414C3E0D70BF6C424B88E809C1B79EB43E57FBA3AB",
+      "baseline_identical": true
+    },
+    {
+      "node": "PC-HR",
+      "file": "PC-HR.exported.cfg",
+      "bytes": 49,
+      "sha256": "4B5C8D475DB64E6AFFE7AD2596DAC43B7F193AA289ACAAA9F422C11FC0046EB2",
+      "baseline_identical": true
+    },
+    {
+      "node": "PC-ACC",
+      "file": "PC-ACC.exported.cfg",
+      "bytes": 50,
+      "sha256": "22FE1A78A66038016373D816C4A5CA3C531765BAB9224CC2EB27307F278F0F35",
+      "baseline_identical": true
+    },
+    {
+      "node": "PC-GUEST",
+      "file": "PC-GUEST.exported.cfg",
+      "bytes": 52,
+      "sha256": "2BA9B7AA4FE25F136E95DF9107CA0829E9604A9E3DC2E14CECD93765540047E1",
+      "baseline_identical": true
+    },
+    {
+      "node": "EDGE1",
+      "file": "EDGE1.exported.cfg",
+      "bytes": 5026,
+      "sha256": "8C30A32A4661B8D98881EE67B1267DF54D861036F88DD384ECAE1D9DBD498409",
+      "baseline_identical": false
+    },
+    {
+      "node": "EDGE2",
+      "file": "EDGE2.exported.cfg",
+      "bytes": 4814,
+      "sha256": "AB0935946BE887B590341A5608C5B5980116E5960614B82A5FA7E572DB886EA8",
+      "baseline_identical": false
+    },
+    {
+      "node": "ISP1",
+      "file": "ISP1.exported.cfg",
+      "bytes": 5630,
+      "sha256": "AC4007C60458F310D2E90E75D16E45D2897CB632730EB5A80EE50E62715C14B4",
+      "baseline_identical": false
+    },
+    {
+      "node": "ISP2",
+      "file": "ISP2.exported.cfg",
+      "bytes": 5630,
+      "sha256": "A848FC374424D0584BB632A3ED317444287EBABBFD787D3D93F88E8E4A20B730",
+      "baseline_identical": false
+    },
+    {
+      "node": "INET-TEST",
+      "file": "INET-TEST.exported.cfg",
+      "bytes": 4126,
+      "sha256": "05831CC0C87AC51C91862B5084BAA31AD9F810755EC1ED407E2741AEF904CA36",
+      "baseline_identical": false
+    },
+    {
+      "node": "BR1-R1",
+      "file": "BR1-R1.exported.cfg",
+      "bytes": 3127,
+      "sha256": "6D0E7F555E0BAC005BE0D49FC95F6FDEDEB9BFFE6EF2FFF4AFFD7931763E98C6",
+      "baseline_identical": false
+    },
+    {
+      "node": "BR2-R1",
+      "file": "BR2-R1.exported.cfg",
+      "bytes": 3127,
+      "sha256": "EABD5EEEA2E52723A9E55E888C4FD89C2A179869FB5F5EEB09D6695FFF76DAAC",
+      "baseline_identical": false
+    },
+    {
+      "node": "PC-BR1",
+      "file": "PC-BR1.exported.cfg",
+      "bytes": 47,
+      "sha256": "E1512AF61C088C4D2A5CBFEA0840BC4D76FFE5E67E127591979C15743DF1A623",
+      "baseline_identical": true
+    },
+    {
+      "node": "PC-BR2",
+      "file": "PC-BR2.exported.cfg",
+      "bytes": 47,
+      "sha256": "8527139ECAD6C5D0902E5D8332621902F7A5E8B84972ECCB14928312E341B929",
+      "baseline_identical": true
+    }
+  ],
+  "links": [
+    [
+      "ACCESS1:e0/0",
+      "CORE1:e0/1"
+    ],
+    [
+      "ACCESS1:e0/1",
+      "CORE2:e0/1"
+    ],
+    [
+      "ACCESS1:e0/2",
+      "PC-IT:eth0"
+    ],
+    [
+      "ACCESS1:e0/3",
+      "PC-HR:eth0"
+    ],
+    [
+      "ACCESS1:e1/0",
+      "CORE1:e1/1"
+    ],
+    [
+      "ACCESS2:e0/0",
+      "CORE1:e0/2"
+    ],
+    [
+      "ACCESS2:e0/1",
+      "CORE2:e0/2"
+    ],
+    [
+      "ACCESS2:e0/2",
+      "PC-ACC:eth0"
+    ],
+    [
+      "ACCESS2:e0/3",
+      "PC-GUEST:eth0"
+    ],
+    [
+      "BR1-R1:Gi0/0",
+      "ISP1:Gi0/1"
+    ],
+    [
+      "BR1-R1:Gi0/1",
+      "PC-BR1:eth0"
+    ],
+    [
+      "BR2-R1:Gi0/0",
+      "ISP2:Gi0/1"
+    ],
+    [
+      "BR2-R1:Gi0/1",
+      "PC-BR2:eth0"
+    ],
+    [
+      "CORE1:e0/0",
+      "CORE2:e0/0"
+    ],
+    [
+      "CORE1:e0/3",
+      "CORE2:e0/3"
+    ],
+    [
+      "EDGE1:Gi0/0",
+      "EDGE2:Gi0/0"
+    ],
+    [
+      "EDGE1:Gi0/1",
+      "ISP1:Gi0/0"
+    ],
+    [
+      "EDGE2:Gi0/1",
+      "ISP2:Gi0/0"
+    ],
+    [
+      "INET-TEST:Gi0/0",
+      "ISP1:Gi0/3"
+    ],
+    [
+      "INET-TEST:Gi0/1",
+      "ISP2:Gi0/3"
+    ],
+    [
+      "ISP1:Gi0/2",
+      "ISP2:Gi0/2"
+    ]
+  ]
+}

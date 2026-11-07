@@ -9,7 +9,7 @@ Lab mạng doanh nghiệp trên **EVE-NG Community 6.2**, thực hành switching
 - Security: ASAv, DMZ, ACL/NAT và Site-to-Site VPN.
 - Services/Operations: Alpine, DHCP/DNS/NTP/Syslog, monitoring và automation.
 
-WAN/DMZ/Branch/services là thiết kế dự kiến, chưa phải toàn bộ đã chạy. VPCS là endpoint test linh động.
+**Sprint 4 chốt kỹ thuật 07/11/2026, CLOSED WITH FOLLOW-UPS:** Campus/WAN/Branch chạy trong lab tích hợp 17 node/21 network; BGP primary/backup, failure/recovery và restore ZIP cuối đã kiểm. Xem [báo cáo Sprint 4](docs/sprint-reports/sprint-04-report.md), [BGP/failover](docs/routing/bgp-failover.md) và [ZIP bàn giao](eve-exports/sprint-04-enterprise-final-2026-11-07.zip). FW/DMZ/NAT/VPN/services thuộc các sprint tiếp theo. VPCS là endpoint test linh động.
 
 ## Môi trường
 

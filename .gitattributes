@@ -1,0 +1,9 @@
+# Preserve exported configurations and console evidence byte for byte.
+configs/**/*.cfg -text -whitespace
+docs/test-results/**/*.txt -text -whitespace
+
+# Markdown uses two trailing spaces for explicit line breaks.
+*.md whitespace=-blank-at-eol
+
+*.zip binary
+*.png binary

@@ -1,0 +1,39 @@
+CAPTURE UTC 2026-11-07T15:22:18Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;PC-ACC
+PC-ACC-01> 
+COMMAND show ip
+show ip
+
+NAME        : PC-ACC-01[1]
+IP/MASK     : 10.10.40.20/24
+GATEWAY     : 10.10.40.1
+DNS         : 
+MAC         : 00:50:79:66:68:07
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC-ACC-01> 
+COMMAND ping 10.10.20.20 -c 2
+ping 10.10.20.20 -c 2
+
+84 bytes from 10.10.20.20 icmp_seq=1 ttl=63 time=1.130 ms
+84 bytes from 10.10.20.20 icmp_seq=2 ttl=63 time=0.822 ms
+
+PC-ACC-01> 
+COMMAND ping 10.10.20.20 -c 10
+ping 10.10.20.20 -c 10
+
+84 bytes from 10.10.20.20 icmp_seq=1 ttl=63 time=5.439 ms
+84 bytes from 10.10.20.20 icmp_seq=2 ttl=63 time=0.736 ms
+84 bytes from 10.10.20.20 icmp_seq=3 ttl=63 time=0.868 ms
+84 bytes from 10.10.20.20 icmp_seq=4 ttl=63 time=0.966 ms
+84 bytes from 10.10.20.20 icmp_seq=5 ttl=63 time=1.099 ms
+84 bytes from 10.10.20.20 icmp_seq=6 ttl=63 time=1.095 ms
+84 bytes from 10.10.20.20 icmp_seq=7 ttl=63 time=0.792 ms
+84 bytes from 10.10.20.20 icmp_seq=8 ttl=63 time=0.771 ms
+84 bytes from 10.10.20.20 icmp_seq=9 ttl=63 time=1.239 ms
+84 bytes from 10.10.20.20 icmp_seq=10 ttl=63 time=0.990 ms
+
+PC-ACC-01> 

@@ -1,0 +1,29 @@
+CAPTURE UTC 2026-11-07T15:14:46Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;ACCESS2
+ACCESS2>
+ACCESS2>enable
+ACCESS2#
+ACCESS2#terminal length 0
+ACCESS2#
+ACCESS2#
+COMMAND show interfaces trunk
+show interfaces trunk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      99
+Et0/1       on               802.1q         trunking      99
+
+Port        Vlans allowed on trunk
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans allowed and active in management domain
+Et0/0       10,20,30,40,50,60,99
+Et0/1       10,20,30,40,50,60,99
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       10,20,30,40,50,60,99
+Et0/1       none
+ACCESS2#
+ACCESS2#

@@ -1,0 +1,483 @@
+CAPTURE UTC 2026-11-07T15:34:08Z
+LAB /LAB-NETWORK/test_import/Enterprise-Network-Integrated.unl
+]0;ISP2Cisco IOSv (revision 1.0) with  with 984321K/62464K bytes of memory.Installed image archive
+
+Processor board ID 9KQTJWV5VKWSR4U2ZD3RF
+4 Gigabit Ethernet interfaces
+DRAM configuration is 72 bits wide with parity disabled.
+256K bytes of non-volatile configuration memory.
+2097152K bytes of ATA System CompactFlash 0 (Read/Write)
+0K bytes of ATA CompactFlash 1 (Read/Write)
+0K bytes of ATA CompactFlash 2 (Read/Write)
+0K bytes of ATA CompactFlash 3 (Read/Write)
+
+
+
+Press RETURN to get started!
+
+
+*Mar  1 00:00:00.596: %ATA-6-DEV_FOUND: device 0x1F0
+*Mar  1 00:00:08.522: %NVRAM-5-CONFIG_NVRAM_READ_OK: NVRAM configuration 'flash:/nvram' was read from disk.
+*Nov  7 15:33:52.979: %PA-3-PA_INIT_FAILED: Performance Agent failed to initialize (Missing Data License)
+*Nov  7 15:33:55.715: %LINK-3-UPDOWN: Interface GigabitEthernet0/0, changed state to up
+*Nov  7 15:33:55.717: %LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to up
+*Nov  7 15:33:55.719: %LINK-3-UPDOWN: Interface GigabitEthernet0/2, changed state to up
+*Nov  7 15:33:55.720: %LINK-3-UPDOWN: Interface GigabitEthernet0/3, changed state to up
+*Nov  7 15:33:56.500: %CVAC-4-FILE_IGNORED: Configuration file flash0:/ios_config.txt is ignored : empty file
+*Nov  7 15:33:56.775: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to up
+*Nov  7 15:33:56.776: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to up
+*Nov  7 15:33:56.777: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/2, changed state to up
+*Nov  7 15:33:56.777: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/3, changed state to up
+*Nov  7 15:33:56.919: %SYS-5-CONFIG_I: Configured from memory by console
+*Nov  7 15:33:57.430: %CVAC-4-FILE_IGNORED: Configuration file flash0:/ios_config.txt is ignored : empty file
+*Nov  7 15:33:57.584: %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback0, changed state to up
+*Nov  7 15:33:57.907: %SYS-5-RESTART: System restarted --
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.6(2)T, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2016 by Cisco Systems, Inc.
+Compiled Tue 22-Mar-16 16:19 by prod_rel_team
+*Nov  7 15:33:58.010: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+*Nov  7 15:33:58.010: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+ISP2>
+ISP2>enable
+ISP2#
+ISP2#terminal length 0
+ISP2#
+ISP2#
+COMMAND show version | include uptime
+show version | include uptime
+ISP2 uptime is 0 minutes
+ISP2#
+ISP2#
+COMMAND show startup-config
+show startup-config
+Using 5622 out of 262144 bytes
+!
+! Last configuration change at 12:45:51 UTC Sun Oct 25 2026
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description ROUTER_ID_ISP2
+ ip address 10.255.255.102 255.255.255.255
+!
+interface GigabitEthernet0/0
+ description T04_TO_EDGE2_GI0_1
+ ip address 10.255.0.22 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description T06_TO_BR2_R1_GI0_0
+ ip address 10.255.0.30 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description T07_TO_ISP1_GI0_2
+ ip address 10.255.0.34 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ description W09_TO_INET_TEST_GI0_1
+ ip address 203.0.113.5 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65102
+ bgp router-id 10.255.255.102
+ bgp log-neighbor-changes
+ network 10.255.0.20 mask 255.255.255.252
+ network 10.255.0.28 mask 255.255.255.252
+ neighbor 10.255.0.21 remote-as 65010
+ neighbor 10.255.0.21 prefix-list PL-FROM-EDGE in
+ neighbor 10.255.0.21 prefix-list PL-TO-EDGE out
+ neighbor 10.255.0.33 remote-as 65101
+ neighbor 10.255.0.33 prefix-list PL-FROM-PEER in
+ neighbor 10.255.0.33 prefix-list PL-TO-PEER out
+ neighbor 203.0.113.6 remote-as 65200
+ neighbor 203.0.113.6 prefix-list PL-FROM-INET in
+ neighbor 203.0.113.6 prefix-list PL-TO-INET out
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list PL-FROM-EDGE seq 10 permit 198.51.100.11/32
+ip prefix-list PL-FROM-EDGE seq 20 permit 198.51.100.12/32
+ip prefix-list PL-FROM-EDGE seq 30 permit 10.255.0.8/29
+!
+ip prefix-list PL-FROM-INET seq 10 permit 0.0.0.0/0
+ip prefix-list PL-FROM-INET seq 20 permit 192.0.2.10/32
+!
+ip prefix-list PL-FROM-PEER seq 10 permit 0.0.0.0/0
+ip prefix-list PL-FROM-PEER seq 20 permit 192.0.2.10/32
+ip prefix-list PL-FROM-PEER seq 30 permit 198.51.100.11/32
+ip prefix-list PL-FROM-PEER seq 40 permit 198.51.100.12/32
+ip prefix-list PL-FROM-PEER seq 50 permit 10.255.0.8/29
+ip prefix-list PL-FROM-PEER seq 60 permit 10.255.0.16/30
+ip prefix-list PL-FROM-PEER seq 70 permit 10.255.0.24/30
+!
+ip prefix-list PL-TO-EDGE seq 10 permit 0.0.0.0/0
+ip prefix-list PL-TO-EDGE seq 20 permit 192.0.2.10/32
+ip prefix-list PL-TO-EDGE seq 30 permit 10.255.0.16/30
+ip prefix-list PL-TO-EDGE seq 40 permit 10.255.0.20/30
+ip prefix-list PL-TO-EDGE seq 50 permit 10.255.0.24/30
+ip prefix-list PL-TO-EDGE seq 60 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-INET seq 10 permit 198.51.100.11/32
+ip prefix-list PL-TO-INET seq 20 permit 198.51.100.12/32
+ip prefix-list PL-TO-INET seq 30 permit 10.255.0.8/29
+ip prefix-list PL-TO-INET seq 40 permit 10.255.0.16/30
+ip prefix-list PL-TO-INET seq 50 permit 10.255.0.20/30
+ip prefix-list PL-TO-INET seq 60 permit 10.255.0.24/30
+ip prefix-list PL-TO-INET seq 70 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-PEER seq 10 permit 0.0.0.0/0
+ip prefix-list PL-TO-PEER seq 20 permit 192.0.2.10/32
+ip prefix-list PL-TO-PEER seq 30 permit 198.51.100.11/32
+ip prefix-list PL-TO-PEER seq 40 permit 198.51.100.12/32
+ip prefix-list PL-TO-PEER seq 50 permit 10.255.0.8/29
+ip prefix-list PL-TO-PEER seq 60 permit 10.255.0.20/30
+ip prefix-list PL-TO-PEER seq 70 permit 10.255.0.28/30
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 45 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+ISP2#
+ISP2#
+*Nov  7 15:34:05.660: %BGP-5-ADJCHANGE: neighbor 10.255.0.21 Up 
+ISP2#
+COMMAND show running-config
+show running-config
+Building configuration...
+
+Current configuration : 5560 bytes
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description ROUTER_ID_ISP2
+ ip address 10.255.255.102 255.255.255.255
+!
+interface GigabitEthernet0/0
+ description T04_TO_EDGE2_GI0_1
+ ip address 10.255.0.22 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description T06_TO_BR2_R1_GI0_0
+ ip address 10.255.0.30 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description T07_TO_ISP1_GI0_2
+ ip address 10.255.0.34 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ description W09_TO_INET_TEST_GI0_1
+ ip address 203.0.113.5 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65102
+ bgp router-id 10.255.255.102
+ bgp log-neighbor-changes
+ network 10.255.0.20 mask 255.255.255.252
+ network 10.255.0.28 mask 255.255.255.252
+ neighbor 10.255.0.21 remote-as 65010
+ neighbor 10.255.0.21 prefix-list PL-FROM-EDGE in
+ neighbor 10.255.0.21 prefix-list PL-TO-EDGE out
+ neighbor 10.255.0.33 remote-as 65101
+ neighbor 10.255.0.33 prefix-list PL-FROM-PEER in
+ neighbor 10.255.0.33 prefix-list PL-TO-PEER out
+ neighbor 203.0.113.6 remote-as 65200
+ neighbor 203.0.113.6 prefix-list PL-FROM-INET in
+ neighbor 203.0.113.6 prefix-list PL-TO-INET out
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list PL-FROM-EDGE seq 10 permit 198.51.100.11/32
+ip prefix-list PL-FROM-EDGE seq 20 permit 198.51.100.12/32
+ip prefix-list PL-FROM-EDGE seq 30 permit 10.255.0.8/29
+!
+ip prefix-list PL-FROM-INET seq 10 permit 0.0.0.0/0
+ip prefix-list PL-FROM-INET seq 20 permit 192.0.2.10/32
+!
+ip prefix-list PL-FROM-PEER seq 10 permit 0.0.0.0/0
+ip prefix-list PL-FROM-PEER seq 20 permit 192.0.2.10/32
+ip prefix-list PL-FROM-PEER seq 30 permit 198.51.100.11/32
+ip prefix-list PL-FROM-PEER seq 40 permit 198.51.100.12/32
+ip prefix-list PL-FROM-PEER seq 50 permit 10.255.0.8/29
+ip prefix-list PL-FROM-PEER seq 60 permit 10.255.0.16/30
+ip prefix-list PL-FROM-PEER seq 70 permit 10.255.0.24/30
+!
+ip prefix-list PL-TO-EDGE seq 10 permit 0.0.0.0/0
+ip prefix-list PL-TO-EDGE seq 20 permit 192.0.2.10/32
+ip prefix-list PL-TO-EDGE seq 30 permit 10.255.0.16/30
+ip prefix-list PL-TO-EDGE seq 40 permit 10.255.0.20/30
+ip prefix-list PL-TO-EDGE seq 50 permit 10.255.0.24/30
+ip prefix-list PL-TO-EDGE seq 60 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-INET seq 10 permit 198.51.100.11/32
+ip prefix-list PL-TO-INET seq 20 permit 198.51.100.12/32
+ip prefix-list PL-TO-INET seq 30 permit 10.255.0.8/29
+ip prefix-list PL-TO-INET seq 40 permit 10.255.0.16/30
+ip prefix-list PL-TO-INET seq 50 permit 10.255.0.20/30
+ip prefix-list PL-TO-INET seq 60 permit 10.255.0.24/30
+ip prefix-list PL-TO-INET seq 70 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-PEER seq 10 permit 0.0.0.0/0
+ip prefix-list PL-TO-PEER seq 20 permit 192.0.2.10/32
+ip prefix-list PL-TO-PEER seq 30 permit 198.51.100.11/32
+ip prefix-list PL-TO-PEER seq 40 permit 198.51.100.12/32
+ip prefix-list PL-TO-PEER seq 50 permit 10.255.0.8/29
+ip prefix-list PL-TO-PEER seq 60 permit 10.255.0.20/30
+ip prefix-list PL-TO-PEER seq 70 permit 10.255.0.28/30
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 45 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+ISP2#
+ISP2#
+COMMAND show ip bgp summary
+show ip bgp summary
+BGP router identifier 10.255.255.102, local AS number 65102
+BGP table version is 1, main routing table version 1
+2 network entries using 288 bytes of memory
+2 path entries using 160 bytes of memory
+1/0 BGP path/bestpath attribute entries using 152 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 600 total bytes of memory
+BGP activity 2/0 prefixes, 2/0 paths, scan interval 60 secs
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.255.0.21     4        65010       2       2        1    0    0 00:00:05        0
+10.255.0.33     4        65101       0       0        1    0    0 never    Active
+203.0.113.6     4        65200       1       2        1    0    0 00:00:00 OpenConfirm
+ISP2#
+ISP2#

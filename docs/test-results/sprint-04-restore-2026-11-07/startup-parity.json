@@ -1,0 +1,65 @@
+[
+  {
+    "node": "BR1-R1",
+    "running": "configs/branch/sprint-04/BR1-R1.final.running.cfg",
+    "startup": "configs/branch/sprint-04/BR1-R1.final.startup.cfg",
+    "parity": "PASS",
+    "method": "ordered configuration lines, excluding comments/blank lines",
+    "running_sha256": "30BCA2368BF01ADFDE153CC74567CC9EAA71D088FA078996D15E4D39693FFAD0",
+    "startup_sha256": "30BCA2368BF01ADFDE153CC74567CC9EAA71D088FA078996D15E4D39693FFAD0"
+  },
+  {
+    "node": "BR2-R1",
+    "running": "configs/branch/sprint-04/BR2-R1.final.running.cfg",
+    "startup": "configs/branch/sprint-04/BR2-R1.final.startup.cfg",
+    "parity": "PASS",
+    "method": "ordered configuration lines, excluding comments/blank lines",
+    "running_sha256": "1579A209075B810D39C8A70B3BE8C32AA93D635F62836BF541216A252FB6DE22",
+    "startup_sha256": "1579A209075B810D39C8A70B3BE8C32AA93D635F62836BF541216A252FB6DE22"
+  },
+  {
+    "node": "EDGE1",
+    "running": "configs/edge/sprint-04/EDGE1.final.running.cfg",
+    "startup": "configs/edge/sprint-04/EDGE1.final.startup.cfg",
+    "parity": "PASS",
+    "method": "ordered configuration lines, excluding comments/blank lines",
+    "running_sha256": "2278E233F7ED3D2005C65610E93857928E9720238DFC3D4B9EF99AF1C21A73B0",
+    "startup_sha256": "2278E233F7ED3D2005C65610E93857928E9720238DFC3D4B9EF99AF1C21A73B0"
+  },
+  {
+    "node": "EDGE2",
+    "running": "configs/edge/sprint-04/EDGE2.final.running.cfg",
+    "startup": "configs/edge/sprint-04/EDGE2.final.startup.cfg",
+    "parity": "PASS",
+    "method": "ordered configuration lines, excluding comments/blank lines",
+    "running_sha256": "880C16696F2153E3B59BC533E524A25B84BF419A9B6B205B9559AAFAD30DA4D0",
+    "startup_sha256": "880C16696F2153E3B59BC533E524A25B84BF419A9B6B205B9559AAFAD30DA4D0"
+  },
+  {
+    "node": "INET-TEST",
+    "running": "configs/internet-test/sprint-04/INET-TEST.final.running.cfg",
+    "startup": "configs/internet-test/sprint-04/INET-TEST.final.startup.cfg",
+    "parity": "PASS",
+    "method": "ordered configuration lines, excluding comments/blank lines",
+    "running_sha256": "C2155092954E95BDE481DBF0ECF6AE4B8C294141B5120A3DBC63A3C2085EC137",
+    "startup_sha256": "C2155092954E95BDE481DBF0ECF6AE4B8C294141B5120A3DBC63A3C2085EC137"
+  },
+  {
+    "node": "ISP1",
+    "running": "configs/isp/sprint-04/ISP1.final.running.cfg",
+    "startup": "configs/isp/sprint-04/ISP1.final.startup.cfg",
+    "parity": "PASS",
+    "method": "ordered configuration lines, excluding comments/blank lines",
+    "running_sha256": "1A7F1C9201F91FD1AD3010CB3C68CA7AAD7BAF51B65A88AA85DBC659087F1C27",
+    "startup_sha256": "1A7F1C9201F91FD1AD3010CB3C68CA7AAD7BAF51B65A88AA85DBC659087F1C27"
+  },
+  {
+    "node": "ISP2",
+    "running": "configs/isp/sprint-04/ISP2.final.running.cfg",
+    "startup": "configs/isp/sprint-04/ISP2.final.startup.cfg",
+    "parity": "PASS",
+    "method": "ordered configuration lines, excluding comments/blank lines",
+    "running_sha256": "12D01A19ED671F6D753DB61416231BAC8852D072CFCFE5311882B85037E5A84B",
+    "startup_sha256": "12D01A19ED671F6D753DB61416231BAC8852D072CFCFE5311882B85037E5A84B"
+  }
+]

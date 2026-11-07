@@ -1,0 +1,457 @@
+CAPTURE UTC 2026-11-07T15:18:36Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;INET-TEST
+*Mar  1 00:00:00.947: %ATA-6-DEV_FOUND: device 0x1F0
+*Mar  1 00:00:13.749: %NVRAM-5-CONFIG_NVRAM_READ_OK: NVRAM configuration 'flash:/nvram' was read from disk.
+*Nov  7 15:18:17.712: %PA-3-PA_INIT_FAILED: Performance Agent failed to initialize (Missing Data License)
+*Nov  7 15:18:21.391: %LINK-3-UPDOWN: Interface GigabitEthernet0/0, changed state to up
+*Nov  7 15:18:21.393: %LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to up
+*Nov  7 15:18:21.395: %LINK-3-UPDOWN: Interface GigabitEthernet0/2, changed state to up
+*Nov  7 15:18:21.397: %LINK-3-UPDOWN: Interface GigabitEthernet0/3, changed state to up
+*Nov  7 15:18:22.401: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to up
+*Nov  7 15:18:22.402: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to up
+*Nov  7 15:18:22.403: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/2, changed state to up
+*Nov  7 15:18:22.405: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/3, changed state to up
+*Nov  7 15:18:22.411: %CVAC-4-FILE_IGNORED: Configuration file flash0:/ios_config.txt is ignored : empty file
+*Nov  7 15:18:22.802: %SYS-5-CONFIG_I: Configured from memory by console
+*Nov  7 15:18:23.380: %CVAC-4-FILE_IGNORED: Configuration file flash0:/ios_config.txt is ignored : empty file
+*Nov  7 15:18:23.534: %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback100, changed state to up
+*Nov  7 15:18:23.854: %SYS-5-RESTART: System restarted --
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.6(2)T, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2016 by Cisco Systems, Inc.
+Compiled Tue 22-Mar-16 16:19 by prod_rel_team
+*Nov  7 15:18:24.260: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+*Nov  7 15:18:24.261: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF
+*Nov  7 15:18:24.724: %LINK-5-CHANGED: Interface GigabitEthernet0/2, changed state to administratiC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************
+INET-TEST>
+INET-TEST>enable
+INET-TEST#
+INET-TEST#vely down
+*Nov  7 15:18:24.724: %LINK-5-CHANGED: Interface GigabitEthernet0/3, changed state to administratively down
+*Nov  7 15:18:25.773: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/2, changed state to down
+*Nov  7 15:18:25.775: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/3, changed state to down
+INET-TEST#terminal length 0
+INET-TEST#
+INET-TEST#
+COMMAND show clock
+show clock
+*15:18:31.928 UTC Sat Nov 7 2026
+INET-TEST#
+INET-TEST#
+COMMAND show ip interface brief
+show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0         203.0.113.2     YES NVRAM  up                    up      
+GigabitEthernet0/1         203.0.113.6     YES NVRAM  up                    up      
+GigabitEthernet0/2         unassigned      YES NVRAM  administratively down down    
+GigabitEthernet0/3         unassigned      YES NVRAM  administratively down down    
+Loopback100                192.0.2.10      YES NVRAM  up                    up      
+INET-TEST#
+INET-TEST#
+COMMAND show ip bgp summary
+show ip bgp summary
+BGP router identifier 192.0.2.10, local AS number 65200
+BGP table version is 1, main routing table version 1
+2 network entries using 288 bytes of memory
+2 path entries using 160 bytes of memory
+1/0 BGP path/bestpath attribute entries using 152 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 600 total bytes of memory
+BGP activity 2/0 prefixes, 2/0 paths, scan interval 60 secs
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+203.0.113.1     4        65101       0       0        1    0    0 never    Idle
+203.0.113.5     4        65102       0       0        1    0    0 never    Idle
+INET-TEST#
+INET-TEST#
+COMMAND show ip route bgp
+show ip route bgp
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is 0.0.0.0 to network 0.0.0.0
+
+INET-TEST#
+INET-TEST#
+COMMAND show running-config
+show running-config
+Building configuration...
+
+-Traceback= 114F778z 130845z 15E43Ez 15E160z 15DF6Dz 158095z 158CCBz 158C5Fz 3D2FE5Ez 3D1D23Ez 3D1DFA8z 516808Fz 4C5CE34z 4C206D5z 4C146E5z 4C12880z - Process "Crypto CA", CPU hog, PC 0x00153D9D
+
+Current configuration : 4059 bytes
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname INET-TEST
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback100
+ description SIMULATED_INTERNET_ICMP_TARGET
+ ip address 192.0.2.10 255.255.255.255
+!
+interface GigabitEthernet0/0
+ description W08_TO_ISP1_GI0_3
+ ip address 203.0.113.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description W09_TO_ISP2_GI0_3
+ ip address 203.0.113.6 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65200
+ bgp router-id 192.0.2.10
+ bgp log-neighbor-changes
+ network 0.0.0.0
+ network 192.0.2.10 mask 255.255.255.255
+ neighbor 203.0.113.1 remote-as 65101
+ neighbor 203.0.113.1 prefix-list PL-FROM-ISP in
+ neighbor 203.0.113.1 prefix-list PL-TO-ISP out
+ neighbor 203.0.113.5 remote-as 65102
+ neighbor 203.0.113.5 prefix-list PL-FROM-ISP in
+ neighbor 203.0.113.5 prefix-list PL-TO-ISP out
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 Null0
+!
+!
+ip prefix-list PL-FROM-ISP seq 10 permit 198.51.100.11/32
+ip prefix-list PL-FROM-ISP seq 20 permit 198.51.100.12/32
+ip prefix-list PL-FROM-ISP seq 30 permit 10.255.0.8/29
+ip prefix-list PL-FROM-ISP seq 40 permit 10.255.0.16/30
+ip prefix-list PL-FROM-ISP seq 50 permit 10.255.0.20/30
+ip prefix-list PL-FROM-ISP seq 60 permit 10.255.0.24/30
+ip prefix-list PL-FROM-ISP seq 70 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-ISP seq 10 permit 0.0.0.0/0
+ip prefix-list PL-TO-ISP seq 20 permit 192.0.2.10/32
+!
+!
+!
+control-plane
+!
+banner exec ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.              
+*Nov  7 15:18:40.135: %SYS-3-CPUHOG: Task is running for (1999)msecs, more than (2000)msecs (0/0),process = Crypto CA.
+*Nov  7 15:18:40.428: %BGP-3-NOTIFICATION: received from neighbor 203.0.113.1 active 2/8 (no supported AFI/SAFI) 3 bytes 000000                                        *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 45 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+INET-TEST#
+INET-TEST#
+COMMAND show startup-config
+show startup-config
+Using 4120 out of 262144 bytes
+!
+! Last configuration change at 15:12:16 UTC Sat Nov 7 2026
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname INET-TEST
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback100
+ description SIMULATED_INTERNET_ICMP_TARGET
+ ip address 192.0.2.10 255.255.255.255
+!
+interface GigabitEthernet0/0
+ description W08_TO_ISP1_GI0_3
+ ip address 203.0.113.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description W09_TO_ISP2_GI0_3
+ ip address 203.0.113.6 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65200
+ bgp router-id 192.0.2.10
+ bgp log-neighbor-changes
+ network 0.0.0.0
+ network 192.0.2.10 mask 255.255.255.255
+ neighbor 203.0.113.1 remote-as 65101
+ neighbor 203.0.113.1 prefix-list PL-FROM-ISP in
+ neighbor 203.0.113.1 prefix-list PL-TO-ISP out
+ neighbor 203.0.113.5 remote-as 65102
+ neighbor 203.0.113.5 prefix-list PL-FROM-ISP in
+ neighbor 203.0.113.5 prefix-list PL-TO-ISP out
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 Null0
+!
+!
+ip prefix-list PL-FROM-ISP seq 10 permit 198.51.100.11/32
+ip prefix-list PL-FROM-ISP seq 20 permit 198.51.100.12/32
+ip prefix-list PL-FROM-ISP seq 30 permit 10.255.0.8/29
+ip prefix-list PL-FROM-ISP seq 40 permit 10.255.0.16/30
+ip prefix-list
+*Nov  7 15:18:40.429: %BGP-5-NBR_RESET: Neighbor 203.0.113.1 active reset (BGP Notification received)
+*Nov  7 15:18:40.431: %BGP-5-ADJCHANGE: neighbor 203.0.113.1 active Down BGP Notification received
+*Nov  7 15:18:40.431: %BGP_SESSION-5-ADJCHANGE: neighbor 203.0.113.1 IPv4 Unicast topology base removed from session  BGP Notification received
+*Nov  7 15:18:40.461: %BGP-5-NBR_RESET: Neighbor 203.0.113.5 active reset (BGP Notification sent)
+*Nov  7 15:18:40.462: %BGP-5-ADJCHANGE: neighbor 203.0.113.5 Up  PL-FROM-ISP seq 50 permit 10.255.0.20/30
+ip prefix-list PL-FROM-ISP seq 60 permit 10.255.0.24/30
+ip prefix-list PL-FROM-ISP seq 70 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-ISP seq 10 permit 0.0.0.0/0
+ip prefix-list PL-TO-ISP seq 20 permit 192.0.2.10/32
+!
+!
+!
+control-plane
+!
+banner exec ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^CC
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 45 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+INET-TEST#
+INET-TEST#
+COMMAND show ip route 198.51.100.11
+show ip route 198.51.100.11
+% Network not in table
+INET-TEST#
+INET-TEST#
+COMMAND show ip route 198.51.100.12
+show ip route 198.51.100.12
+% Network not in table
+INET-TEST#
+INET-TEST#

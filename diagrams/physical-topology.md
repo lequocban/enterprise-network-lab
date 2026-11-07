@@ -1,8 +1,14 @@
 # Topology vật lý — bảng nối cổng và kế hoạch mở rộng
 
-**Ngày cập nhật:** 18/10/2026
+**Ngày cập nhật:** 07/11/2026
+
+**Actual Sprint4:** topology tích hợp 17 node/21 network giữ đúng 11 link Campus và T02–T07/W08/W09/hai LAN Branch; [ZIP cuối](../eve-exports/sprint-04-enterprise-final-2026-11-07.zip) và [restore](../docs/test-results/sprint-04-final-restore-2026-11-07.md) đã kiểm. FW/T01/DMZ giữ planned. Các trạng thái HQ riêng và Edge/Branch chờ bên dưới là checkpoint lịch sử.
 
 **Trạng thái hiện tại:** HQ Sprint2 có tám node/mười một link, đã đối chiếu [export18/10](../docs/test-results/sprint-02-export-inspection-2026-10-18.txt) với bốn final running. Mục0 là trạng thái hiện tại; bảng mục1 và các checkpoint ngày trước ở mục3 là lịch sử trước/đang triển khai. `TBD` là chưa xác định, không phải cổng đã tạo. Cabling hợp lệ không đồng nghĩa lỗi dự phòng Po1 đã được sửa.
+
+**Sandbox Sprint 3 — 18/10/2026:** đường riêng S3-L01 theo thiết kế EDGE1 Gi0/0 ↔ EDGE2 Gi0/0, `10.255.0.36/30`. Tiến độ IP/interface/traffic và giới hạn đối chiếu cabling/ảnh/export theo [thiết kế và kết quả sandbox](../docs/routing/sprint-03-routing-design.md). Không cộng hai node/link thử vào inventory HQ hoặc thay các cổng WAN planned bên dưới.
+
+**Checkpoint lab tích hợp:** [export cabling 24/10](../docs/test-results/sprint-04-wan-export-inspection-2026-10-24.md) có 17 node/21 network, toàn bộ cặp cổng đúng bảng mục2 và giữ nguyên 11 mạng HQ. Node ISP thứ hai trong UNL đã sửa từ `ISP12` thành **`ISP2`**; bản export đầu được thay bằng bản mới cùng tên, hash cũ chỉ còn trong lịch sử biên bản. [Buổi 2](../docs/test-results/sprint-04-provider-bgp-2026-10-24.md) đã cấu hình IP/BGP phía ISP1, ISP2, INET-TEST và kiểm ZIP mới; phía Edge/Branch vẫn chờ các buổi sau.
 
 ## 0. Cabling Sprint 2 đã kiểm tra
 
@@ -11,6 +17,8 @@
 - CORE2–ACCESS1, hai trunk tới ACCESS2 và bốn dây VPCS giữ đúng các cổng ở bảng baseline mục1; tổng cộng11 link. Các link cũ thuộc Po1/Po11 nay là member LACP, không phải trunk độc lập.
 - CORE1 e1/0 vẫn là cổng test shutdown, không có dây trong export. PC-ACC và PC-GUEST đã về VLAN40/60. Không thêm server VLAN50 cố định từ các bài VPCS tạm.
 - [Báo cáo Sprint2](../docs/sprint-reports/sprint-02-report.md) phân biệt runtime cuối hai P, các bài HA chức năng và lỗi tự loại member Po1 đang mở. Chưa thử import/restore ZIP.
+
+Ảnh topology lab gốc `Enterprise-Network-HQ` do người thực hành cung cấp ngày 22/10 xác nhận hiện có CORE1/2, ACCESS1/2 và bốn VPCS; **không có node FW**. Các link đang dùng thể hiện đúng sơ đồ Po1/Po11 và uplink Access. Vì vậy FW1 và các segment transit chỉ được thêm vào bản phát triển riêng, không cấu hình/đấu thêm trên baseline gốc.
 
 ## 1. Baseline HQ trước LACP theo ảnh/export Sprint 01
 
@@ -32,18 +40,23 @@ Bảng mô tả cabling khớp ảnh HQ ngày 10/10/2026 và ZIP Sprint 01 kiể
 
 | Segment | Thành phần/cổng | Hiện trạng | Mốc chốt |
 |---|---|---|---|
-| T01 VLAN90 | CORE1 TBD, CORE2 TBD, FW inside TBD | Chưa tạo segment chung; lựa chọn L2 node/cổng còn mở | Trước Sprint 3 |
-| T02 VLAN91 | FW outside TBD, EDGE1 TBD, EDGE2 TBD | Chưa tạo segment chung; lựa chọn L2 node/cổng còn mở | Trước Sprint 3 |
-| T03 | EDGE1 TBD ↔ ISP1 TBD | Planned | Trước Sprint 3/4 |
-| T04 | EDGE2 TBD ↔ ISP2 TBD | Planned | Trước Sprint 3/4 |
-| T05 | BR1-R1 TBD ↔ ISP1 TBD | Planned | Trước Sprint 3/4 |
-| T06 | BR2-R1 TBD ↔ ISP2 TBD | Planned | Trước Sprint 3/4 |
-| T07 | ISP1 TBD ↔ ISP2 TBD | Planned | Trước Sprint 3/4 |
-| DMZ | FW DMZ TBD ↔ DMZ Web TBD, qua L2 nếu cần | Planned | Trước Sprint 5 |
+| T01 VLAN90 | CORE1 e1/2, CORE2 e1/0, FW Gi0/0 inside cùng EVE Bridge `T01-VLAN90` | Baseline INT-03; chưa tạo bridge/FW trên bản tích hợp, xác nhận cổng khi nối | Triển khai INT-05 |
+| T02 VLAN91 | FW Gi0/1 outside, EDGE1 Gi0/0, EDGE2 Gi0/0 cùng EVE Bridge `T02-VLAN91` | EDGE1 `.10/29`, EDGE2 `.11/29` up/up; ping EDGE2→EDGE1 10/10, iBGP Established. EDGE2 best LP200, RIB default/target qua `.10`, trace tới INET qua EDGE1/ISP1. FW chưa nối | Buổi 1 cabling; buổi 3–4 Edge; FW INT-05 |
+| T03 | EDGE1 Gi0/1 ↔ ISP1 Gi0/0 | `.17/.18/30` up/up, ping 10/10, eBGP Established; EDGE1 Lo100→INET 10/10 | Buổi 1 cabling; buổi 2 ISP; buổi 3 EDGE1 |
+| T04 | EDGE2 Gi0/1 ↔ ISP2 Gi0/0 | `.21/.22/30` up/up, ping 10/10, eBGP Established; chưa đo Lo100 end-to-end sau iBGP | Buổi 1 cabling; buổi 2 ISP; buổi 4 EDGE2 |
+| T05 | BR1-R1 Gi0/0 ↔ ISP1 Gi0/1 | `.25/.26/30` up/up, BR1→ISP1 10/10; BR1 `.25`↔EDGE1 `.17` hai chiều 10/10 | Buổi 1 cabling; buổi 2 ISP; buổi 5 Branch |
+| T06 | BR2-R1 Gi0/0 ↔ ISP2 Gi0/1 | `.29/.30/30` up/up, BR2→ISP2 10/10; BR2 `.29`↔EDGE2 `.21` hai chiều 10/10. Sau scoped LP200, EDGE2 RIB/trace chiều về T06 qua ISP2 `.22` trực tiếp | Buổi 1 cabling; buổi 2 ISP; buổi 5 Branch |
+| T07 | ISP1 Gi0/2 ↔ ISP2 Gi0/2 | `.33/.34/30` up/up, ping hai chiều 10/10, eBGP Established | Buổi 1 cabling; buổi 2 runtime |
+| Branch LAN | BR1-R1 Gi0/1 ↔ PC-BR1 eth0; BR2-R1 Gi0/1 ↔ PC-BR2 eth0 | BR1 `.1`/PC `.20` và BR2 `.1`/PC `.20` đúng LAN; mỗi PC→gateway 10/10, hai PC đã `save` | Buổi 1 cabling; buổi 5 runtime |
+| DMZ | FW Gi0/2 ↔ DMZ Web eth0, nối trực tiếp | Mapping thiết kế; FW `.1/24`, Web `.10/24`; chưa tạo | Triển khai INT-05 |
+| PC-OUT test | VPCS eth0 ↔ EVE Bridge T02/VLAN91 | Chỉ thêm khi thử policy INT-05; `10.255.0.12/29`, gateway FW `.9`; không tính vào hạ tầng | Triển khai INT-05 |
 | VLAN50 | Access TBD ↔ SRV-INFRA eth TBD | Planned; Access/cổng chưa chốt | Trước bài test Server VLAN ở Sprint 1 hoặc Sprint 7 nếu chưa dùng |
-| Internet test | ISP/server và cổng TBD | Node/subnet chưa chốt | Trước NET-401 |
+| W08 / Internet test | ISP1 Gi0/3 ↔ INET-TEST Gi0/0 | `203.0.113.1/.2/30` up/up, ping hai chiều 10/10, eBGP Established; ISP1→Lo100 10/10 | Buổi 1 cabling; buổi 2 runtime |
+| W09 / Internet test | ISP2 Gi0/3 ↔ INET-TEST Gi0/1 | `203.0.113.5/.6/30` up/up, ping hai chiều 10/10, eBGP Established; ISP2→Lo100 10/10 | Buổi 1 cabling; buổi 2 runtime |
 
-T01/T02 cần chốt trước Sprint 3. Khi chọn Ethernet switch node riêng cho transit, bổ sung số node/cổng vào inventory; chưa tính các node chưa quyết định là đã có.
+Phương án WAN/BGP và endpoint ICMP độc lập hai ISP được mô tả trong [thiết kế INT-03 mục 4](../docs/routing/enterprise-integration-design.md#4-phương-án-wanbgp-để-review-trước-sprint-4--22102026). INET-TEST là IOSv thứ bảy trong **thiết kế**, chưa có trong HQ. IP W08/W09/Lo100/Tunnel đã cấp ở [phụ lục INT-03](../docs/ip-addressing-plan.md#9-phụ-lục-int-03-cho-topology-tích-hợp--thiết-kế-23102026). Lo100 Edge dùng làm source test, không phải NAT pool. Đo RAM khi bật nhóm WAN; khi cần thử một đường đi, tất cả node trên đường đó phải cùng chạy.
+
+Theo [mốc tích hợp bổ sung18/10/2026](../docs/enterprise-integration-milestones.md), chốt thiết kế/cổng T01/T02 tại INT-03 cuối Sprint3 trước triển khai Enterprise Sprint4; triển khai FW/transit ở INT-05 cuối Sprint5. Khi chọn Ethernet switch node riêng cho transit, bổ sung số node/cổng vào inventory; chưa tính các node chưa quyết định là đã có.
 
 ## 3. Dự phòng và thay đổi cabling
 

@@ -1,5 +1,7 @@
 # NET-003 — IP Addressing Plan (Final v1.0)
 
+**Actual Sprint4, 07/11/2026:** Campus, T02–T07, W08/W09, Lo0/Lo100 và LAN hai Branch đã đối chiếu runtime/ZIP/restore theo [báo cáo Sprint4](sprint-reports/sprint-04-report.md). T01/FW/DMZ/overlay giữ phạm vi thiết kế cho sprint tiếp theo; không gán trạng thái runtime cho toàn IP Plan.
+
 **Ngày chốt:** 09/10/2026  
 **Phạm vi:** Thiết kế địa chỉ toàn hệ thống Enterprise Network Lab.  
 **Trạng thái:** **FINAL DESIGN** — cố định để triển khai theo Sprint; không đồng nghĩa tất cả VLAN/WAN đã được cấu hình.
@@ -66,7 +68,11 @@ Không đặt SVI DMZ trên CORE1/CORE2. Truy cập DMZ đi qua ASAv và policy 
 
 Dải `10.255.0.36–10.255.0.255` được giữ để mở rộng. Địa chỉ .0/.7 của /29 và .8/.15 là network/broadcast tương ứng; không cấp cho interface.
 
+**Ngoại lệ thực hành Sprint 3 — 18/10/2026:** dành `10.255.0.36/30` từ phần dự trữ cho S3-L01 trong lab routing riêng: EDGE1 Gi0/0 `10.255.0.37`, EDGE2 Gi0/0 `10.255.0.38`. Nguồn, tiến độ cấu hình/traffic và giới hạn bằng chứng theo [thiết kế và kết quả sandbox](routing/sprint-03-routing-design.md). Không dùng segment này thay T01–T07 hoặc nối sandbox vào HQ. Dải `.40–.255` tiếp tục dự trữ; các subnet sandbox mở rộng chưa được cấp trong checkpoint này. Loopback0 hai Edge giữ `.11/.12` theo mục 5, phạm vi dùng ở lab tách biệt.
+
 ## 5. Loopback /32
+
+**Bổ sung sandbox buổi2 — 20/10/2026:** sau đối chiếu cabling, dành thêm S3-L02 `10.255.0.40/30` (EDGE1 `.41`, BR1 `.42`), S3-L03 `10.255.0.44/30` (EDGE1 `.45`, BR2 `.46`) và S3-L05 `10.255.0.52/30` (EDGE2 `.53`, PC-HQ `.54`). [Thiết kế sandbox mục6](routing/sprint-03-routing-design.md#6-buổi-2--cablingcapability-đã-đối-chiếu-ip-mở-rộng-chờ-thực-hành) ghi cổng/IP, gateway và trạng thái chưa cấu hình. S3-L04 `.48/30` vẫn dành cho bài ISP sau, chưa dùng. Branch LAN và Loopback0 giữ đúng bảng v1.0; không thay T01–T07 hoặc nối sandbox vào topology Enterprise. Nội dung chưa cấp các subnet mở rộng ở ghi chú18/10 mô tả checkpoint cũ, được cập nhật bởi ghi chú này.
 
 | Thiết bị | Loopback | Mục đích |
 |---|---|---|
@@ -96,3 +102,33 @@ Final v1.0 chốt **phân bổ địa chỉ**. Default/return routes, gateway AS
 Lab router tạm dùng `10.255.0.0/30` trong validation lịch sử phải chạy tách biệt T01 `10.255.0.0/29`; không ghép hai bài với địa chỉ .1/.2 trùng. Không dùng subnet test tạm để thay bảng transit này.
 
 Kết quả review tĩnh nằm ở [Validation Sprint 0](test-results/sprint-00-validation.md#6-review-tĩnh-ip-plan); không thay thế kiểm thử runtime. Topology dự kiến và cổng cần đối chiếu tại [Logical](../diagrams/logical-topology.md) và [Physical](../diagrams/physical-topology.md).
+
+## 8. Ngoại lệ mạng thử summarization Sprint 3
+
+**Mốc mở rộng buổi6 — 21/10/2026:** dành S3-L04 `10.255.0.48/30` đã dự trữ cho EDGE2Gi0/1 `.49` ↔ ISP1Gi0/0 `.50`; ISP1Loopback100 `192.0.2.10/32` làm đích ngoài mô phỏng, Loopback0 giữ `10.255.255.101/32` theo mục5. [Thiết kế sandbox mục11](routing/sprint-03-routing-design.md) ghi routing/return path và trạng thái chưa triển khai. Không thay T03/T04 hoặc dùng endpoint này làm Internet Test Server Enterprise đã nghiệm thu. Các ghi chú “S3-L04 chưa dùng” trước đó mô tả checkpoint20/10, được mở rộng theo mốc này; chưa có actual IP/ping mới.
+
+**Dành cho bước NET-303 ngày21/10/2026, chưa có output cấu hình:** BR1 Loopback110 `10.20.11.1/24` tạo prefix thử `10.20.11.0/24` trongArea10; BR2 Loopback110 `10.30.11.1/24` tạo `10.30.11.0/24` trongArea20. Đây là mạng mô phỏng riêng trong sandbox, không phải VLAN/host/server Enterprise đã triển khai; không thay LAN/gatewayBranch hiện tại hoặc Loopback0/router-id /32 ở mục5.
+
+Range dự kiến tại ABR EDGE1: `10.20.10.0/23` và `10.30.10.0/23`, mỗi range chứa LAN/24 và prefixLoopback110/24 tương ứng. Phải kiểm route mask/traffic trước và sau theo [thiết kế sandbox](routing/sprint-03-routing-design.md), không coi việc dành địa chỉ này là summary đã chạy hoặc cấp toàn bộ/16 cho interface.
+
+## 9. Phụ lục INT-03 cho topology tích hợp — thiết kế 23/10/2026
+
+Bảng T01–T07 và HQ VLAN v1.0 vẫn là nguồn cấp phát chính. Các địa chỉ sau chỉ dùng trong bản phát triển Enterprise, không mang các link S3-Lxx của sandbox sang topology đó. [Thiết kế tích hợp](routing/enterprise-integration-design.md) quy định vai trò route, NAT, BGP và OSPF.
+
+**Baseline INT-03 đã chốt:** W08/W09, I01, E01/E02, V01/V02, ASN và mapping T01/T02 bên dưới là phân bổ triển khai cho `Enterprise-Network-Integrated`; chưa phải cấu hình đã chạy. Thay đổi IP/cổng phải cập nhật bảng và physical topology trước khi áp lên thiết bị.
+
+| ID | Mạng/địa chỉ | Thiết bị | Mục đích |
+|---|---|---|---|
+| W08 | `203.0.113.0/30` | ISP1 Gi0/3 `.1`, INET-TEST Gi0/0 `.2` | Uplink đích test tới ISP1 |
+| W09 | `203.0.113.4/30` | ISP2 Gi0/3 `.5`, INET-TEST Gi0/1 `.6` | Uplink đích test tới ISP2 |
+| I01 | `192.0.2.10/32` | INET-TEST Loopback100 | Cùng một đích ICMP qua hai ISP |
+| E01 | `198.51.100.11/32` | EDGE1 Loopback100 | Nguồn thử BGP, không phải NAT pool |
+| E02 | `198.51.100.12/32` | EDGE2 Loopback100 | Nguồn thử BGP, không phải NAT pool |
+| V01 | `10.255.0.56/30` | EDGE1 Tunnel0 `.57`, BR1-R1 Tunnel0 `.58` | VPN HQ–BR1, OSPF Area10 |
+| V02 | `10.255.0.60/30` | EDGE2 Tunnel0 `.61`, BR2-R1 Tunnel0 `.62` | VPN HQ–BR2, OSPF Area20 |
+
+Các dải `192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24` được [IANA dành cho tài liệu/ví dụ](https://www.iana.org/assignments/iana-ipv4-special-registry). Chúng chỉ đóng vai địa chỉ Internet mô phỏng trong EVE; không quảng bá ra Internet thật. Các subnet VPN V01/V02 cùng dải dự trữ với một số link sandbox nhưng nằm ở lab khác và không chồng T01–T07.
+
+ASN lab: doanh nghiệp `65010` (EDGE1/EDGE2), ISP1 `65101`, ISP2 `65102`, INET-TEST `65200`. T02 `10.255.0.8/29` được hai Edge quảng bá có kiểm soát tới ISP/INET-TEST để có đường trả về địa chỉ PAT FW `.9`; không xuất các LAN HQ/Branch/DMZ ra BGP provider. T01 `.0/29`: FW inside Gi0/0 `.1`, CORE1 SVI90 `.2`, CORE2 SVI90 `.3`, HSRP `.6`. T02 `.8/29`: FW outside Gi0/1 `.9`, EDGE1 `.10`, EDGE2 `.11`. VPCS `PC-OUT` dùng riêng INT-05 có thể nhận `.12/29`, gateway `.9` để thử outside→LAN deny trên chính FW; không tính là node hạ tầng. FW DMZ Gi0/2 `10.10.100.1/24`.
+
+Default của hai Core hướng FW `.1`; FW trả sáu VLAN HQ /24 qua VIP `.6`. FW default ưu tiên EDGE1 `.10` có SLA track, backup EDGE2 `.11`; route tới BR1 ưu tiên `.10`, BR2 ưu tiên `.11` theo thiết kế. Gateway Branch underlay giữ ISP1 `.26` và ISP2 `.30`. Các địa chỉ/route này là **thiết kế**, chưa có cấu hình runtime trên topology Enterprise. Route discard AD250 và NAT exemption/failover được mô tả trong thiết kế tích hợp; không thêm IP gateway mới.

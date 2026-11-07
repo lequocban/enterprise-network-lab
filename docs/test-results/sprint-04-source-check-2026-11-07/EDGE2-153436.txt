@@ -1,0 +1,415 @@
+CAPTURE UTC 2026-11-07T15:34:33Z
+LAB /LAB-NETWORK/test_import/Enterprise-Network-Integrated.unl
+]0;EDGE2
+EDGE2>
+EDGE2>
+*Nov  7 15:34:25.826: %PLATFORM-5-SIGNATURE_VERIFIED: Image 'flash0:/vios-adventerprisek9-m' passed code signing verification
+EDGE2>enable
+EDGE2#
+EDGE2#terminal length 0
+EDGE2#
+EDGE2#
+COMMAND show version | include uptime
+show version | include uptime
+EDGE2 uptime is 0 minutes
+EDGE2#
+EDGE2#
+COMMAND show startup-config
+show startup-config
+Using 4793 out of 262144 bytes
+!
+! Last configuration change at 08:58:27 UTC Mon Oct 26 2026
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname EDGE2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description ROUTER_ID_EDGE2
+ ip address 10.255.255.12 255.255.255.255
+!
+interface Loopback100
+ description BGP_SOURCE_TEST_EDGE2
+ ip address 198.51.100.12 255.255.255.255
+!
+interface GigabitEthernet0/0
+ description T02_VLAN91
+ ip address 10.255.0.11 255.255.255.248
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description T04_TO_ISP2
+ ip address 10.255.0.21 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65010
+ bgp router-id 10.255.255.12
+ bgp log-neighbor-changes
+ network 10.255.0.8 mask 255.255.255.248
+ network 198.51.100.12 mask 255.255.255.255
+ neighbor 10.255.0.10 remote-as 65010
+ neighbor 10.255.0.10 next-hop-self
+ neighbor 10.255.0.10 prefix-list PL-IBGP in
+ neighbor 10.255.0.10 prefix-list PL-IBGP out
+ neighbor 10.255.0.22 remote-as 65102
+ neighbor 10.255.0.22 prefix-list PL-FROM-ISP in
+ neighbor 10.255.0.22 prefix-list PL-TO-ISP out
+ neighbor 10.255.0.22 route-map RM-ISP2-LP100 in
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list PL-FROM-ISP seq 10 permit 0.0.0.0/0
+ip prefix-list PL-FROM-ISP seq 20 permit 192.0.2.10/32
+ip prefix-list PL-FROM-ISP seq 30 permit 10.255.0.16/30
+ip prefix-list PL-FROM-ISP seq 40 permit 10.255.0.20/30
+ip prefix-list PL-FROM-ISP seq 50 permit 10.255.0.24/30
+ip prefix-list PL-FROM-ISP seq 60 permit 10.255.0.28/30
+!
+ip prefix-list PL-IBGP seq 10 permit 0.0.0.0/0
+ip prefix-list PL-IBGP seq 20 permit 192.0.2.10/32
+ip prefix-list PL-IBGP seq 30 permit 198.51.100.11/32
+ip prefix-list PL-IBGP seq 40 permit 198.51.100.12/32
+ip prefix-list PL-IBGP seq 50 permit 10.255.0.8/29
+ip prefix-list PL-IBGP seq 60 permit 10.255.0.16/30
+ip prefix-list PL-IBGP seq 70 permit 10.255.0.20/30
+ip prefix-list PL-IBGP seq 80 permit 10.255.0.24/30
+ip prefix-list PL-IBGP seq 90 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-ISP seq 10 permit 198.51.100.11/32
+ip prefix-list PL-TO-ISP seq 20 permit 198.51.100.12/32
+ip prefix-list PL-TO-ISP seq 30 permit 10.255.0.8/29
+!
+route-map RM-ISP2-LP100 permit 10
+ set local-preference 100
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 45 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+EDGE2#
+EDGE2#
+COMMAND show running-config
+show running-config
+Building configuration...
+
+Current configuration : 4731 bytes
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname EDGE2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description ROUTER_ID_EDGE2
+ ip address 10.255.255.12 255.255.255.255
+!
+interface Loopback100
+ description BGP_SOURCE_TEST_EDGE2
+ ip address 198.51.100.12 255.255.255.255
+!
+interface GigabitEthernet0/0
+ description T02_VLAN91
+ ip address 10.255.0.11 255.255.255.248
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description T04_TO_ISP2
+ ip address 10.255.0.21 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65010
+ bgp router-id 10.255.255.12
+ bgp log-neighbor-changes
+ network 10.255.0.8 mask 255.255.255.248
+ network 198.51.100.12 mask 255.255.255.255
+ neighbor 10.255.0.10 remote-as 65010
+ neighbor 10.255.0.10 next-hop-self
+ neighbor 10.255.0.10 prefix-list PL-IBGP in
+ neighbor 10.255.0.10 prefix-list PL-IBGP out
+ neighbor 10.255.0.22 remote-as 65102
+ neighbor 10.255.0.22 prefix-list PL-FROM-ISP in
+ neighbor 10.255.0.22 prefix-list PL-TO-ISP out
+ neighbor 10.255.0.22 route-map RM-ISP2-LP100 in
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list PL-FROM-ISP seq 10 permit 0.0.0.0/0
+ip prefix-list PL-FROM-ISP seq 20 permit 192.0.2.10/32
+ip prefix-list PL-FROM-ISP seq 30 permit 10.255.0.16/30
+ip prefix-list PL-FROM-ISP seq 40 permit 10.255.0.20/30
+ip prefix-list PL-FROM-ISP seq 50 permit 10.255.0.24/30
+ip prefix-list PL-FROM-ISP seq 60 permit 10.255.0.28/30
+!
+ip prefix-list PL-IBGP seq 10 permit 0.0.0.0/0
+ip prefix-list PL-IBGP seq 20 permit 192.0.2.10/32
+ip prefix-list PL-IBGP seq 30 permit 198.51.100.11/32
+ip prefix-list PL-IBGP seq 40 permit 198.51.100.12/32
+ip prefix-list PL-IBGP seq 50 permit 10.255.0.8/29
+ip prefix-list PL-IBGP seq 60 permit 10.255.0.16/30
+ip prefix-list PL-IBGP seq 70 permit 10.255.0.20/30
+ip prefix-list PL-IBGP seq 80 permit 10.255.0.24/30
+ip prefix-list PL-IBGP seq 90 permit 10.255.0.28/30
+!
+ip prefix-list PL-TO-ISP seq 10 permit 198.51.100.11/32
+ip prefix-list PL-TO-ISP seq 20 permit 198.51.100.12/32
+ip prefix-list PL-TO-ISP seq 30 permit 10.255.0.8/29
+!
+route-map RM-ISP2-LP100 permit 10
+ set local-preference 100
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+ exec-timeout 45 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
+
+EDGE2#
+EDGE2#
+COMMAND show ip bgp summary
+show ip bgp summary
+BGP router identifier 10.255.255.12, local AS number 65010
+BGP table version is 1, main routing table version 1
+2 network entries using 288 bytes of memory
+2 path entries using 160 bytes of memory
+1/0 BGP path/bestpath attribute entries using 152 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 600 total bytes of memory
+BGP activity 2/0 prefixes, 2/0 paths, scan interval 60 secs
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.255.0.10     4        65010       2       2        1    0    0 00:00:23        0
+10.255.0.22     4        65102       2       2        1    0    0 00:00:27        0
+EDGE2#
+EDGE2#

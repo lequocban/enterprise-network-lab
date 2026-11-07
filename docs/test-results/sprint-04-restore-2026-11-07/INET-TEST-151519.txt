@@ -1,0 +1,85 @@
+CAPTURE UTC 2026-11-07T15:15:16Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;INET-TEST
+INET-TEST#
+INET-TEST#terminal length 0
+INET-TEST#
+INET-TEST#
+COMMAND show ip bgp summary
+show ip bgp summary
+BGP router identifier 192.0.2.10, local AS number 65200
+BGP table version is 10, main routing table version 10
+9 network entries using 1296 bytes of memory
+16 path entries using 1280 bytes of memory
+7/5 BGP path/bestpath attribute entries using 1064 bytes of memory
+6 BGP AS-PATH entries using 144 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 3784 total bytes of memory
+BGP activity 9/0 prefixes, 16/0 paths, scan interval 60 secs
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+203.0.113.1     4        65101       9       6       10    0    0 00:02:38        7
+203.0.113.5     4        65102       9       7       10    0    0 00:02:38        7
+INET-TEST#
+INET-TEST#
+COMMAND show ip route 198.51.100.11
+show ip route 198.51.100.11
+Routing entry for 198.51.100.11/32
+  Known via "bgp 65200", distance 20, metric 0
+  Tag 65101, type external
+  Last update from 203.0.113.1 00:01:37 ago
+  Routing Descriptor Blocks:
+  * 203.0.113.1, from 203.0.113.1, 00:01:37 ago
+      Route metric is 0, traffic share count is 1
+      AS Hops 2
+      Route tag 65101
+      MPLS label: none
+INET-TEST#
+INET-TEST#
+COMMAND show ip route 198.51.100.12
+show ip route 198.51.100.12
+Routing entry for 198.51.100.12/32
+  Known via "bgp 65200", distance 20, metric 0
+  Tag 65102, type external
+  Last update from 203.0.113.5 00:01:08 ago
+  Routing Descriptor Blocks:
+  * 203.0.113.5, from 203.0.113.5, 00:01:08 ago
+      Route metric is 0, traffic share count is 1
+      AS Hops 2
+      Route tag 65102
+      MPLS label: none
+INET-TEST#
+INET-TEST#
+COMMAND show ip bgp neighbors 203.0.113.1 advertised-routes
+show ip bgp neighbors 203.0.113.1 advertised-routes
+BGP table version is 10, local router ID is 192.0.2.10
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal, 
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter, 
+              x best-external, a additional-path, c RIB-compressed, 
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>  0.0.0.0          0.0.0.0                  0         32768 i
+ *>  192.0.2.10/32    0.0.0.0                  0         32768 i
+
+Total number of prefixes 2 
+INET-TEST#
+INET-TEST#
+COMMAND show ip bgp neighbors 203.0.113.5 advertised-routes
+show ip bgp neighbors 203.0.113.5 advertised-routes
+BGP table version is 10, local router ID is 192.0.2.10
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal, 
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter, 
+              x best-external, a additional-path, c RIB-compressed, 
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>  0.0.0.0          0.0.0.0                  0         32768 i
+ *>  192.0.2.10/32    0.0.0.0                  0         32768 i
+
+Total number of prefixes 2 
+INET-TEST#
+INET-TEST#

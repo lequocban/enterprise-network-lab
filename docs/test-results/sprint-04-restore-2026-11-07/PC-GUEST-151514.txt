@@ -1,0 +1,52 @@
+CAPTURE UTC 2026-11-07T15:15:02Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;PC-GUEST
+Welcome to Virtual PC Simulator, version 1.3 (0.8.1)
+Dedicated to Daling.
+Build time: Feb 22 2024 06:25:41
+Copyright (c) 2007-2015, Paul Meng (mirnshi@gmail.com)
+Copyright (c) 2021, Alain Degreffe (alain.degreffe@eve-ng.net)
+All rights reserved.
+
+VPCS is free software, distributed under the terms of the "BSD" licence.
+Source code and license can be found at vpcs.sf.net.
+For more information, please visit wiki.freecode.com.cn.
+Modified version for EVE-NG.
+
+Press '?' to get help.
+
+Executing the startup file
+
+
+Checking for duplicate address...
+PC-GUEST-01 : 10.10.60.20 255.255.255.0 gateway 10.10.60.1
+
+PC-GUEST-01> 
+COMMAND show ip
+show ip
+
+NAME        : PC-GUEST-01[1]
+IP/MASK     : 10.10.60.20/24
+GATEWAY     : 10.10.60.1
+DNS         : 
+MAC         : 00:50:79:66:68:09
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC-GUEST-01> 
+COMMAND ping 10.10.60.1 -c 10
+ping 10.10.60.1 -c 10
+
+10.10.60.1 icmp_seq=1 timeout
+84 bytes from 10.10.60.1 icmp_seq=2 ttl=255 time=0.607 ms
+84 bytes from 10.10.60.1 icmp_seq=3 ttl=255 time=0.768 ms
+84 bytes from 10.10.60.1 icmp_seq=4 ttl=255 time=0.623 ms
+84 bytes from 10.10.60.1 icmp_seq=5 ttl=255 time=0.740 ms
+84 bytes from 10.10.60.1 icmp_seq=6 ttl=255 time=0.706 ms
+84 bytes from 10.10.60.1 icmp_seq=7 ttl=255 time=0.734 ms
+84 bytes from 10.10.60.1 icmp_seq=8 ttl=255 time=0.680 ms
+84 bytes from 10.10.60.1 icmp_seq=9 ttl=255 time=0.832 ms
+84 bytes from 10.10.60.1 icmp_seq=10 ttl=255 time=0.641 ms
+
+PC-GUEST-01> 

@@ -1,0 +1,40 @@
+CAPTURE UTC 2026-11-07T15:22:32Z
+LAB /LAB-NETWORK/SPRINT04-RESTORE-2026-11-07/Enterprise-Network-Integrated.unl
+]0;PC-GUEST
+PC-GUEST-01> 
+PC-GUEST-01> 
+COMMAND show ip
+show ip
+
+NAME        : PC-GUEST-01[1]
+IP/MASK     : 10.10.60.20/24
+GATEWAY     : 10.10.60.1
+DNS         : 
+MAC         : 00:50:79:66:68:09
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC-GUEST-01> 
+COMMAND ping 10.10.60.1 -c 2
+ping 10.10.60.1 -c 2
+
+84 bytes from 10.10.60.1 icmp_seq=1 ttl=255 time=0.508 ms
+84 bytes from 10.10.60.1 icmp_seq=2 ttl=255 time=0.618 ms
+
+PC-GUEST-01> 
+COMMAND ping 10.10.60.1 -c 10
+ping 10.10.60.1 -c 10
+
+84 bytes from 10.10.60.1 icmp_seq=1 ttl=255 time=5.262 ms
+84 bytes from 10.10.60.1 icmp_seq=2 ttl=255 time=0.682 ms
+84 bytes from 10.10.60.1 icmp_seq=3 ttl=255 time=0.528 ms
+84 bytes from 10.10.60.1 icmp_seq=4 ttl=255 time=0.679 ms
+84 bytes from 10.10.60.1 icmp_seq=5 ttl=255 time=0.644 ms
+84 bytes from 10.10.60.1 icmp_seq=6 ttl=255 time=0.748 ms
+84 bytes from 10.10.60.1 icmp_seq=7 ttl=255 time=0.803 ms
+84 bytes from 10.10.60.1 icmp_seq=8 ttl=255 time=0.502 ms
+84 bytes from 10.10.60.1 icmp_seq=9 ttl=255 time=0.457 ms
+84 bytes from 10.10.60.1 icmp_seq=10 ttl=255 time=0.823 ms
+
+PC-GUEST-01> 

@@ -1,5 +1,43 @@
 # Export HQ và cấu hình đi kèm
 
+## Sprint 04 — ZIP cuối, 07/11/2026
+
+**Restore đã PASS theo runbook** trên `LAB-NETWORK/SPRINT04-RESTORE-2026-11-07`, kèm bước lưu startup sau import và restart kiểm lại. [Biên bản restore](../docs/test-results/sprint-04-final-restore-2026-11-07.md), [báo cáo đóng kỹ thuật](../docs/sprint-reports/sprint-04-report.md). Trạng thái chưa restore trong đoạn kiểm tĩnh dưới đây là checkpoint trước phép thử.
+
+[sprint-04-enterprise-final-2026-11-07.zip](sprint-04-enterprise-final-2026-11-07.zip), **14.082 byte**, SHA-256 `245C9B3C6ED7343C946BBB531DFB93151226C404F8ECFB9EA66496F1AA813D50`. CRC/XML đạt: 17 node, 21 network, 17 payload và toàn bộ node config=1/Exported. Cabling và tài nguyên/image giống baseline 26/10; khác biệt cấu hình chỉ có timestamp/comment và hai thiết lập console trên Edge. [17 cấu hình/manifest](../configs/sprint-04-final/README.md), [biên bản kiểm](../docs/test-results/sprint-04-final-export-inspection-2026-11-07.md). File nguồn tải tạm được giữ nguyên sau khi sao chép sang tên cuối. Chưa import/restore từ ZIP này.
+
+## Sprint 04 — Underlay + scoped LP trước failure test, 26/10/2026
+
+[sprint-04-branch-underlay-scoped-lp-2026-10-26.zip](sprint-04-branch-underlay-scoped-lp-2026-10-26.zip), **14.242 byte**, SHA-256 `9ADB40281E74332D2D1E520BEBCB7FC0342E85410960AB9012B1199084EB14EB`. CRC/XML đạt, 17 node/21 network và **17/17 payload config**; link/cấu hình HQ không đổi so với CP2. EDGE1 chứa scoped LP mới, hai BR có WAN/LAN/static default, hai PC Branch có IP/gateway. Xem [biên bản kiểm ZIP](../docs/test-results/sprint-04-underlay-export-2026-10-26.md) và [runtime buổi 5](../docs/test-results/sprint-04-branch-underlay-2026-10-26.md). Chưa thử import/restore từ ZIP này; giữ bản CP2 bên dưới làm lịch sử trước sửa policy.
+
+## Sprint 04 — Baseline dual ISP trước Branch, file 25/10/2026
+
+[sprint-04-dual-isp-bgp-baseline-2026-10-25.zip](sprint-04-dual-isp-bgp-baseline-2026-10-25.zip), **13.360 byte**, SHA-256 `3033048D93169EFEB52CAA892E44FF5E7B2A71B3B24B8EED8C6246596EA4187A`. CRC/XML đạt, 17 node/21 network, mapping link không đổi, **13 payload** gồm 8 HQ byte-identical, 5 IOSv Edge/ISP/INET. EDGE1/EDGE2/ISP1/ISP2 đã có CFG mới; INET không đổi. BR1/BR2 chưa có payload trong ZIP này vì đây là baseline trước cấu hình Branch. Xem [biên bản kiểm export](../docs/test-results/sprint-04-dual-isp-export-2026-10-26.md) và [cấu hình trích nguyên byte](../configs/README.md). Chưa thử restore; không ghi đè ZIP này sau tinh chỉnh policy.
+
+## Sprint 04 — Checkpoint BGP provider, 24/10/2026
+
+[sprint-04-provider-bgp-2026-10-24.zip](sprint-04-provider-bgp-2026-10-24.zip), **7.257 byte**, SHA-256 `AECB95334FE0CA05ABDABDD785374D10702B29E45CAA127CA67A3A9D0701BF6C`. CRC/XML đạt: 17 node, 21 network, cabling giống checkpoint trước và 11 payload config. Tám payload HQ không đổi; ba payload mới của ISP1/ISP2/INET-TEST đã giải mã và lưu nguyên byte ở [configs](../configs/README.md). Startup-configs ON theo metadata của ba node provider; `wr` đã được người thực hành xác nhận. Xem [biên bản BGP và kiểm artifact](../docs/test-results/sprint-04-provider-bgp-2026-10-24.md). Chưa thử restart/restore từ ZIP này.
+
+## Sprint 04 — Checkpoint cabling WAN, 24/10/2026
+
+[sprint-04-enterprise-wan-cabling-2026-10-24.zip](sprint-04-enterprise-wan-cabling-2026-10-24.zip), **4.580 byte**, SHA-256 `C407EC95D2E56D3040B92E2A8046E26E043F62805C7127277B41E5ED1698505A`. CRC/XML đạt; 17 node, 21 network, đầy đủ T02–T07/W08/W09/Branch LAN đúng cặp cổng, tên `ISP2` đúng; 11 dây HQ và 8 payload cấu hình HQ giống hệt seed. T02 có type `bridge`; bảy IOSv mới dùng đúng image/tài nguyên. Gate B đạt kiểm tĩnh cabling/inventory; đây chưa phải IP/BGP runtime hoặc restore sau mở rộng. Export đầu có lỗi tên `ISP12` đã được người thực hành thay bằng file mới cùng tên, không còn bytes trong repo; digest cũ chỉ ghi lịch sử trong [biên bản kiểm tra](../docs/test-results/sprint-04-wan-export-inspection-2026-10-24.md).
+
+## Sprint 03 — Routing sandbox, 22/10/2026
+
+[sprint-03-routing-2026-10-22-v2.zip](sprint-03-routing-2026-10-22-v2.zip), **8.454 byte**, SHA-256 `62D2E10F1F65DA9D52B2560BD2BCC5FF537AFDDB3FD4B523B9613D3EC1A9669E`. CRC/XML đạt; một UNL gồm tám node (5 IOSv, 3 VPCS), bảy link đúng cặp cổng, 35 text objects và tám payload cấu hình đã giải mã/đối chiếu các mốc chính. ISP node đã mang tên đúng `ISP1`. Xem [biên bản kiểm tra](../docs/test-results/sprint-03-export-inspection-2026-10-22.md) và [cấu hình export](../configs/routing-sandbox/sprint-03/final/README.md).
+
+Thuộc tính node `config="0"` vẫn là Startup-configs OFF; không đồng nghĩa ZIP thiếu payload. Import/restore trên bản sao chưa thử. [ZIP đầu tiên](sprint-03-routing-2026-10-22.zip) chỉ có topology và nhãn ISP sai `IPS1`, giữ lại làm lịch sử.
+
+### Backup HQ trước mở rộng WAN — 23/10/2026
+
+[sprint-02-hq-before-wan-2026-10-22.zip](sprint-02-hq-before-wan-2026-10-22.zip), **3.736 byte**, SHA-256 `AAEE4445EEF1FC1B68F777FA1B2986E192B2457F662DB03CFC6B2850773C5F81`. ZIP có topology và 8/8 payload cấu hình giải mã được; CRC/XML hợp lệ. Mọi node vẫn `config="0"` (Startup-configs OFF). Restore chưa thử. Xem [biên bản](../docs/test-results/sprint-02-before-wan-export-2026-10-23.md).
+
+### Bản khởi đầu Sprint 4 — 23/10/2026
+
+[sprint-04-enterprise-seed-2026-10-23.zip](sprint-04-enterprise-seed-2026-10-23.zip), **3.789 byte**, SHA-256 `821B911842A7FCC2A5175ADA3FA567C3D9F6E3E9CC285D34988E23A3BF221925`. Tạo từ backup HQ trên, chỉ đổi tên lab XML và file UNL thành `Enterprise-Network-Integrated`; không đổi node, network, link hay Base64 config. Kiểm XML/ZIP đạt: 8 node, 11 network, 8 payload giải mã được. User đã import vào `LAB-NETWORK/test_import`, bật Startup-configs ON cho tám node và sau Stop/Wipe/Start xác nhận cả lab khôi phục thành công. CORE1 có output trực tiếp cho hostname/SVI/Po; các node khác và smoke Campus là xác nhận của người thực hành, chưa có raw output trong hồ sơ. Wipe cần thiết lần đầu bật startup config theo EVE CE Cookbook 6.3, mục 8.1.3 và 10.3. Giữ nguyên ZIP nguồn và lab HQ gốc. Xem [biên bản restore](../docs/test-results/sprint-04-seed-restore-2026-10-23.md).
+
+**Tránh ghi đè khi import:** file bên trong ZIP là `Enterprise-Network-Integrated.unl`, khác `Enterprise-Network-HQ.unl`; tên ZIP bên ngoài không quyết định tên lab. Trước upload, tạo một thư mục con trống `LAB-NETWORK/SPRINT04-DEV`, mở đúng thư mục đó rồi import. Nếu đã có `Enterprise-Network-Integrated.unl` ở thư mục đích, không upload tiếp. EVE cũng có chức năng Clone Lab tạo bản sao với tên mới; đó là lựa chọn không cần import ZIP. Chưa có kiểm nghiệm thao tác import/clone trên EVE thật.
+
 ## Bàn giao Sprint 02 — 18/10/2026
 
 [sprint-02-hq-2026-10-18.zip](sprint-02-hq-2026-10-18.zip), **1007 bytes**, chứa một `Enterprise-Network-HQ.unl` **4762 bytes**. SHA256: `c9f18e4b7a22079a3d391a136b31bf8fd19f6b0bb1fc29777550848e840358ce`.

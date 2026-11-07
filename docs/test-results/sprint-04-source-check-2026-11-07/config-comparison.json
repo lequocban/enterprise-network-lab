@@ -1,0 +1,42 @@
+[
+  {
+    "node": "EDGE1",
+    "asn": "65010",
+    "startup_bgp_present": true,
+    "running_bgp_present": true,
+    "ordered_config_lines_equal": true,
+    "evidence": "EDGE1-153436.txt"
+  },
+  {
+    "node": "EDGE2",
+    "asn": "65010",
+    "startup_bgp_present": true,
+    "running_bgp_present": true,
+    "ordered_config_lines_equal": true,
+    "evidence": "EDGE2-153436.txt"
+  },
+  {
+    "node": "ISP1",
+    "asn": "65101",
+    "startup_bgp_present": true,
+    "running_bgp_present": true,
+    "ordered_config_lines_equal": true,
+    "evidence": "ISP1-153438.txt"
+  },
+  {
+    "node": "ISP2",
+    "asn": "65102",
+    "startup_bgp_present": true,
+    "running_bgp_present": true,
+    "ordered_config_lines_equal": true,
+    "evidence": "ISP2-153441.txt"
+  },
+  {
+    "node": "INET-TEST",
+    "asn": "65200",
+    "startup_bgp_present": true,
+    "running_bgp_present": true,
+    "ordered_config_lines_equal": true,
+    "evidence": "INET-TEST-153441.txt"
+  }
+]

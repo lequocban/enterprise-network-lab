@@ -1,0 +1,19 @@
+{
+  "CORE1": "CORE1-151601.txt",
+  "CORE2": "CORE2-151603.txt",
+  "ACCESS1": "ACCESS1-151444.txt",
+  "ACCESS2": "ACCESS2-151447.txt",
+  "INET-TEST": "INET-TEST-152053.txt",
+  "ISP1": "ISP1-152054.txt",
+  "ISP2": "ISP2-152054.txt",
+  "EDGE1": "EDGE1-152103.txt",
+  "EDGE2": "EDGE2-152104.txt",
+  "BR1-R1": "BR1-R1-152100.txt",
+  "BR2-R1": "BR2-R1-152106.txt",
+  "PC-IT": "PC-IT-152232.txt",
+  "PC-HR": "PC-HR-152232.txt",
+  "PC-ACC": "PC-ACC-152232.txt",
+  "PC-GUEST": "PC-GUEST-152246.txt",
+  "PC-BR1": "PC-BR1-152246.txt",
+  "PC-BR2": "PC-BR2-152246.txt"
+}
